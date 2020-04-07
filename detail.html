@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Movie Detail </title>
+
+    <!-- WIll put the head in it's own file and 
+    work with templates inheritance -->
+
+    <!-- Css file import -->
+    <link rel="stylesheet" href="static/css/style.css">
+
+    <!-- Fonts icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+    crossorigin="anonymous">
+
+    <!-- Tailwind css  -->
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <nav class="home mb-20 mt-12 text-center">
+        <a href="#" class="">
+            <i class="fas fa-home text-2xl text-white"></i>
+        </a>
+    </nav>
+
+    <!-- movie dunamique image -->
+    <div class="d_img">
+        <img class="d_img" src="static/images/Rectangle 3.png" alt="">
+        <div class="d_caption">
+            <h2>Mission impossible </h2>
+        </div>
+    </div>
+    
+    <section id="detail">
+        <div class="grid-container text-white mx-56"> 
+            <div class="row-1">
+                <div class="movie_detail">
+                    <h2 class="m_detail my-10 font-bold text-xl">
+                        Details
+                    </h2>
+                    <p> Country <span class="px-10">US/AUS</span></p><hr>
+                    <p> Languge <span class="px-10"> English </span></p><hr>
+                    <p> Releaes date <span class="px-10">11/2019</span></p><hr>
+                </div>
+            </div>
+          
+            <!-- Story timeline -->
+            <div class="row-2">
+                <div class="m_story">     
+                    <h2 class="p_story my-10 font-bold text-xl"> Story Line </h2>
+                    <p class="paragraphe"> 
+                        Lorem Ipsum is simply dummy text of the printing an
+                        d typesetting industry. Lorem Ipsum has been the industry'
+                        s standard dummy text ever since the 1500s, when an unknown printer
+                        took a galley of type and scrambled it to make a type specimen book. It has 
+    
+                        survived not only five centuries, but also the leap into electronic typesetting, remai
+                        ning essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
+                        containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus 
+                        PageMaker including versions of Lorem Ipsum
+                        <hr class="my-4">
+    
+                        survived not only five centuries, but also the leap into electronic typesetting, remai
+                        ning essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
+                        containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus 
+                        PageMaker including versions of Lorem Ipsum
+                        <hr class="my-4">
+    
+                        survived not only five centuries, but also the leap into electronic typesetting, remai
+                        ning essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
+                        containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus 
+                        PageMaker including versions of Lorem Ipsum  <hr class="my-4">
+    
+                        survived not only five centuries, but also the leap into electronic typesetting, remai
+                        ning essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
+                        containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus 
+                        PageMaker including versions of Lorem Ipsum
+                    </p>
+                    <p class="pt-4">
+                        <span class="categ"> Category : <span class="pl-4 text-red-400"> Horro - Crime</span></span>
+                    </p>
+                    </div>
+    
+            </div>
+
+            <!-- casts  / movie-trailer  -->   
+            <div class="casts my-0">
+                <div class="row3">
+                    <h2 class="heros text-xl my-0 mb-5 py-0">
+                        Casts
+                    </h2>
+                    <img class="hero" src="static/images/hearo.png" alt="">
+                    <span> Actor name </span>
+                    <img class="hero" src="static/images/hearo.png" alt="">
+                    <span> Actor name </span>
+                    <img class="hero" src="static/images/hearo.png" alt="">
+                    <span> Actor name </span>
+                    <img class="hero" src="static/images/hearo.png" alt="">
+                    <span> Actor name </span>
+                    <img class="hero" src="static/images/hearo.png" alt="">
+                    <span> Actor name </span>  <img class="hero" src="static/images/hearo.png" alt="">
+                    <span> Actor name </span>
+                </div>
+               
+            </div>
+            <div class="trailer my-20">
+                <img src="static/images/Rectangle 3.png" alt="">
+            </div>
+
+            <!-- Movie name/paly button -->
+            <div class="play row-4 my-32">
+                <h1 class="movie_name text-3xl">
+                    <p>Mission impossible</p>
+                    <mute>(2018):fall-out Recent edition</mute>
+                </h1>
+                <button class="bg-red-500 hover:bg-black text-white font-bold py-2 px-4 rounded-full mx-32 pr-10">
+                <i class="fas fa-play pl-3 pr-3"></i>
+                Play 
+                </button>
+            </div>
+            <!-- Gallery images -->
+            <div class="gallery">
+                <img src="static/images/gallery.png" alt="">
+                <img src="static/images/gallery.png" alt="">
+                <img src="static/images/gallery.png" alt="">
+                <img src="static/images/gallery.png" alt="">
+                <img src="static/images/gallery.png" alt="">
+            </div>
+
+            <!-- social -->
+            <div class="social text-2xl ml-16">
+                <h3 class="my-14 mb-4"> Social </h3>
+                <li> 
+                    <i class="fab fa-github text-3xl"></i>
+                 </li>
+                <li>
+                    <i class="fab fa-github text-3xl"></i>
+                 </li>
+                </li>
+                <li>
+                    <i class="fab fa-github text-3xl"></i>
+                 </li>
+                </li>
+            </div>
+        </div>
+
+    
+          
+
+    </section>
+
+    
+    
+
+</body>
+</html>
