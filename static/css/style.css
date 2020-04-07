@@ -5,12 +5,16 @@
 
 :root {
     --search : #9d8f8f;
-    --main_nav : #1A1818;
+    --main : #110B0B;
+    --line : #EB5757;
 }
+body, html {
+    background-color: var(--main);
+}
+/* ------------------------------------------ 
+      Index page styling  */
 nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
+  
 }
 
 nav .navbar {
@@ -18,7 +22,7 @@ nav .navbar {
     
 }
 h5,h2,h3 {
-    color: black;
+    color: rgb(236, 236, 236);
 }
 
 /* carousel styling */
@@ -138,7 +142,7 @@ h5,h2,h3 {
 }
 .fa-search {
     padding-top: 45px; 
-    color:#EB5757;
+    color:var(--line);
     min-width: 50px; 
     text-align: center; 
 } 
@@ -147,5 +151,56 @@ h5,h2,h3 {
     text-align: center; 
 }
 
-/* Footer */
+/* -------------------------------------- 
+    Detail page styling  */
+.d_img {
+    margin: 0 auto;
+}
+.d_img img {
+    width: 90%;
+    height: 90%;
+}
+.d_caption {
+    justify-content: end;
+}
+#detail .grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3);
+    row-gap: 1px;
+}
 
+.movie_detail hr {
+    width: 30px;
+}
+.m_detail,
+.p_story, 
+.heros {
+    text-decoration: var(--line) underline solid;
+    padding-bottom: 3rem;
+}
+span .categ {
+    margin-top: 3em;
+}
+
+.trailer img {
+    margin-top: 3rem;
+    width: 90%;
+    height: 90;
+}
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 200px);
+    column-gap: 7px;
+    row-gap: 7px;
+}
+.gallery img{
+    transition: 3% ease;
+    cursor: pointer;
+}
+.social li {
+    list-style: none;
+}
+.social h3 {
+    text-decoration: var(--line) underline solid;
+}
