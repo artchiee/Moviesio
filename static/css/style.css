@@ -11,6 +11,10 @@
 body, html {
     background-color: var(--main);
 }
+hr {
+    color: var(--line);
+}
+
 /* ------------------------------------------ 
       Index page styling  */
 nav {
@@ -22,7 +26,7 @@ nav .navbar {
     
 }
 h5,h2,h3 {
-    color: rgb(236, 236, 236);
+    color: rgb(201, 201, 201);
 }
 
 /* carousel styling */
@@ -51,21 +55,28 @@ h5,h2,h3 {
     transform: translateY(-50%);
     bottom: initial;
 }
-.carousel-caption h5 {
+.carousel-caption h5,
+.d_caption h5
+{
     font-size: 24px;
     color: rgb(238, 229, 229);
 }
-.carousel-caption h2 {
+.carousel-caption,
+.d_caption,
+h2
+{
     font-weight: bold;
     font-size: 48px;
     color: snow;
     font-family: "Roboto";
 }
 
-.carousel-caption h3 {
+.carousel-caption,
+.d_caption
+h3 {
     font-size: 24px;
     color: lightcyan;
-    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif ;
+    font-family:"Abel" ;
 }
 #navbarSupportedContent{
     color: lightcyan;
@@ -112,6 +123,9 @@ h5,h2,h3 {
 #movie-card input {
     margin-top: 2rem;
 }
+.category {
+    text-align: center;
+}
 
 .grid i { 
     display: table-cell;
@@ -150,19 +164,58 @@ h5,h2,h3 {
     padding: 5px; 
     text-align: center; 
 }
+.footer {
+    display: grid;
+    grid-template-columns: repeat(3, 600px);
+    justify-content: end;
+}
+.top {
+    text-align: center;
+}
+
 
 /* -------------------------------------- 
     Detail page styling  */
-.d_img {
-    margin: 0 auto;
-}
-.d_img img {
-    width: 90%;
-    height: 90%;
+.d_container {
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+
 }
 .d_caption {
-    justify-content: end;
+    position: absolute;
+    top: 52%;
+    left: 15%;
 }
+.d_caption button {
+    margin-top: 5%;
+}
+
+.d_container img {
+    margin-top: 10%;
+    margin: 0 auto;
+    width: 90%;
+    height: 85%;
+}
+.d_rating {
+    position: absolute;
+    left: 150%;
+    bottom: 80%;
+    font-size: x-large;
+    font-family: "Roboto";
+    font-weight: bold;
+}
+
+.d_rating i {
+    display: inline-block;
+}
+.d_paly-movie {
+    padding-right: 100%;
+    background-color: var(--line);
+    margin-left: 5px;
+}
+
+
 #detail .grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -184,10 +237,13 @@ span .categ {
 }
 
 .trailer img {
+    position: relative;
     margin-top: 3rem;
     width: 90%;
     height: 90;
+    display: inline-block;
 }
+
 .gallery {
     display: grid;
     grid-template-columns: repeat(4, 200px);
@@ -198,6 +254,7 @@ span .categ {
     transition: 3% ease;
     cursor: pointer;
 }
+
 .social li {
     list-style: none;
 }
