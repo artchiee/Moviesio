@@ -6,13 +6,14 @@
   <title>  Movie Stream </title>
 
   <!-- Css file import -->
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href= "{{ url_for('static', filename = 'css/style.css')}}">
+
 
   <!-- bootstrap cdn  -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
   integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
   crossorigin="anonymous">
-
+  
   <!-- Fonts icons -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
@@ -26,9 +27,9 @@
 
   <!-- nav bar top  -->
   <section id="main">
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light pt-3">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light pt-3"> 
       <div class="container">
-        <img class= "" src="static/images/logos.svg" alt="">
+        <img class= "" src="{{ url_for('static', filename='images/logos.svg')}}" alt="">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -56,7 +57,7 @@
       </ol> 
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="static/images/Rectangle 3.png" alt="">
+          <img src="{{ url_for('static', filename= 'images/Rectangle 3.png')}}" alt="">
 
           <!-- rating starts  -->
     
@@ -68,7 +69,7 @@
               <i class="fas fa-star-half-alt"></i>
               <i class="fas fa-star-half-alt"></i>
             </div>
-            <h5 class="text-gray-900">OCTOBER 2018</h5>
+            <h5 class="text-white">OCTOBER 2018</h5>
             <div class="container">
               <h2 class="py-4 px-4"> Mission Impossible 
                 (2018) : Fall out  </h2>
@@ -96,7 +97,7 @@
 <!--starting the card movie card section -->
   <section id="movie-card">
     <div class=" text-center pt-3">
-      <h2 class="uppercase">Other Movies - Search by Category or  name</h2>
+      <h2 class="uppercases">Other Movies - Search by Category or  name</h2>
       <div class="search">
         <i class="fas fa-search"></i>
         <input type="text" class="bg-gray-800 rounded-full w-64 focus:outline-none
@@ -136,7 +137,7 @@
       <button class="bg-gray-800 text-white hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full">
         Mestry
       </button>
-      <i class="fas fa-chevron-right pl-3 text-white"></i>
+      <i class="fas fa-chevron-right pl-3 text-black"></i>
     </div>
 
     <!-- Cards rendering -->
@@ -147,10 +148,10 @@
           <i class="fas fa-star text-white"></i>
           <i class="fas fa-star text-white"></i>
           <a href="">
-            <img src="static/images/card_img.jpg" alt="movie">
+            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
           </a>
           <div class="mt-2">
-            <a href="" class="text-lg mt-2 text-white">  Mission impossible fall out  (2018) </a>
+            <h3 href="#" class="m_link text-lg mt-2 ">  Mission impossible fall out  (2018) </h3>
             <div class="flex items-center text-gray-700">
               <span>120min</span>
               <span> || </span>
@@ -163,10 +164,10 @@
           <i class="fas fa-star text-white"></i>
           <i class="fas fa-star text-white"></i>
           <a href="">
-            <img src="static/images/card_img.jpg" alt="movie">
+            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
           </a>
           <div class="mt-2">
-            <a href="" class="text-lg mt-2 text-white"> Mission impossible fall out  (2018) </a>
+            <h3 href="#" class="m_link text-x mt-2 ">  Mission impossible fall out  (2018) </h3>
             <div class="flex items-center text-gray-700">
               <span>120min</span>
               <span> || </span>
@@ -179,10 +180,10 @@
           <i class="fas fa-star text-white"></i>
           <i class="fas fa-star text-white"></i>
           <a href="">
-            <img src="static/images/card_img.jpg" alt="movie">
+            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
           </a>
           <div class="mt-2">
-            <a href="" class="text-lg mt-2 text-white"> Mission impossible fall out  (2018) </a>
+            <h3 href="#" class="m_link text-lg mt-2 ">  Mission impossible fall out  (2018) </h3>
             <div class="flex items-center text-gray-700">
               <span>120min</span>
               <span> || </span>
@@ -195,10 +196,10 @@
           <i class="fas fa-star text-white"></i>
           <i class="fas fa-star text-white"></i>
           <a href="">
-            <img src="static/images/card_img.jpg" alt="movie">
+            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
           </a>
           <div class="mt-2">
-            <a href="" class="text-lg mt-2 text-white"> Mission impossible fall out  (2018) </a>
+            <h3 href="#" class="m_link text-lg mt-2 ">  Mission impossible fall out  (2018) </h3>
             <div class="flex items-center text-gray-700">
               <span>120min</span>
               <span> || </span>
@@ -211,10 +212,10 @@
           <i class="fas fa-star text-white"></i>
           <i class="fas fa-star text-white"></i>
           <a href="">
-            <img src="static/images/card_img.jpg" alt="movie">
+            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
           </a>
           <div class="mt-2">
-            <a href="" class="text-lg mt-2 text-white"> Mission impossible fall out  (2018) </a>
+            <h3 href="#" class="m_link text-lg mt-2 ">  Mission impossible fall out  (2018) </h3>
             <div class="flex items-center text-gray-700">
               <span>120min</span>
               <span> || </span>
@@ -227,10 +228,10 @@
           <i class="fas fa-star text-white"></i>
           <i class="fas fa-star text-white"></i>
           <a href="">
-            <img src="static/images/card_img.jpg" alt="movie">
+            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
           </a>
           <div class="mt-2">
-            <a href="" class="text-lg mt-2 text-white"> Mission impossible fall out  (2018) </a>
+            <h3 href="#" class="m_link text-lg mt-2 ">  Mission impossible fall out  (2018) </h3>
             <div class="flex items-center text-gray-700">
               <span>120min</span>
               <span> || </span>
@@ -250,7 +251,7 @@
     </div>
 
     <div class="footer mt-5">
-      <img class="" src="static/images/logos.svg" alt="">
+      <img class="" src="{{ url_for('static', filename= 'images/logos.svg')}}" alt="">
       <div id="emailme" class="">
         <h2 class=""> Contact</h2>
         <i class="fas fa-at absolute text-green-400 mx-16 mr-5 pt-1"></i>

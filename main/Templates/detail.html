@@ -9,7 +9,7 @@
     work with templates inheritance -->
 
     <!-- Css file import -->
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
 
     <!-- Fonts icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
@@ -30,7 +30,7 @@
 
     <!-- movie dunamique image -->
     <div class="d_container pb-24">
-        <img class="" src="static/images/Rectangle 3.png" alt="movie dynamique">
+        <img class="" src="{{ url_for('static', filename= 'images/Rectangle 3.png')}}" alt="movie dynamique">
         <div class="d_caption">
             <div class="d_rating">
                 <h1> 8.5 </h1>
@@ -57,7 +57,7 @@
         </div>  
     </div>
     
-    <section id="detail">
+    <section id="detail">       
         <div class="grid-container text-white mx-56"> 
             <div class="row-1">
                 <div class="movie_detail text-xl">
@@ -115,16 +115,16 @@
                     <h2 class="heros text-xl my-0 mb-5 py-0">
                         Casts
                     </h2>
-                    <img class="hero" src="static/images/hearo.png" alt="">
+                    <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
                     <span> Actor name </span>
-                    <img class="hero" src="static/images/hearo.png" alt="">
+                    <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
                     <span> Actor name </span>
-                    <img class="hero" src="static/images/hearo.png" alt="">
+                    <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
                     <span> Actor name </span>
-                    <img class="hero" src="static/images/hearo.png" alt="">
+                    <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
                     <span> Actor name </span>
-                    <img class="hero" src="static/images/hearo.png" alt="">
-                    <span> Actor name </span>  <img class="hero" src="static/images/hearo.png" alt="">
+                    <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
+                    <span> Actor name </span>  <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
                     <span> Actor name </span>
                 </div>
                
