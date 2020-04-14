@@ -143,102 +143,29 @@
     <!-- Cards rendering -->
     <div class="container mx-auto px-2 my-3">
       <div class="grid grid-cols-4 gap-16 mb-4">
-        <div class="mt-4">
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <a href="">
-            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
-          </a>
-          <div class="mt-2">
-            <h3 href="#" class="m_link text-lg mt-2 ">  Mission impossible fall out  (2018) </h3>
-            <div class="flex items-center text-gray-700">
-              <span>120min</span>
-              <span> || </span>
-              <span> Crime-Adventure </span>
+
+        <!-- loop through popular movies  -->
+        {% for popular in popolar_mv %}
+          <div class="mt-4">
+            <i class="fas fa-star text-white"></i>
+            <i class="fas fa-star text-white"></i>
+            <i class="fas fa-star text-white"></i>
+            <a href="">
+              <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
+            </a>
+            <div class="mt-2">
+              <h3 href="#" class="m_link text-lg mt-2 ">
+                {{popular.title}}
+             </h3>
+              <div class="flex items-center text-gray-700">
+                <span>120min</span>
+                <span> || </span>
+                <span> Crime-Adventure </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="mt-4">
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <a href="">
-            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
-          </a>
-          <div class="mt-2">
-            <h3 href="#" class="m_link text-x mt-2 ">  Mission impossible fall out  (2018) </h3>
-            <div class="flex items-center text-gray-700">
-              <span>120min</span>
-              <span> || </span>
-              <span> Crime-Adventure </span>
-            </div>
-          </div>
-        </div>
-        <div class="mt-4">
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <a href="">
-            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
-          </a>
-          <div class="mt-2">
-            <h3 href="#" class="m_link text-lg mt-2 ">  Mission impossible fall out  (2018) </h3>
-            <div class="flex items-center text-gray-700">
-              <span>120min</span>
-              <span> || </span>
-              <span> Crime-Adventure </span>
-            </div>
-          </div>
-        </div>
-        <div class="mt-4">
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <a href="">
-            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
-          </a>
-          <div class="mt-2">
-            <h3 href="#" class="m_link text-lg mt-2 ">  Mission impossible fall out  (2018) </h3>
-            <div class="flex items-center text-gray-700">
-              <span>120min</span>
-              <span> || </span>
-              <span> Crime-Adventure </span>
-            </div>
-          </div>
-        </div>
-        <div class="mt-4">
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <a href="">
-            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
-          </a>
-          <div class="mt-2">
-            <h3 href="#" class="m_link text-lg mt-2 ">  Mission impossible fall out  (2018) </h3>
-            <div class="flex items-center text-gray-700">
-              <span>120min</span>
-              <span> || </span>
-              <span> Crime-Adventure </span>
-            </div>
-          </div>
-        </div>
-        <div class="mt-4">
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <i class="fas fa-star text-white"></i>
-          <a href="">
-            <img src="{{ url_for('static', filename= 'images/card_img.jpg')}}" alt="movie">
-          </a>
-          <div class="mt-2">
-            <h3 href="#" class="m_link text-lg mt-2 ">  Mission impossible fall out  (2018) </h3>
-            <div class="flex items-center text-gray-700">
-              <span>120min</span>
-              <span> || </span>
-              <span> Crime-Adventure </span>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
+
       </div>  
       
        <!-- Load More button  --> 
