@@ -23,39 +23,53 @@ language = '&language=en-US'
 
 url = str(global_url + url_popular + '?api_key='+ api_key + language)
 
+# Will be  collecting every key value (specified) once this function is called . 
+def extract_values(obj, key):
+    # pull all vlaues of specific key from json data 
+    arr = []
+    def extract(obj, arr, key):
+        # search for value keys in json 
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if isinstance(v, (dict, list)):
+                    extract(v, arr, key)
+                elif k == key:
+                    arr.append(v)
+        elif isinstance(obj, list):
+            for item in obj:
+                extract(item, arr, key)
+        return arr
+
+    results = extract(obj, arr, key)
+    return results
+
+
 #methode to render the most popular movies max(20) in card section
 @stream.route('/poplar-movies')
 def popular_mv():
-    page = requests.get(url)
-    page_text = page.text
-    resp = page.status_code
+    popular_list = requests.get(url)
+    page_text = popular_list.text
+    resp = popular_list.status_code 
     
-    # Check reqponese is valid or not 
+    # Check reqponese is valid or not (optional)
     if resp:
         print('Response was : ', resp)
     else:
         Exception()
+
     json_data = json.loads(page_text)
 
     # save output to local file 
     with open('Popular Movies.json', 'w') as get_data:
         json.dump(json_data, get_data, indent=4) 
     
-    # Prety print data in consol 
+    # Prety print data in consol  (optional)
     prety_data = json.dumps(json_data, indent=4)
-    print('Got Data :', prety_data)
+    print('Got Data \n :',  prety_data)
 
-    # grab the poster images only  
-    posters = json_data['results'][1]
-    if posters:
-        for i in posters:
-            print('got values : ', posters['adult'])
-        with open('posters.json', 'w') as data:
-            json.dump(posters, data, indent=4)
-
-    else:
-        Exception()
-
+ 
     return render_template(
-        'testme.html'
+        'index.html',
+        # context for template to render 
+        popolar_mv = popular_list,
     )
