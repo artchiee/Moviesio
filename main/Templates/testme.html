@@ -15,10 +15,16 @@
     
     <h2 class="text-center"> all titles </h2>
 
-    <p class="text-center pt-16">
-      {{posters}}
-    </p>
-    
+    <h2 class="text-center text-2xl py-10">  titles </h2>
+      {% for pop in popular_movies.results %}
+      {% endfor %}
+      <p class="text-center "> Genres here <br>
+        <!-- titles only here  -->
+        {% for each_gr in genres.genres %}
+          {{ each_gr['id']}}
+        {% endfor %}
+        
+      </p>
  
 </body>
 </html>
