@@ -2,9 +2,7 @@ from flask import render_template,Blueprint
 import os
 import requests
 import json
-
-# Consol pretty printing  
-from pprint import pprint
+from urllib.request import urlopen 
 
 # initiating the app 
 stream = Blueprint("stream", __name__)
@@ -12,16 +10,13 @@ stream = Blueprint("stream", __name__)
 # storing the api key somewhere
 api_key =  os.environ.get('API_KEY')
 
+key_word = '?api_key='
 # global tmdb (movie database) url 
 global_url = 'https://api.themoviedb.org/3/'
 
-# popular movie url 
-url_popular = 'movie/popular'
 
 #language to use 
 language = '&language=en-US'
-
-url = str(global_url + url_popular + '?api_key='+ api_key + language)
 
 # Will be  collecting every key value (specified) once this function is called . 
 def extract_values(obj, key):
@@ -45,31 +40,77 @@ def extract_values(obj, key):
 
 
 #methode to render the most popular movies max(20) in card section
-@stream.route('/poplar-movies')
+
+@stream.route('/popular')
 def popular_mv():
+
+    # popular movie url 
+    url_popular = 'movie/popular'
+
+    url = str(global_url + url_popular + key_word + api_key + language)
+
     popular_list = requests.get(url)
-    page_text = popular_list.text
     resp = popular_list.status_code 
-    
+
     # Check reqponese is valid or not (optional)
     if resp:
         print('Response was : ', resp)
     else:
         Exception()
-
-    json_data = json.loads(page_text)
-
-    # save output to local file 
-    with open('Popular Movies.json', 'w') as get_data:
-        json.dump(json_data, get_data, indent=4) 
     
-    # Prety print data in consol  (optional)
-    prety_data = json.dumps(json_data, indent=4)
-    print('Got Data \n :',  prety_data)
+    # converte url data to json
+    to_json = popular_list.json()
 
- 
+    # save to a local file 
+    with open('Popular_movies.json', 'w') as save_dt:
+        json.dump(to_json, save_dt, indent=4)
+
+    # Must read the data to display it in jinja
+    with open('Popular_movies.json', 'r') as f:
+        data = json.load(f)
+        clean_data = json.dumps(data, indent=4)  #optional 
+        print('dt ; \n ', clean_data)
+
+    # get genres names instead of ids 
+    genre_base = 'genre/movie/list'
+    genres_url = str(global_url + genre_base + key_word + api_key)
+    genre_req  = requests.get(genres_url)
+
+    if genre_req:
+        print('genres response was :  ',  genre_req.status_code)
+        genre_to_json = genre_req.json()
+        dump_gnr = json.dumps(genre_to_json, indent=4) 
+        print('genres list are , ', dump_gnr)
+    else:
+        print (Exception())
+    
+    #save to local file / read 
+
     return render_template(
         'index.html',
         # context for template to render 
-        popolar_mv = popular_list,
-    )
+        popular_movies = data,  
+        genres = genre_to_json,
+    
+    )   
+
+# Carousel trending movies 
+@stream.route('/trending')
+def trending_mv():
+    word = 'trending/'
+    media_type = 'movie/' #can be changed 
+    time_window = 'week' #can be changed 
+
+    trending_path = str(global_url + word + media_type + time_window + key_word + api_key)
+    request_url = requests.get(trending_path)
+    url_to_json =request_url.json()
+
+    if request_url:
+        r = request_url.status_code
+        print('trending url : ', r)
+        with open('Trending_movies.json', 'w') as w:
+            json.dump(url_to_json,w, indent=4)
+    else:
+        Exception()
+
+    
