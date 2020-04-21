@@ -11,6 +11,7 @@ stream = Blueprint("stream", __name__)
 api_key =  os.environ.get('API_KEY')
 
 key_word = '?api_key='
+
 # global tmdb (movie database) url 
 global_url = 'https://api.themoviedb.org/3/'
 
@@ -41,7 +42,7 @@ def extract_values(obj, key):
 
 #methode to render the most popular movies max(20) in card section
 
-@stream.route('/popular')
+@stream.route('/')
 def popular_mv():
 
     # popular movie url 
@@ -71,7 +72,7 @@ def popular_mv():
         clean_data = json.dumps(data, indent=4)  #optional 
         print('dt ; \n ', clean_data)
 
-    # get genres names instead of ids 
+    # get genres names instead of ids (not yet working)
     genre_base = 'genre/movie/list'
     genres_url = str(global_url + genre_base + key_word + api_key)
     genre_req  = requests.get(genres_url)
@@ -84,18 +85,16 @@ def popular_mv():
     else:
         print (Exception())
     
-    #save to local file / read 
-
+ 
     return render_template(
-        'index.html',
+        'popular_mv.html',
         # context for template to render 
         popular_movies = data,  
         genres = genre_to_json,
-    
     )   
 
 # Carousel trending movies 
-@stream.route('/trending')
+@stream.route('/')
 def trending_mv():
     word = 'trending/'
     media_type = 'movie/' #can be changed 
@@ -107,10 +106,56 @@ def trending_mv():
 
     if request_url:
         r = request_url.status_code
+
+        trending_file = 'Trending_movies.json'  #dave to * local file 
         print('trending url : ', r)
-        with open('Trending_movies.json', 'w') as w:
+        with open(trending_file, 'w') as w:
             json.dump(url_to_json,w, indent=4)
+        
+        # read the data 
+        with open(trending_file, 'r') as rd:
+            trnd = json.load(rd)
+            trn_clean = json.dumps(trnd, indent=4)  #optional 
+            print('Trending data ; \n ', trn_clean)
     else:
         Exception()
+    
+    # get first specific data only
+    #img_list = []
+    get_img = trnd['results'][1]['poster_path']
+    print('imgs are  \n ', get_img)
 
+    return render_template(
+        'popular_mv.html',
+        imgs = get_img,
+       # trending_dt = trnd
+
+    )
+
+@stream.route('/Popular_Movies/Detail/<string:movie_id>')
+def movie_detail(movie_id):
+
+    # later append other items in detail to url 
+
+    movie_url =  str(global_url + 'movie/' + movie_id  + key_word + api_key + language)
+    url_req = requests.get(movie_url)
+    movie_js = url_req.json()
+
+    print('response from server ', url_req.status_code)
+    url_dumps = json.dumps(movie_js, indent=4)
+    if url_dumps:
+        print('Details for %s \n ' % (movie_id) + url_dumps)
+    else:
+        Exception()
+    
+    with open('movie_details.json', 'w') as w:
+        json.dump(movie_js, w, indent=4)
+
+    # get detail for every movie selected 
+
+
+    return render_template(
+        'detail.html', 
+        mv_detail = movie_js
+    )
     

@@ -30,22 +30,22 @@
 
     <!-- movie dunamique image -->
     <div class="d_container pb-24">
-        <img class="" src="{{ url_for('static', filename= 'images/Rectangle 3.png')}}" alt="movie dynamique">
+  
+        <img class="" src="https://image.tmdb.org/t/p/original{{ mv_detail['backdrop_path'] }}" alt="movie dynamique">
         <div class="d_caption">
             <div class="d_rating">
-                <h1> 8.5 </h1>
+                <h1> {{mv_detail['vote_average']}} </h1>
                 <i class="fas fa-star-half-alt"></i>
                 <i class="fas fa-star-half-alt"></i>
                 <i class="fas fa-star-half-alt"></i>
                 <i class="fas fa-star-half-alt"></i>
             </div>
             
-            <h5>OCTOBER 2018</h5>
+            <h5> Runtime : {{mv_detail['runtime']}} min</h5>
             <div class="container ">
-                <h2> Mission Impossible 
-                (2018) : Fall out  </h2>
-                <p class="text-xl break-words">This is a discription of this movie and will be brought from imdb api
-                    Lorem ipsum dolor, sit amet consectetur 
+                <h2> {{mv_detail['title']}}  </h2>
+                <p class="text-xl break-words">
+                    {{mv_detail['tagline']}}
                 </p>
             </div>
             <button class="bg-red-500 text-2xl pr-0 hover:bg-black text-white py-2 px-4 rounded-full mx-32 pr-10">
@@ -64,9 +64,25 @@
                     <h2 class="m_detail my-10 font-bold text-xl">
                         Details
                     </h2>
-                    <p> Country <span class="px-10">US/AUS</span></p><hr>
-                    <p> Languge <span class="px-10"> English </span></p><hr>
-                    <p> Releaes date <span class="px-10">11/2019</span></p><hr>
+                    <p> Country <span class="px-10">
+                        {% for production in mv_detail.production_countries %}
+                            {% if production %}
+                                <span>
+                                    /
+                                    {{production['iso_3166_1']}}
+                                </span> 
+                            {% endif %}
+                        {% endfor %}
+                        </span></p><hr>
+                    <p> Languge <span class="px-10">
+                        {% for lang in mv_detail.spoken_languages %}
+                            {{ lang['name'] }}
+                        {% endfor %}
+                    </span></p><hr>
+
+                    <p> Releaes date <span class="px-10">
+                        {{mv_detail['release_date']}}
+                    </span></p><hr>
                 </div>
             </div>
           
@@ -75,35 +91,18 @@
                 <div class="m_story">     
                     <h2 class="p_story my-10 font-bold text-xl"> Story Line </h2>
                     <p class="paragraphe"> 
-                        Lorem Ipsum is simply dummy text of the printing an
-                        d typesetting industry. Lorem Ipsum has been the industry'
-                        s standard dummy text ever since the 1500s, when an unknown printer
-                        took a galley of type and scrambled it to make a type specimen book. It has 
-    
-                        survived not only five centuries, but also the leap into electronic typesetting, remai
-                        ning essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
-                        containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus 
-                        PageMaker including versions of Lorem Ipsum
-                        <hr class="my-4">
-    
-                        survived not only five centuries, but also the leap into electronic typesetting, remai
-                        ning essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
-                        containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus 
-                        PageMaker including versions of Lorem Ipsum
-                        <hr class="my-4">
-    
-                        survived not only five centuries, but also the leap into electronic typesetting, remai
-                        ning essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
-                        containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus 
-                        PageMaker including versions of Lorem Ipsum  <hr class="my-4">
-    
-                        survived not only five centuries, but also the leap into electronic typesetting, remai
-                        ning essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
-                        containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus 
-                        PageMaker including versions of Lorem Ipsum
+                        {{mv_detail['overview']}}
+                    
                     </p>
                     <p class="pt-4">
-                        <span class="categ"> Category : <span class="pl-4 text-red-400"> Horro - Crime</span></span>
+                        <span class="categ"> Category : <span class="pl-4 text-red-400"> 
+                            {% for genre in mv_detail.genres %}
+                                {% if genre %}
+                                    <mute> - </mute>
+                                    {{ genre['name']}} 
+                                {% endif %}
+                            {% endfor %}    
+                        </span></span>
                     </p>
                     </div>
     
@@ -130,15 +129,14 @@
                
             </div>
             <div class="trailer my-20">
-                <img src="static/images/Rectangle 3.png" alt="">
+                <img src="{{ url_for('static', filename='images/img_movie.jpg')}}" alt="">
               
             </div>
 
             <!-- Movie name/paly button -->
             <div class="play row-4 my-32">
                 <h1 class="movie_name text-3xl">
-                    <p>Mission impossible</p>
-                    <mute>(2018):fall-out Recent edition</mute>
+                    <p>{{mv_detail['title']}}</p>
                 </h1>
                 <button class="bg-red-500 hover:bg-black text-white font-bold py-2 px-4 rounded-full mx-32 pr-10">
                 <i class="fas fa-play pl-3 pr-3"></i>
@@ -153,7 +151,7 @@
                 <img src="static/images/gallery.png" alt="">
                 <img src="static/images/gallery.png" alt="">
             </div>
-
+            
             <!-- social -->
             <div class="social text-2xl ml-16">
                 <h3 class="my-14 mb-4"> Social </h3>

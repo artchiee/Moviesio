@@ -5,7 +5,7 @@
 
 :root {
     --text : #110B0B;
-    --main : #EEEAEA;
+    --main : rgb(250, 248, 248);
     --line : #EB5757;
 }
 body, html {
