@@ -22,16 +22,18 @@
 </head>
 
 <body>
+    <!-- Redirect to home -->
     <nav class="home mb-20 mt-12 text-center">
-        <a href="#" class="">
-            <i class="fas fa-home text-3xl text-white"></i>
+        <a href="{{ url_for('stream.main') }}" class="">
+            <i class="fas fa-home text-3xl text-black"></i>
         </a>
     </nav>
 
     <!-- movie dunamique image -->
     <div class="d_container pb-24">
   
-        <img class="" src="https://image.tmdb.org/t/p/original{{ mv_detail['backdrop_path'] }}" alt="movie dynamique">
+        <img class="" src="https://image.tmdb.org/t/p/original{{ mv_detail['backdrop_path'] }}" 
+        alt="movie dynamique">
         <div class="d_caption">
             <div class="d_rating">
                 <h1> {{mv_detail['vote_average']}} </h1>
@@ -48,20 +50,23 @@
                     {{mv_detail['tagline']}}
                 </p>
             </div>
-            <button class="bg-red-500 text-2xl pr-0 hover:bg-black text-white py-2 px-4 rounded-full mx-32 pr-10">
-                <i class="fas fa-play pl-3 pr-3"></i>
-                Watch trailer 
-            </button>
-            <button class="d_play-movie text-2xl -ml-32"> <i class="fas fa-pause"></i></button>
+            <!-- Trailer button need to play in home  (in site # Youtube) -->
+            <a href="https://www.youtube.com/watch?v={{ mv_detail['videos'].results[0]['key'] }}">
+                <button class="bg-red-500 text-2xl pr-0 hover:bg-black text-white py-2 px-4 rounded-full mx-32 pr-10">
+                    <i class="fas fa-play pl-3 pr-3"></i>
+                    Watch trailer 
+                </button>
+            </a>
+            <i class="fas fa-pause text-2xl"></i>
 
         </div>  
     </div>
     
     <section id="detail">       
         <div class="grid-container text-white mx-56"> 
-            <div class="row-1">
+            <div class="row-1 text-black">
                 <div class="movie_detail text-xl">
-                    <h2 class="m_detail my-10 font-bold text-xl">
+                    <h2 class="m_detail my-10 font-bold text-xl text-black">
                         Details
                     </h2>
                     <p> Country <span class="px-10">
@@ -89,13 +94,13 @@
             <!-- Story timeline -->
             <div class="row-2">
                 <div class="m_story">     
-                    <h2 class="p_story my-10 font-bold text-xl"> Story Line </h2>
-                    <p class="paragraphe"> 
+                    <h2 class="p_story my-10 font-bold text-xl text-black"> Story Line </h2>
+                    <p class="paragraphe text-black"> 
                         {{mv_detail['overview']}}
-                    
                     </p>
+
                     <p class="pt-4">
-                        <span class="categ"> Category : <span class="pl-4 text-red-400"> 
+                        <span class="categ text-black"> Category : <span class="pl-4 text-red-400"> 
                             {% for genre in mv_detail.genres %}
                                 {% if genre %}
                                     <mute> - </mute>
@@ -110,21 +115,23 @@
 
             <!-- casts  / movie-trailer  -->   
             <div class="casts my-0">
-                <div class="row3">
-                    <h2 class="heros text-xl my-0 mb-5 py-0">
+                <div class="row3 text-black">
+                    <h2 class="heros text-xl my-0 mb-5 py-0 text-black">
                         Casts
                     </h2>
-                    <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
-                    <span> Actor name </span>
-                    <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
-                    <span> Actor name </span>
-                    <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
-                    <span> Actor name </span>
-                    <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
-                    <span> Actor name </span>
-                    <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
-                    <span> Actor name </span>  <img class="hero" src="{{ url_for('static', filename= 'images/hearo.png')}}" alt="">
-                    <span> Actor name </span>
+                    <!-- Control imgs sizes -->
+                    {% for casts in mv_detail['credits'].cast %}
+                        {% if casts['profile_path'] != null %}  
+                            <img class="hero" src="https://image.tmdb.org/t/p/w92{{ casts['profile_path'] }}"
+                            style="border-radius: 30%;" alt="">
+                            <span> 
+                                {% for cast_name in casts['name'] %}
+                                    {{cast_name}}
+                                {% endfor  %}     
+                            </span>
+                        {%endif%}
+
+                    {% endfor %}
                 </div>
                
             </div>
@@ -134,7 +141,7 @@
             </div>
 
             <!-- Movie name/paly button -->
-            <div class="play row-4 my-32">
+            <div class="play row-4 my-32 text-black">
                 <h1 class="movie_name text-3xl">
                     <p>{{mv_detail['title']}}</p>
                 </h1>
@@ -145,11 +152,12 @@
             </div>
             <!-- Gallery images -->
             <div class="gallery">
-                <img src="static/images/gallery.png" alt="">
-                <img src="static/images/gallery.png" alt="">
-                <img src="static/images/gallery.png" alt="">
-                <img src="static/images/gallery.png" alt="">
-                <img src="static/images/gallery.png" alt="">
+        
+                <img src="{{ url_for ('static', filename = 'images/gallery.png') }}" alt="">
+                <img src="{{ url_for ('static', filename = 'images/gallery.png') }}" alt="">
+                <img src="{{ url_for ('static', filename = 'images/gallery.png') }}" alt="">
+                <img src="{{ url_for ('static', filename = 'images/gallery.png') }}" alt="">
+                <img src="{{ url_for ('static', filename = 'images/gallery.png') }}" alt="">
             </div>
             
             <!-- social -->
@@ -161,17 +169,14 @@
                 <li>
                     <i class="fab fa-github text-3xl"></i>
                  </li>
-                </li>
                 <li>
                     <i class="fab fa-github text-3xl"></i>
                  </li>
-                </li>
             </div>
         </div>
 
     
-          
-
+        
     </section>
 
     

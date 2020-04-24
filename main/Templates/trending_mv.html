@@ -1,3 +1,4 @@
+{% extends "base.html" %}
 
 {% block trending %}
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -9,7 +10,7 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <!-- getting posters imgs -->
-                <img src="https://image.tmdb.org/t/p/original{{ imgs }}"
+                <img src="https://image.tmdb.org/t/p/original{{ trend_img }}"
                     alt="Trending Movies">
 
                 <!-- rating starts  -->

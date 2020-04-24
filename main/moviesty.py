@@ -1,4 +1,4 @@
-from flask import render_template,Blueprint
+from flask import render_template,Blueprint, request
 import os
 import requests
 import json
@@ -42,10 +42,37 @@ def extract_values(obj, key):
 
 #methode to render the most popular movies max(20) in card section
 
-@stream.route('/')
-def popular_mv():
+@stream.route('/')  #Main route 
+def main():
 
-    # popular movie url 
+    # TRending logic 
+    word = 'trending/'
+    media_type = 'movie/' #can be changed 
+    time_window = 'week' #can be changed 
+
+    trending_path = str(global_url + word + media_type + time_window + key_word + api_key)
+    request_url = requests.get(trending_path)
+    url_to_json =request_url.json()
+
+    if request_url:
+        r = request_url.status_code
+        trending_file = 'Trending_movies.json'  #dave to * local file 
+        print('trending url response \t  : ', r)
+        with open(trending_file, 'w') as w:
+            json.dump(url_to_json,w, indent=4)
+        
+        # read the data 
+        with open(trending_file, 'r') as rd:
+            trnd = json.load(rd)
+            trn_clean = json.dumps(trnd, indent=4)  #optional 
+           # print('Trending data ; \n ', trn_clean)
+    else:
+        Exception()
+ 
+    # carousel not working yet 
+    data_slide = trnd['results'][0:3]
+ 
+    # popular Logic
     url_popular = 'movie/popular'
 
     url = str(global_url + url_popular + key_word + api_key + language)
@@ -55,7 +82,7 @@ def popular_mv():
 
     # Check reqponese is valid or not (optional)
     if resp:
-        print('Response was : ', resp)
+        print('Response popular was \t : ', resp)
     else:
         Exception()
     
@@ -70,7 +97,7 @@ def popular_mv():
     with open('Popular_movies.json', 'r') as f:
         data = json.load(f)
         clean_data = json.dumps(data, indent=4)  #optional 
-        print('dt ; \n ', clean_data)
+        #print('dt ; \n ', clean_data)
 
     # get genres names instead of ids (not yet working)
     genre_base = 'genre/movie/list'
@@ -81,63 +108,63 @@ def popular_mv():
         print('genres response was :  ',  genre_req.status_code)
         genre_to_json = genre_req.json()
         dump_gnr = json.dumps(genre_to_json, indent=4) 
-        print('genres list are , ', dump_gnr)
+        #print('genres list are , ', dump_gnr)
     else:
         print (Exception())
-    
- 
+
     return render_template(
         'popular_mv.html',
         # context for template to render 
         popular_movies = data,  
         genres = genre_to_json,
+        trend_img = trnd,
+        data_slide = data_slide
     )   
 
-# Carousel trending movies 
-@stream.route('/')
-def trending_mv():
-    word = 'trending/'
-    media_type = 'movie/' #can be changed 
-    time_window = 'week' #can be changed 
 
-    trending_path = str(global_url + word + media_type + time_window + key_word + api_key)
-    request_url = requests.get(trending_path)
-    url_to_json =request_url.json()
+    # Search logic (search by movie / keyword ..)
+    # can be accessed from other routes
 
-    if request_url:
-        r = request_url.status_code
+#@stream.context_processor
+@stream.route('/search', methods=['POST', 'GET'])
+def search_by():
+    if request.method == 'POST':
+        query_str = request.form['key_search']
+        print('data recieved was : ' , query_str)
 
-        trending_file = 'Trending_movies.json'  #dave to * local file 
-        print('trending url : ', r)
-        with open(trending_file, 'w') as w:
-            json.dump(url_to_json,w, indent=4)
+        query_word = '&query='
+        search_word = 'search/movie/'
+        search_url = str(global_url + search_word + key_word + api_key + language + query_word + query_str)
+        search_call = requests.get(search_url)
+        print('status code reqponse : ', search_call.status_code)
+        search_dt = json.loads(search_call.text)
         
-        # read the data 
-        with open(trending_file, 'r') as rd:
-            trnd = json.load(rd)
-            trn_clean = json.dumps(trnd, indent=4)  #optional 
-            print('Trending data ; \n ', trn_clean)
-    else:
-        Exception()
-    
-    # get first specific data only
-    #img_list = []
-    get_img = trnd['results'][1]['poster_path']
-    print('imgs are  \n ', get_img)
+        dumpdt = json.dumps(search_dt, indent=4)
+        print('data are \n ' , dumpdt)
+
+        # render titles in jinja
 
     return render_template(
-        'popular_mv.html',
-        imgs = get_img,
-       # trending_dt = trnd
-
+        'testme.html'
+        # value = 'key',
+        # results_qr = search_dt
     )
+
+
+
+
 
 @stream.route('/Popular_Movies/Detail/<string:movie_id>')
 def movie_detail(movie_id):
+    append_to = '&append_to_response='
 
-    # later append other items in detail to url 
+    # Append to this url other details 
+    credit = 'credits'
+    images = 'images'
+    videos = 'videos'
+    # later append other items in detail to url     
 
-    movie_url =  str(global_url + 'movie/' + movie_id  + key_word + api_key + language)
+    movie_url =  str(global_url + 'movie/' + movie_id  + key_word + api_key + language + append_to + credit + ',' + images + ','  + videos)
     url_req = requests.get(movie_url)
     movie_js = url_req.json()
 
@@ -156,6 +183,20 @@ def movie_detail(movie_id):
 
     return render_template(
         'detail.html', 
-        mv_detail = movie_js
+        mv_detail = movie_js    
+    )
+    
+
+# Delete later
+@stream.route('/imgs')
+def imgs():
+    with open('Trending_movies.json', 'r') as f:
+        imgs_dt = json.load(f)
+        clean_data = json.dumps(imgs_dt, indent=4)  #optional 
+        print('dt ; \n ', clean_data)
+    
+    return render_template(
+        'testme.html', 
+        imgss = imgs_dt
     )
     
