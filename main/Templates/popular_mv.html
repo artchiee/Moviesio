@@ -1,53 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  <!-- importing the head   -->
-    {% include "head.html" %}
-  </head>
+
+<head>
+  <meta charset="UTF-8">
+  {% include "head.html" %}
+  <title>Document</title>
+</head>
 
 <body>
-  
-  <!-- nav bar top  -->
-  <section id="main">
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light pt-3"> 
-      <div class="container">
-        <img class= "" src="{{ url_for('static', filename='images/logos.svg')}}" alt="">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav m-auto">
-            <li class="nav-item active">
-              <a class="text-2xl items-center m-auto" href="#">Main <span class="sr-only">(current)</span></a>
-            </li>
-          </ul>
-          <ul class="flex ml-auto">
-            <li> <a class="text-2xl mr-5  " href="#">Movies <span class="sr-only"></span></a></li>
-            <li> <a class="text-2xl" href="#">Contact <span class="sr-only"></span></a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+  <!-- NAvbar -->
 
-    <!-- carousel dynamique from api / extend trendign template  -->
-    {% include "trending_mv.html" %}
-     
+  <!-- carousel dynamique from api / extend trendign template  -->
+
+  <section id="main">
+  
+    <div id="carousel_dynamique" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        {% for slides in data_slide  %}
+        <!-- data slide to needs to be dynamique  -->
+          <li data-target="#carousel_dynamique" data-slide-to="{{slides.index}}" class=""></li>
+        {% endfor %}
+      </ol>
+      
+      <div class="carousel-inner">
+        {% for trends in trend_img.results[0:3] %}]
+        <div class="carousel-item active">
+
+          <!-- getting posters imgs -->
+            <img src="https://image.tmdb.org/t/p/original{{ trends['backdrop_path'] }}" alt="Trending Movies">
+          
+          <!-- rating starts  -->
+
+          <div class="carousel-caption">
+            <div class="rating">
+              <h1> 8.5 </h1>
+              <i class="fas fa-star-half-alt"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h5 class="text-white">OCTOBER 2018</h5>
+            <div class="container">
+              <h2 class="py-4 px-4"> Mission Impossible
+                (2018) : Fall out </h2>
+              <h3 class="text-gray-600">This is a discription of this movie and will be brought from imdb api
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorum assumenda, doloribus culpa
+                totam molestiae cumque reprehenderit rem vitae dicta voluptatem quae minus dolores mollitia.
+                Eveniet fuga corrupti cupiditate consectetur recusandae?
+              </h3>
+            </div>
+            <button class="my-4 bg-red-500 hover:bg-black
+                  text-white font-bold py-2 px-10 rounded-full">
+                  <i class="far fa-play-circle py-2"></i>
+                  Watch Trailer
+            </button>
+            <!-- Plat button needs to go right -->
+            </button>
+            <div class="pause">
+              <button class="text-xl">
+                <i class="fas fa-pause pr-3 -mr-10"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      
+      </div>
+    </div>
+  
   </section>
 
-<!--starting the card movie card section -->
+  <!--starting the card movie card section -->
   <section id="movie-card">
-    <div class=" text-center pt-3">
-      <h2 class="uppercases">Other Movies - Search by Category or  name</h2>
+    <div class="text-center pt-3">
+      <h2 class="uppercases">Other Movies - Search by Category or name</h2>
+    </div>
+
+    <div class="relative text-center">
       <div class="search">
         <i class="fas fa-search"></i>
-        <input type="text" class="bg-gray-800 rounded-full w-64 focus:outline-none
-          focus:shadow-outline" placeholder="search">
+        <form action="">
+          <input type="text" class="bg-gray-800 rounded-full w-64 focus:outline-none
+            focus:shadow-outline" placeholder="search">
+        </form>
       </div>
+
+      <!-- add the shadow box for search resutlts -->
+      <div class="bg-gray-200 rounded w-64 m-auto">
+        <ul>
+          <li>
+            <a href="#" class="block hover:bg-gray-800"> Avengers</a>
+          </li>
+          <li>
+            <a href="#" class="block hover:bg-gray-800"> Avengers</a>
+          </li>
+           <li>
+            <a href="#" class="block hover:bg-gray-800"> Avengers</a>
+          </li>
+        </ul> 
+      </div>
+
     </div>
 
     <!-- Categories  -->
-    <div class="category pt-4 gap-32">
+    <div class="category pt-48 pb-6 gap-32">
       <button class="bg-red-500 text-white  hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
         Action
       </button>
@@ -55,7 +111,7 @@
         Drama
       </button>
       <button class="bg-gray-800 text-white hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Comedy 
+        Comedy
       </button>
       <button class="bg-red-500 hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
         Horror
@@ -82,61 +138,59 @@
     </div>
 
     <!-- Cards rendering -->
-    <div class="container mx-auto px-2 my-3">
+    <div class="container pt-5 mx-auto px-2 my-3">
       <div class="grid grid-cols-4 gap-16 mb-4">
 
         <!-- loop through popular movies  -->
         {% for popular in popular_movies.results %}
-          <div class="mt-4">
-            <i class="fas fa-star text-black"></i>
-            <i class="fas fa-star text-black"></i>
-            <i class="fas fa-star text-black"></i>
-            <!-- redirect to detail page  -->
-            <a href="{{ url_for('stream.movie_detail', movie_id=popular['id']) }}">
-              <!-- Poster path (images) -- from api -->
-              <img  src="https://image.tmdb.org/t/p/original{{ popular['backdrop_path'] }}" alt="movie">
-            </a>
+        <div class="mt-4">
+          <i class="fas fa-star text-black"></i>
+          <i class="fas fa-star text-black"></i>
+          <i class="fas fa-star text-black"></i>
+          <!-- redirect to detail page  -->
+          <a href="{{ url_for('stream.movie_detail', movie_id=popular['id']) }}">
+            <!-- Poster path (images) -- from api -->
+            <img src="https://image.tmdb.org/t/p/original{{ popular['poster_path'] }}" alt="movie">
+          </a>
 
-            <div class="mt-2">
-              <h3 href="#" class="m_link text-lg mt-2 ">
-                <!--getting titles -->
-                {{popular['title']}}
-             </h3>  
-              <div class="flex items-center text-gray-700">
-                <span> {{popular['release_date']}} </span>
-                <span> || </span>
-                <span> 
-                    <!-- need to loop throug list of names not ids -->
-                    {% for gr in popular['genre_ids']  %}
-                      {% for genre in genres.genres['id']  %}  
-                        {% if gr in genre %}  
-                          {{ genre }}
-                        {% endif %}
-                      {% endfor %}
-                    {% endfor %}
-                  </span> 
-              </div>
+          <div class="mt-2">
+            <h3 href="#" class="m_link text-lg mt-2 ">
+              <!--getting titles -->
+              {{popular['title']}}
+            </h3>
+            <div class="flex items-center text-gray-700">
+              <span> {{popular['release_date']}} </span>
+              <span> || </span>
+              <span>
+                <!-- need to loop throug list of names[genres] not ids -->
+            
+              </span>
             </div>
           </div>
+        </div>
         {% endfor %}
       </div>
-      
-      <!--  <!~~ Load More button  ~~> 
-      <div class="wrapper">
-        <button class="bg-red-500 text-white mt-5 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full">
-          Load More
-          <hr>
-        </button> 
-      </div> -->
-    </div>
 
-    <div class="footer mt-5">
+      <!--  <!~~ Load More button  ~~> 
+        <div class="wrapper">
+          <button class="bg-red-500 text-white mt-5 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full">
+            Load More
+            <hr>
+          </button> 
+        </div> -->
+    </div>
+  </section>
+
+  <!-- Footer  -->
+
+  <section class="footer">
+    <div class="mt-5">
       <img class="" src="{{ url_for('static', filename= 'images/logos.svg')}}" alt="">
       <div id="emailme" class="">
         <h2 class=""> Contact</h2>
         <i class="fas fa-at absolute text-green-400 mx-16 mr-5 pt-1"></i>
         <input type="text" class="mx-12 bg-gray-800 rounded-full w-64 mt-auto text-center focus:outline-none
-          focus:shadow-outline" placeholder="email">            
+          focus:shadow-outline" placeholder="email">
       </div>
       <div class="social">
         <i class="fab fa-github text-3xl"></i>
@@ -144,18 +198,24 @@
       </div>
     </div>
     <div class="top my-16">
-     <button class="bg-red-500 hover:bg-gray-800
+      <button class="bg-red-500 hover:bg-gray-800
       text-white font-bold py-2 px-16 rounded-full">
-      <i class="fas fa-arrow-up"></i>
-     </button>
+        <i class="fas fa-arrow-up"></i>
+      </button>
     </div>
-
   </section>
 
 
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>

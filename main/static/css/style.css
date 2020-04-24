@@ -152,11 +152,11 @@ h3 {
 /*  Search bar */
 .search {
     width: 100%; 
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 }
-.search i {
+/* .search i {
     position: absolute; 
-}
+} */
 .fa-search {
     padding-top: 45px; 
     color:var(--line);

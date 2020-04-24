@@ -1,31 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test upcoming data from TMDB </title>
-
-      <!-- Tailwind css  -->
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  {% include  "head.html" %}
 </head>
+
 <body>
 
-    <!-- Getting only the poster/movie images  -->
-    
-    <h2 class="text-center"> all titles </h2>
+  <!-- Getting only the poster/movie images  -->
 
-    <h2 class="text-center text-2xl py-10">  trending for posters aka images  </h2>
+  <h2 class="text-center"> all titles </h2>
+
+  <h2 class="text-center text-2xl py-10"> trending for posters aka images </h2>
 
 
-      <!-- need to get only 3 or 4 trending movies only  -->
-      <div class="text-center">
-        {% for prod in mv_detail.production_countries %}
-          <p>production  : {{prod['name']}}</p>
-        {%endfor%}
-      </div>
+  <!-- need to get only 3 or 4 trending movies only  -->
 
-    
+  <div class="relative text-center">
+    <div class="search">
+
+
+      <!--  -->
+      <form action="/search" method="POST">
+        <input type="text" id="key_search" value=""
+         name="key_search" class="bg-gray-800 rounded -full w-64 focus:outline-none  focus:shadow-outline"
+         placeholder="search">
+      </form>
+
+      <!-- need to hide search box before typing  -->
+     
+
+    </div>
+
+    <!-- add the shadow box for search resutlts -->
+  
+  </div>
+
 
 </body>
+
 </html>

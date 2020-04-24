@@ -1,3 +1,10 @@
-/.vscode/
-*.json
-/main/Templates/testme.html
+.vscode
+*.json*
+# Blueprints directory 
+\Blueprints
+
+# Few templates
+main/Templates/nav.html
+main/Templates/base.html
+main/Templates/testme.html
+main/Templates/trending_mv.html
