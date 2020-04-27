@@ -23,13 +23,33 @@
 
       <!--  -->
       <form action="/search" method="POST">
-        <input type="text" id="key_search" value=""
+        <input type="text" id="key_search" value="{{ request.form['key_search'] }}"
          name="key_search" class="bg-gray-800 rounded -full w-64 focus:outline-none  focus:shadow-outline"
          placeholder="search">
       </form>
 
-      <!-- need to hide search box before typing  -->
-     
+      <!--  Means if field has more than 2 char -->
+      {% if query_str %}
+        <div class="bg-red-100 rounded w-64 m-auto">
+          <ul>
+            {% for search_res in query_res.results %}
+            <li>
+              <!-- Href  = movie_id to detail page  -->
+              <a href="#" class="block hover:bg-gray-800"> 
+                <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" 
+                class="w-8"  alt="poster">
+                <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul> 
+        </div>
+        
+        {% else %}
+          <li>
+            <a href="#" class="block hover:bg-gray-800"></a>
+          </li>
+      {% endif %}
 
     </div>
 
