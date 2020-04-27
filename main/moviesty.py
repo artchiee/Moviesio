@@ -40,9 +40,9 @@ def extract_values(obj, key):
     return results
 
 
-#methode to render the most popular movies max(20) in card section
+#render the most popular movies max(20) in card section
 
-@stream.route('/')  #Main route 
+@stream.route('/', methods=['POST', 'GET'])  #Main route 
 def main():
 
     # TRending logic 
@@ -99,7 +99,7 @@ def main():
         clean_data = json.dumps(data, indent=4)  #optional 
         #print('dt ; \n ', clean_data)
 
-    # get genres names instead of ids (not yet working)
+    # genres get names 
     genre_base = 'genre/movie/list'
     genres_url = str(global_url + genre_base + key_word + api_key)
     genre_req  = requests.get(genres_url)
@@ -109,51 +109,95 @@ def main():
         genre_to_json = genre_req.json()
         dump_gnr = json.dumps(genre_to_json, indent=4) 
         #print('genres list are , ', dump_gnr)
+
+        # save to jsn file 
+        with open('genres.json', 'w') as gnrs:
+            json.dump(genre_to_json, gnrs, indent=4, sort_keys=True)
+
     else:
         print (Exception())
+    
+    # get list of name 
+    for gname in genre_to_json['genres']:
+        ids = gname['id']
+        print('ids are , \n ', json.dumps(gname, indent=4))
 
     return render_template(
         'popular_mv.html',
-        # context for template to render 
         popular_movies = data,  
         genres = genre_to_json,
         trend_img = trnd,
         data_slide = data_slide
     )   
 
+# genres list names 
+#@stream.context_processor
+# def get_genres():
+    
+#     genre_base = 'genre/movie/list'
+#     genres_url = str(global_url + genre_base + key_word + api_key)
+#     genre_req  = requests.get(genres_url)
 
-    # Search logic (search by movie / keyword ..)
-    # can be accessed from other routes
+#     if genre_req:
+#         print('genres response was :  ',  genre_req.status_code)
+#         genre_to_json = genre_req.json()
+#         dump_gnr = json.dumps(genre_to_json, indent=4) 
+#         #print('genres list are , ', dump_gnr)
+
+#         # save to jsn file 
+#         with open('genres.json', 'w') as gnrs:
+#             json.dump(genre_to_json, gnrs, indent=4, sort_keys=True)
+
+#     else:
+#         print (Exception())
+    
+#     # get list of name 
+#     for gname in genre_to_json['genres']:
+#         ids = gname['id']
+#         print('ids are , \n ', json.dumps(gname, indent=4))
+#     return dict (genres =genre_to_json, gname=  gname, ids= ids )
+
 
 #@stream.context_processor
-@stream.route('/search', methods=['POST', 'GET'])
+@stream.route('/fetch', methods = ['POST', 'GET'])
 def search_by():
     if request.method == 'POST':
         query_str = request.form['key_search']
-        print('data recieved was : ' , query_str)
+        if len(query_str) > 2:
+            print('data recieved was : ' , query_str)
 
-        query_word = '&query='
-        search_word = 'search/movie/'
-        search_url = str(global_url + search_word + key_word + api_key + language + query_word + query_str)
-        search_call = requests.get(search_url)
-        print('status code reqponse : ', search_call.status_code)
-        search_dt = json.loads(search_call.text)
-        
-        dumpdt = json.dumps(search_dt, indent=4)
-        print('data are \n ' , dumpdt)
+            query_word = '&query='
+            search_word = 'search/movie/'
+            search_url = str(global_url + search_word + key_word + api_key + language + query_word + query_str)
+            search_call = requests.get(search_url)
+            print('status code reqponse : ', search_call.status_code)
+            search_dt =  search_call.json()
+            
+            dumpdt = json.dumps(search_dt, indent=4)
+            print('data are \n ' , dumpdt)
+            
 
-        # render titles in jinja
+            return render_template (
+                'popular_mv.html',
+                query_str = query_str,
+                query_res = search_dt
+            )
+
+        # if the Search has len < 2 
+        else:
+            return render_template(
+                'popular_mv.hmtl',
+                query_str = query_str,
+            )
 
     return render_template(
-        'testme.html'
-        # value = 'key',
-        # results_qr = search_dt
+        'popular_mv.html'
+
     )
 
+    # Fetch by categorie 
 
-
-
-
+    
 @stream.route('/Popular_Movies/Detail/<string:movie_id>')
 def movie_detail(movie_id):
     append_to = '&append_to_response='

@@ -78,29 +78,36 @@
 
     <div class="relative text-center">
       <div class="search">
-        <i class="fas fa-search"></i>
-        <form action="">
-          <input type="text" class="bg-gray-800 rounded-full w-64 focus:outline-none
-            focus:shadow-outline" placeholder="search">
+
+        <form action="/fetch" method="POST">
+          <input type="text" id="key_search" value="{{ request.form['key_search'] }}"
+           name="key_search" class="bg-black rounded -full w-64 focus:outline-none  focus:shadow-outline"
+           placeholder="search">
         </form>
-      </div>
 
-      <!-- add the shadow box for search resutlts -->
-      <div class="bg-gray-200 rounded w-64 m-auto">
-        <ul>
-          <li>
-            <a href="#" class="block hover:bg-gray-800"> Avengers</a>
-          </li>
-          <li>
-            <a href="#" class="block hover:bg-gray-800"> Avengers</a>
-          </li>
-           <li>
-            <a href="#" class="block hover:bg-gray-800"> Avengers</a>
-          </li>
-        </ul> 
+        {% if query_str %}
+        <div class="bg-red-100 rounded w-64 m-auto">
+          <ul>
+            {% for search_res in query_res.results %}
+            <li>
+              <!-- Href  = movie_id to detail page  -->
+              <a href="#" class="block hover:bg-gray-800"> 
+                <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" 
+                class="w-8"  alt="poster">
+                <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul> 
+        </div>
+        
+        {% else %}
+          <spann href="#" class="block hover:bg-gray-800"></spann>
+        {% endif %}
       </div>
-
     </div>
+
+
 
     <!-- Categories  -->
     <div class="category pt-48 pb-6 gap-32">
@@ -163,7 +170,11 @@
               <span> || </span>
               <span>
                 <!-- need to loop throug list of names[genres] not ids -->
-            
+                {% for popg in popular['genre_ids'] %}
+                  {% for names in genres.genres['id'] %}
+                    {{names}}
+                  {% endfor %}
+                {% endfor %}
               </span>
             </div>
           </div>
