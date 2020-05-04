@@ -20,43 +20,65 @@
   <div class="relative text-center">
     <div class="search">
 
-
-      <!--  -->
-      <form action="/search" method="POST">
-        <input type="text" id="key_search" value="{{ request.form['key_search'] }}"
-         name="key_search" class="bg-gray-800 rounded -full w-64 focus:outline-none  focus:shadow-outline"
-         placeholder="search">
+      <form action="/fetch" method="POST">
+        <input type="text" id="key_search" value="{{ request.form['key_search'] }}" name="key_search"
+          class="bg-white rounded-full w-64 focus:outline-none  focus:shadow-outline" placeholder="search">
       </form>
 
-      <!--  Means if field has more than 2 char -->
       {% if query_str %}
-        <div class="bg-red-100 rounded w-64 m-auto">
-          <ul>
-            {% for search_res in query_res.results %}
-            <li>
-              <!-- Href  = movie_id to detail page  -->
-              <a href="#" class="block hover:bg-gray-800"> 
-                <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" 
-                class="w-8"  alt="poster">
-                <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
-              </a>
-            </li>
-            {% endfor %}
-          </ul> 
-        </div>
-        
-        {% else %}
+      <div id="output" class="bg-red-100 rounded w-64 m-auto">
+      
+        // FIXME : override lenght input to hide  if empty 
+      
+        {% if query_res|length > 1 %}
+        <ul>
+          {% for search_res in query_res.results %}
           <li>
-            <a href="#" class="block hover:bg-gray-800"></a>
+            <!-- Href  = movie_id to detail page  -->
+            <a href="#" class="block hover:bg-gray-800">
+              <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" class="w-8" alt="poster">
+              <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
+            </a>
           </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% else %}
       {% endif %}
 
     </div>
-
-    <!-- add the shadow box for search resutlts -->
-  
   </div>
 
+
+  <!--  jquery cdn -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+    integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+
+  <script>
+
+    // TODO : Move to own file 
+
+    $(document).ready(function () {
+      $("#key_search").keyup(function () {
+        var text = $(this).val();
+        $.ajax({
+          url: "/fetch",
+          type: "post",
+          data: { key_search: text },
+          success: function (response) {
+            $("#output").html(response);
+          },
+          error: function (xhr) {
+            //Do Something to handle error
+          }
+        })
+      })
+    })
+
+  </script>
 
 </body>
 

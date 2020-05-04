@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   {% include "head.html" %}
-  <title>Document</title>
+  <title> Home </title>
 </head>
 
 <body>
@@ -79,30 +79,29 @@
     <div class="relative text-center">
       <div class="search">
 
-        <form action="/fetch" method="POST">
+        <form action="/" method="POST">
           <input type="text" id="key_search" value="{{ request.form['key_search'] }}"
            name="key_search" class="bg-black rounded -full w-64 focus:outline-none  focus:shadow-outline"
            placeholder="search">
         </form>
 
         {% if query_str %}
-        <div class="bg-red-100 rounded w-64 m-auto">
-          <ul>
-            {% for search_res in query_res.results %}
-            <li>
-              <!-- Href  = movie_id to detail page  -->
-              <a href="#" class="block hover:bg-gray-800"> 
-                <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" 
-                class="w-8"  alt="poster">
-                <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
-              </a>
-            </li>
-            {% endfor %}
-          </ul> 
-        </div>
-        
-        {% else %}
-          <spann href="#" class="block hover:bg-gray-800"></spann>
+          <div class="bg-red-100 rounded w-64 m-auto">
+            <ul>
+              {% for search_res in query_res.results %}
+                <li>
+                  <!-- Href  = movie_id to detail page  -->
+                  <a href="#" class="block hover:bg-gray-800"> 
+                    <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" 
+                    class="w-8"  alt="poster">
+                    <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul> 
+          </div>
+          {% else %}
+            <spann href="#" class="block hover:bg-gray-800"></spann>
         {% endif %}
       </div>
     </div>
@@ -110,7 +109,7 @@
 
 
     <!-- Categories  -->
-    <div class="category pt-48 pb-6 gap-32">
+    <div class="category py-16 gap-32">
       <button class="bg-red-500 text-white  hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
         Action
       </button>
@@ -150,35 +149,31 @@
 
         <!-- loop through popular movies  -->
         {% for popular in popular_movies.results %}
-        <div class="mt-4">
-          <i class="fas fa-star text-black"></i>
-          <i class="fas fa-star text-black"></i>
-          <i class="fas fa-star text-black"></i>
-          <!-- redirect to detail page  -->
-          <a href="{{ url_for('stream.movie_detail', movie_id=popular['id']) }}">
-            <!-- Poster path (images) -- from api -->
-            <img src="https://image.tmdb.org/t/p/original{{ popular['poster_path'] }}" alt="movie">
-          </a>
+          <div class="mt-4">
+            <i class="fas fa-star text-black"></i>
+            <i class="fas fa-star text-black"></i>
+            <i class="fas fa-star text-black"></i>
+            <!-- redirect to detail page  -->
+            <a href="{{ url_for('stream.movie_detail', movie_id=popular['id']) }}">
+              <!-- Poster path (images) -- from api -->
+              <img src="https://image.tmdb.org/t/p/original{{ popular['poster_path'] }}" alt="movie">
+            </a>
 
-          <div class="mt-2">
-            <h3 href="#" class="m_link text-lg mt-2 ">
-              <!--getting titles -->
-              {{popular['title']}}
-            </h3>
-            <div class="flex items-center text-gray-700">
-              <span> {{popular['release_date']}} </span>
-              <span> || </span>
-              <span>
-                <!-- need to loop throug list of names[genres] not ids -->
-                {% for popg in popular['genre_ids'] %}
-                  {% for names in genres.genres['id'] %}
-                    {{names}}
-                  {% endfor %}
-                {% endfor %}
-              </span>
+            <div class="mt-2">
+              <h3 href="#" class="m_link text-lg mt-2 ">
+                <!--getting titles -->
+                {{popular['title']}}
+              </h3>
+              <div class="flex items-center text-gray-700">
+                <span> {{popular['release_date']}} </span>
+                <span> || </span>
+                <span>
+                  <!-- need to loop throug list of names[genres] not ids -->
+
+                </span>
+              </div>
             </div>
           </div>
-        </div>
         {% endfor %}
       </div>
 
