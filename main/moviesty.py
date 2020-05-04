@@ -1,4 +1,4 @@
-from flask import render_template,Blueprint, request
+from flask import render_template,Blueprint,jsonify, request, redirect, url_for
 import os
 import requests
 import json
@@ -96,10 +96,19 @@ def main():
     # Must read the data to display it in jinja
     with open('Popular_movies.json', 'r') as f:
         data = json.load(f)
-        clean_data = json.dumps(data, indent=4)  #optional 
-        #print('dt ; \n ', clean_data)
 
-    # genres get names 
+
+    return render_template(
+        'popular_mv.html',
+        popular_movies = data,  
+        trend_img = trnd,
+        data_slide = data_slide
+    )
+
+# genres list names 
+@stream.context_processor
+def get_genres():
+    
     genre_base = 'genre/movie/list'
     genres_url = str(global_url + genre_base + key_word + api_key)
     genre_req  = requests.get(genres_url)
@@ -107,59 +116,22 @@ def main():
     if genre_req:
         print('genres response was :  ',  genre_req.status_code)
         genre_to_json = genre_req.json()
-        dump_gnr = json.dumps(genre_to_json, indent=4) 
-        #print('genres list are , ', dump_gnr)
+        #dump_gnr = json.dumps(genre_to_json, indent=4) 
 
         # save to jsn file 
         with open('genres.json', 'w') as gnrs:
             json.dump(genre_to_json, gnrs, indent=4, sort_keys=True)
 
     else:
-        print (Exception())
-    
-    # get list of name 
-    for gname in genre_to_json['genres']:
-        ids = gname['id']
-        print('ids are , \n ', json.dumps(gname, indent=4))
+        Exception()
 
-    return render_template(
-        'popular_mv.html',
-        popular_movies = data,  
-        genres = genre_to_json,
-        trend_img = trnd,
-        data_slide = data_slide
-    )   
+    # alter ids to be keys in genre list 
+    return dict (
+        key= 'value'
+    )
 
-# genres list names 
-#@stream.context_processor
-# def get_genres():
-    
-#     genre_base = 'genre/movie/list'
-#     genres_url = str(global_url + genre_base + key_word + api_key)
-#     genre_req  = requests.get(genres_url)
-
-#     if genre_req:
-#         print('genres response was :  ',  genre_req.status_code)
-#         genre_to_json = genre_req.json()
-#         dump_gnr = json.dumps(genre_to_json, indent=4) 
-#         #print('genres list are , ', dump_gnr)
-
-#         # save to jsn file 
-#         with open('genres.json', 'w') as gnrs:
-#             json.dump(genre_to_json, gnrs, indent=4, sort_keys=True)
-
-#     else:
-#         print (Exception())
-    
-#     # get list of name 
-#     for gname in genre_to_json['genres']:
-#         ids = gname['id']
-#         print('ids are , \n ', json.dumps(gname, indent=4))
-#     return dict (genres =genre_to_json, gname=  gname, ids= ids )
-
-
-#@stream.context_processor
-@stream.route('/fetch', methods = ['POST', 'GET'])
+stream.context_processor
+@stream.route('/fetch', methods=['POST', 'GET'])
 def search_by():
     if request.method == 'POST':
         query_str = request.form['key_search']
@@ -175,29 +147,36 @@ def search_by():
             
             dumpdt = json.dumps(search_dt, indent=4)
             print('data are \n ' , dumpdt)
-            
 
-            return render_template (
-                'popular_mv.html',
+            # test data to be deleted later 
+            if search_dt:
+                # send jsonify 
+                return render_template(
+                    'testme.html',
+                    query_str = query_str,
+                    query_res = search_dt
+                )
+            else:
+                return jsonify({'error' : 'Missing data!', 
+                'query_res' : search_dt})
+
+        #if search input < 2 char
+        else:
+            return render_template(
+                'testme.html',
                 query_str = query_str,
                 query_res = search_dt
             )
 
-        # if the Search has len < 2 
-        else:
-            return render_template(
-                'popular_mv.hmtl',
-                query_str = query_str,
-            )
-
     return render_template(
-        'popular_mv.html'
-
+        'testme.html'
     )
 
-    # Fetch by categorie 
 
-    
+# Fetch by categorie 
+def get_by_category():
+    pass
+
 @stream.route('/Popular_Movies/Detail/<string:movie_id>')
 def movie_detail(movie_id):
     append_to = '&append_to_response='
@@ -243,4 +222,3 @@ def imgs():
         'testme.html', 
         imgss = imgs_dt
     )
-    
