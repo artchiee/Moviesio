@@ -1,4 +1,44 @@
 
+    var typingtime;
+    var doneTypingInterval = 5000  // timer in ms (5s)
+    var text
+
+    $(document).ready(function () {
+      // on keyup start the timer
+
+      $("#key_search").keyup(function () {
+        text = $(this).val();
+        clearTimeout(typingtime);
+        if ($("#key_search").val()) {
+          typingtime = setTimeout(doneTyping, doneTypingInterval);
+
+        }
+      });
+      
+      // TODO : Show results 
+      
+      function doneTyping() {
+        $.ajax({
+          url: "/fetch",
+          type: "POST",
+          data: { key_search: text },
+          success: function (response,xhr) {
+
+            $("#output").text(JSON.stringify(response));
+            console.log('Data executed'),
+              xhr.status,
+              xhr.responseText
+          },
+          error: function (xhr, status) {
+            xhr.status,
+            xhr.responseText
+          }
+        });
+      }
+
+    });
+
+
 // define a variable spinner 
 // properties can be customized 
 
