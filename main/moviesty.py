@@ -156,18 +156,23 @@ def search_by():
             if len(search_dt['results']) > 1 :
 
                 print('Found movie results for %s' % query_str )
+                
+                # test data 
+                dump_data = [{'name': 'bill', 'state': 'CA', 'id': '101'},
+                    {'name': 'cindy', 'state': 'NY', }]
                 # send jsonify 
-                return jsonify(
-                    success = True,
-                    query_str = query_str,
-                    query_res = search_dt
-                )
+                return jsonify(dump_data)
+
+                    # success = True,
+                    # query_str = query_str,
+                    # query_res = search_dt
+                
 
                 # limit the data coming from the response
 
             else:
                 return jsonify({'error' : 'Missing data!', 
-                'query_res' : search_dt},
+                },
                 print('could not find search for %s' % query_str )
                 )
         #if search == empty 
