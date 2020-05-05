@@ -2,6 +2,7 @@ from flask import render_template,Blueprint,jsonify, request, redirect, url_for
 import os
 import requests
 import json
+import time
 from urllib.request import urlopen 
 
 # initiating the app 
@@ -105,67 +106,76 @@ def main():
         data_slide = data_slide
     )
 
-# genres list names 
-@stream.context_processor
-def get_genres():
+# # genres list names 
+# @stream.context_processor
+# def get_genres():
     
-    genre_base = 'genre/movie/list'
-    genres_url = str(global_url + genre_base + key_word + api_key)
-    genre_req  = requests.get(genres_url)
+#     genre_base = 'genre/movie/list'
+#     genres_url = str(global_url + genre_base + key_word + api_key)
+#     genre_req  = requests.get(genres_url)
 
-    if genre_req:
-        print('genres response was :  ',  genre_req.status_code)
-        genre_to_json = genre_req.json()
-        #dump_gnr = json.dumps(genre_to_json, indent=4) 
+#     if genre_req:
+#         print('genres response was :  ',  genre_req.status_code)
+#         genre_to_json = genre_req.json()
+#         #dump_gnr = json.dumps(genre_to_json, indent=4) 
 
-        # save to jsn file 
-        with open('genres.json', 'w') as gnrs:
-            json.dump(genre_to_json, gnrs, indent=4, sort_keys=True)
+#         # save to jsn file 
+#         with open('genres.json', 'w') as gnrs:
+#             json.dump(genre_to_json, gnrs, indent=4, sort_keys=True)
 
-    else:
-        Exception()
+#     else:
+#         Exception()
 
-    # alter ids to be keys in genre list 
-    return dict (
-        key= 'value'
-    )
+#     # alter ids to be keys in genre list 
+#     return dict (
+#         key= 'value'
+#     )
 
-stream.context_processor
 @stream.route('/fetch', methods=['POST', 'GET'])
 def search_by():
     if request.method == 'POST':
         query_str = request.form['key_search']
-        if len(query_str) > 2:
+        if len(query_str) > 0:
             print('data recieved was : ' , query_str)
 
             query_word = '&query='
             search_word = 'search/movie/'
             search_url = str(global_url + search_word + key_word + api_key + language + query_word + query_str)
             search_call = requests.get(search_url)
-            print('status code reqponse : ', search_call.status_code)
+            print('status code response : ', search_call.status_code)
             search_dt =  search_call.json()
             
             dumpdt = json.dumps(search_dt, indent=4)
-            print('data are \n ' , dumpdt)
+            #print('data are \n ' , dumpdt)
+
+            with open ('search_response.json', 'w') as search_res:
+                json.dump(search_dt, search_res, indent=4, sort_keys=True)
+
 
             # test data to be deleted later 
-            if search_dt:
+            if len(search_dt['results']) > 1 :
+
+                print('Found movie results for %s' % query_str )
                 # send jsonify 
-                return render_template(
-                    'testme.html',
+                return jsonify(
+                    success = True,
                     query_str = query_str,
                     query_res = search_dt
                 )
+
+                # limit the data coming from the response
+
             else:
                 return jsonify({'error' : 'Missing data!', 
-                'query_res' : search_dt})
-
-        #if search input < 2 char
+                'query_res' : search_dt},
+                print('could not find search for %s' % query_str )
+                )
+        #if search == empty 
         else:
             return render_template(
                 'testme.html',
-                query_str = query_str,
-                query_res = search_dt
+                query_str = query_str
+               # query_res = search_dt
             )
 
     return render_template(

@@ -10,45 +10,39 @@
 
   <!-- Getting only the poster/movie images  -->
 
-  <h2 class="text-center"> all titles </h2>
-
-  <h2 class="text-center text-2xl py-10"> trending for posters aka images </h2>
-
-
   <!-- need to get only 3 or 4 trending movies only  -->
 
-  <div class="relative text-center">
+  <div class="relative text-center py-10">
     <div class="search">
-
       <form action="/fetch" method="POST">
         <input type="text" id="key_search" value="{{ request.form['key_search'] }}" name="key_search"
           class="bg-white rounded-full w-64 focus:outline-none  focus:shadow-outline" placeholder="search">
       </form>
-
-      {% if query_str %}
-      <div id="output" class="bg-red-100 rounded w-64 m-auto">
-      
-        // FIXME : override lenght input to hide  if empty 
-      
-        {% if query_res|length > 1 %}
-        <ul>
-          {% for search_res in query_res.results %}
-          <li>
-            <!-- Href  = movie_id to detail page  -->
-            <a href="#" class="block hover:bg-gray-800">
-              <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" class="w-8" alt="poster">
-              <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
-        {% endif %}
-      </div>
-      {% else %}
-      {% endif %}
-
     </div>
   </div>
+
+  {% if query_str %}
+  <div id="output" class="bg-red-100 rounded w-64 m-auto"
+   oninput="doneTyping()" >
+    {% if query_str|length > 0 %}
+    <ul>
+      {% for search_res in query_res.results[0:8] %}
+      <li>
+        <!-- Href  = movie_id to detail page  -->
+        <a href="#" class="block hover:bg-gray-800">
+          <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" class="w-8" alt="poster">
+          <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>nothig yet </p>
+    {% endif %}
+  </div>
+
+  {% else %}
+  {% endif %}
 
 
   <!--  jquery cdn -->
@@ -59,24 +53,42 @@
 
   <script>
 
-    // TODO : Move to own file 
+    var typingtime;
+    var doneTypingInterval = 5000  // timer in ms (5s)
+    var text
 
     $(document).ready(function () {
+      // on keyup start the timer
+
       $("#key_search").keyup(function () {
-        var text = $(this).val();
+        text = $(this).val();
+        clearTimeout(typingtime);
+        if ($("#key_search").val()) {
+          typingtime = setTimeout(doneTyping, doneTypingInterval);
+
+        }
+      });
+
+      function doneTyping() {
         $.ajax({
           url: "/fetch",
-          type: "post",
+          type: "POST",
           data: { key_search: text },
-          success: function (response) {
-            $("#output").html(response);
+          success: function (response, xhr) {
+
+            $("#output").html(response).show();
+            console.log('Data executed'),
+              xhr.status,
+              xhr.responseText
           },
-          error: function (xhr) {
-            //Do Something to handle error
+          error: function (xhr, status) {
+            xhr.status,
+              xhr.responseText
           }
-        })
-      })
-    })
+        });
+      }
+
+    });
 
   </script>
 
