@@ -135,7 +135,15 @@ def main():
 def search_by():
     if request.method == 'POST':
         query_str = request.form['key_search']
-        if len(query_str) > 0:
+
+        if len(query_str) < 0 or len(query_str) == 0:
+            return render_template(
+                'testme.html',
+                query_str = query_str
+                # query_res = search_dt
+            )
+
+        else:
             print('data recieved was : ' , query_str)
 
             query_word = '&query='
@@ -144,9 +152,6 @@ def search_by():
             search_call = requests.get(search_url)
             print('status code response : ', search_call.status_code)
             search_dt =  search_call.json()
-            
-            dumpdt = json.dumps(search_dt, indent=4)
-            #print('data are \n ' , dumpdt)
 
             with open ('search_response.json', 'w') as search_res:
                 json.dump(search_dt, search_res, indent=4, sort_keys=True)
@@ -155,34 +160,46 @@ def search_by():
             # test data to be deleted later 
             if len(search_dt['results']) > 1 :
 
-                print('Found movie results for %s' % query_str )
+                print('Found movie results for %s ' % query_str, '\n' )
                 
-                # test data 
-                dump_data = [{'name': 'bill', 'state': 'CA', 'id': '101'},
-                    {'name': 'cindy', 'state': 'NY', }]
-                # send jsonify 
-                return jsonify(dump_data)
+                # # test data 
+                # dump_data = [{'name': 'bill', 'state': 'CA', 'id': '101'},
+                #     {'name': 'cindy', 'state': 'NY', }]
+
+                # get the results for user search 
+                user_search = search_dt['results']
+            
+                for get_dt in search_dt['results']:
+                    titles = get_dt['title']
+                    if titles:
+                        store_title = json.dumps(titles, indent=4)
+                        print(store_title)
+
+                        return jsonify(user_search)
+                    else:
+                        Exception()
+
+                    # for data_res in laodme['results']:
+                    #     get_dt = data_res['title']
+                    #     if get_dt:
+                    #         dump_dt = json.dumps(get_dt, indent=4)
+                    #         print('%s Search are  :\n  ' % (query_str), dump_dt )
+                            
+                    #         return jsonify(get_dt)
+                    #     else:
+                    #         Exception()
+
 
                     # success = True,
                     # query_str = query_str,
                     # query_res = search_dt
-                
-
-                # limit the data coming from the response
-
+                            
             else:
                 return jsonify({'error' : 'Missing data!', 
                 },
                 print('could not find search for %s' % query_str )
-                )
-        #if search == empty 
-        else:
-            return render_template(
-                'testme.html',
-                query_str = query_str
-               # query_res = search_dt
             )
-
+        
     return render_template(
         'testme.html'
     )
