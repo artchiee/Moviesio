@@ -15,21 +15,27 @@
         }
       });
       
-      // TODO : Show results 
+      // FIXME : only showing one response for now  
       
       function doneTyping() {
         $.ajax({
           url: "/fetch",
           type: "POST",
           data: { key_search: text },
-          success: function (response,xhr) {
+          success: function (data,response,xhr) {
 
-            $("#output").text(JSON.stringify(response));
-            console.log('Data executed'),
+            // itterate through the json response
+            $.each(data.results, function(title) {
+              console.log('titles got ',  title)
+            })
+
+            // $("#output").html(response);
+            // console.log('Data executed'),
+
               xhr.status,
               xhr.responseText
           },
-          error: function (xhr, status) {
+          error: function (xhr, status) { 
             xhr.status,
             xhr.responseText
           }
