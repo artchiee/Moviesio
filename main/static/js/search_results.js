@@ -1,48 +1,62 @@
 
-    var typingtime;
-    var doneTypingInterval = 5000  // timer in ms (5s)
-    var text
+var typingtime;
+var doneTypingInterval = 5000  // timer in ms (5s)
+var query_serch
 
-    $(document).ready(function () {
-      // on keyup start the timer
+$(document).ready(function () {
+  // on keyup start the timer
 
-      $("#key_search").keyup(function () {
-        text = $(this).val();
-        clearTimeout(typingtime);
-        if ($("#key_search").val()) {
-          typingtime = setTimeout(doneTyping, doneTypingInterval);
+  $("#key_search").keyup(function () {
+    query_serch = $(this).val();
+    clearTimeout(typingtime);
+    if ($("#key_search").val()) {
+      typingtime = setTimeout(doneTyping, doneTypingInterval);
 
-        }
-      });
-      
-      // FIXME : only showing one response for now  
-      
-      function doneTyping() {
-        $.ajax({
-          url: "/fetch",
-          type: "POST",
-          data: { key_search: text },
-          success: function (data,response,xhr) {
+    }
+  });
 
-            // itterate through the json response
-            $.each(data.results, function(title) {
-              console.log('titles got ',  title)
-            })
+  // FIXME : only showing one response for now  
 
-            // $("#output").html(response);
-            // console.log('Data executed'),
+  function doneTyping() {
+    $.ajax({
+      url: "/fetch",
+      type: "POST",
+      data: {
+        query_serch :  $("#key_search").val()
+      },
+    })
 
-              xhr.status,
-              xhr.responseText
-          },
-          error: function (xhr, status) { 
-            xhr.status,
-            xhr.responseText
-          }
-        });
+    .done(function (data, response) {
+      if (data.success) {
+        console.log("data returned", data.success);
+        $("#output").text(data.titles).show();
       }
+      else {
 
-    });
+        console.log('Errror in getting data', data.error);
+      }
+    })
+  }
+});
+
+
+          //   // itterate through the json response
+          //   $.each(data.results, function(title) {
+          //     console.log('titles got ',  title)
+          //   })
+
+          //   // $("#output").html(response);
+          //   // console.log('Data executed'),
+
+          //     xhr.status,
+          //     xhr.responseText
+          // },
+          // error: function (xhr, status) { 
+          //   xhr.status,
+          //   xhr.responseText
+          // }
+
+// *****************************************************
 
 
 // define a variable spinner 

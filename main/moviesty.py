@@ -134,7 +134,7 @@ def main():
 @stream.route('/fetch', methods=['POST', 'GET'])
 def search_by():
     if request.method == 'POST':
-        query_str = request.form['key_search']
+        query_str = request.form.get('key_search', None) 
 
         if len(query_str) < 0 or len(query_str) == 0:
             return render_template(
@@ -174,21 +174,17 @@ def search_by():
                     if titles:
                         store_title = json.dumps(titles, indent=4)
                         print(store_title)
+                        return jsonify({
+                            'titles' : titles
+                        }), 200
 
-                        return jsonify(user_search)
+                        # return json.dumps({
+                        #     'success' : 'Search successful',
+                        #     'titles' : titles}),200,{'ContentType':'application/json'}
+                        
+
                     else:
                         Exception()
-
-                    # for data_res in laodme['results']:
-                    #     get_dt = data_res['title']
-                    #     if get_dt:
-                    #         dump_dt = json.dumps(get_dt, indent=4)
-                    #         print('%s Search are  :\n  ' % (query_str), dump_dt )
-                            
-                    #         return jsonify(get_dt)
-                    #     else:
-                    #         Exception()
-
 
                     # success = True,
                     # query_str = query_str,
@@ -197,7 +193,7 @@ def search_by():
             else:
                 return jsonify({'error' : 'Missing data!', 
                 },
-                print('could not find search for %s' % query_str )
+                print('could not find search for -->  %s' % query_str )
             )
         
     return render_template(
