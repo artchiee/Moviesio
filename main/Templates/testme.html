@@ -15,7 +15,8 @@
   <div class="relative text-center py-10">
     <div class="search">
       <form action="/fetch" method="POST">
-        <input type="text" id="key_search" value="{{ request.form['key_search'] }}" name="key_search"
+        <i class="fa fa-search pl-20" aria-hidden="true"></i>
+        <input type="text" name="key_search" id="key_search" value="{{ request.form['key_search'] }}" name="key_search"
           class="bg-white rounded-full w-64 focus:outline-none  focus:shadow-outline" placeholder="search">
       </form>
     </div>

@@ -2,14 +2,17 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>  Movie Stream </title>
+<title> Movie Stream </title>
+
+<!-- Loading all files that changes often (.css/.js) 
+    to avoid hard refresh-->
 
 <!-- Css file import -->
-<link rel="stylesheet" href= "{{ url_for('static', filename = 'css/style.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/style.css')}}">
 
-<!-- spinner css -->
-<link rel="stylesheet" href= "{{ url_for('static', filename = 'css/spinner_css.css')}}">
-
+<!-- spinner css 
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/spinner_css.css')}}">
+-->
 <!--  jquery cdn -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -18,14 +21,12 @@
 
 
 <!-- bootstrap cdn  -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
-integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
-crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 <!-- Fonts icons -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
-    crossorigin="anonymous">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
+crossorigin="anonymous">
 
 <!-- Tailwind css  -->
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
