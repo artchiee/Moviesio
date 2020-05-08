@@ -134,16 +134,9 @@ def main():
 @stream.route('/fetch', methods=['POST', 'GET'])
 def search_by():
     if request.method == 'POST':
-        query_str = request.form.get('key_search', None) 
+        query_str = request.form.get('query_search', None) # return none if key not found  
 
-        if len(query_str) < 0 or len(query_str) == 0:
-            return render_template(
-                'testme.html',
-                query_str = query_str
-                # query_res = search_dt
-            )
-
-        else:
+        if len(query_str) > 0:
             print('data recieved was : ' , query_str)
 
             query_word = '&query='
@@ -160,44 +153,51 @@ def search_by():
             # test data to be deleted later 
             if len(search_dt['results']) > 1 :
 
-                print('Found movie results for %s ' % query_str, '\n' )
+                print('Found movie results for %s ' % query_str, '\n',
+                'Global results are %d \n' % len(search_dt['results']) )
                 
                 # # test data 
-                # dump_data = [{'name': 'bill', 'state': 'CA', 'id': '101'},
-                #     {'name': 'cindy', 'state': 'NY', }]
+                dump_data = [{'name': 'bill', 'state': 'CA', 'id': '101'},
+                    {'name': 'cindy', 'state': 'NY', }]
 
                 # get the results for user search 
-                user_search = search_dt['results']
+                user_search = []
             
                 for get_dt in search_dt['results']:
                     titles = get_dt['title']
                     if titles:
-                        store_title = json.dumps(titles, indent=4)
-                        print(store_title)
-                        return jsonify({
-                            'titles' : titles
-                        }), 200
-
-                        # return json.dumps({
-                        #     'success' : 'Search successful',
-                        #     'titles' : titles}),200,{'ContentType':'application/json'}
-                        
+                        #store_title = json.dumps(titles, indent=4)
+                        print(json.dumps(titles, indent=4))
 
                     else:
                         Exception()
+                    
+                return jsonify({
+                        'query_search' :  titles,
+                        'query_str' : query_str 
+                    })
+
 
                     # success = True,
                     # query_str = query_str,
                     # query_res = search_dt
                             
             else:
-                return jsonify({'error' : 'Missing data!', 
+                return jsonify({'error' : 'Missing data!',                     
                 },
                 print('could not find search for -->  %s' % query_str )
             )
-        
+        else:
+
+            return render_template(
+                'testme.html',
+                query_search = search_dt,
+                #query_str = query_str
+            )
+    
     return render_template(
-        'testme.html'
+        'testme.html', 
+        
     )
 
 

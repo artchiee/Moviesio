@@ -1,41 +1,49 @@
 
 var typingtime;
-var doneTypingInterval = 5000  // timer in ms (5s)
-var query_serch
+var doneTypingInterval = 5000  // timer in ms (5000=5s)
+var $query_input = $("#key_search")
 
 $(document).ready(function () {
+
   // on keyup start the timer
 
-  $("#key_search").keyup(function () {
-    query_serch = $(this).val();
+  $query_input.on('keyup', function() {
+    query_input = $(this).val();
     clearTimeout(typingtime);
-    if ($("#key_search").val()) {
+    
+    if (query_input) {
       typingtime = setTimeout(doneTyping, doneTypingInterval);
 
     }
   });
+  
 
-  // FIXME : only showing one response for now  
 
   function doneTyping() {
     $.ajax({
-      url: "/fetch",
       type: "POST",
+      url: "/fetch",
       data: {
-        query_serch :  $("#key_search").val()
+        query_search: $("#key_search").val() // query_search can be any var is the var tha ajax send to flask
       },
-    })
+      success: function (data) {
 
-    .done(function (data, response) {
-      if (data.success) {
-        console.log("data returned", data.success);
-        $("#output").text(data.titles).show();
+        // Json.strigfy returns the actual content json respons 
+        // TODO  : for loop to get all data 
+        $.each(data, function(value) {
+          $("#output").text(JSON.stringify)(
+            '<ul> <li> <p> "" ' 
+            + value['results']['title'] +
+             '</p></li></ul>');
+          
+        });
+       
+      },
+      error : function(data,xhr) {
+        $("#output").text(JSON.stringify(data.error));
+        console.log('got data error', data.error);
       }
-      else {
-
-        console.log('Errror in getting data', data.error);
-      }
-    })
+    });
   }
 });
 
