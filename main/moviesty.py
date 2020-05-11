@@ -149,38 +149,24 @@ def search_by():
             with open ('search_response.json', 'w') as search_res:
                 json.dump(search_dt, search_res, indent=4, sort_keys=True)
 
-
-            # test data to be deleted later 
             if len(search_dt['results']) > 1 :
 
                 print('Found movie results for %s ' % query_str, '\n',
                 'Global results are %d \n' % len(search_dt['results']) )
                 
-                # # test data 
-                dump_data = [{'name': 'bill', 'state': 'CA', 'id': '101'},
-                    {'name': 'cindy', 'state': 'NY', }]
-
-                # get the results for user search 
-                user_search = []
-            
                 for get_dt in search_dt['results']:
                     titles = get_dt['title']
                     if titles:
-                        #store_title = json.dumps(titles, indent=4)
-                        print(json.dumps(titles, indent=4))
+                        print('--',json.dumps(titles, indent=4))
 
                     else:
                         Exception()
                     
                 return jsonify({
-                        'query_search' :  titles,
+                        'query_search' :  search_dt,
                         'query_str' : query_str 
                     })
 
-
-                    # success = True,
-                    # query_str = query_str,
-                    # query_res = search_dt
                             
             else:
                 return jsonify({'error' : 'Missing data!',                     
@@ -192,7 +178,6 @@ def search_by():
             return render_template(
                 'testme.html',
                 query_search = search_dt,
-                #query_str = query_str
             )
     
     return render_template(
