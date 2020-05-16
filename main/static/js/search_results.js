@@ -43,6 +43,7 @@ $(document).ready(function () {
 
         }
         
+        //FIXME : Fix image rednering + search limit 
         var html_output = 
         '<ul>';
         for (var i in js_stringfy ) {

@@ -13,22 +13,22 @@
   <!-- carousel dynamique from api / extend trendign template  -->
 
   <section id="main">
-  
+
     <div id="carousel_dynamique" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         {% for slides in data_slide  %}
         <!-- data slide to needs to be dynamique  -->
-          <li data-target="#carousel_dynamique" data-slide-to="{{slides.index}}" class=""></li>
+        <li data-target="#carousel_dynamique" data-slide-to="{{slides.index}}" class=""></li>
         {% endfor %}
       </ol>
-      
+
       <div class="carousel-inner">
-        {% for trends in trend_img.results[0:3] %}]
+        {% for trends in trend_dt.results[0:3] %}]
         <div class="carousel-item active">
 
           <!-- getting posters imgs -->
-            <img src="https://image.tmdb.org/t/p/original{{ trends['backdrop_path'] }}" alt="Trending Movies">
-          
+          <img src="https://image.tmdb.org/t/p/original{{ trends['backdrop_path'] }}" alt="Trending Movies">
+
           <!-- rating starts  -->
 
           <div class="carousel-caption">
@@ -51,8 +51,8 @@
             </div>
             <button class="my-4 bg-red-500 hover:bg-black
                   text-white font-bold py-2 px-10 rounded-full">
-                  <i class="far fa-play-circle py-2"></i>
-                  Watch Trailer
+              <i class="far fa-play-circle py-2"></i>
+              Watch Trailer
             </button>
             <!-- Plat button needs to go right -->
             </button>
@@ -64,10 +64,10 @@
           </div>
         </div>
         {% endfor %}
-      
+
       </div>
     </div>
-  
+
   </section>
 
   <!--starting the card movie card section -->
@@ -79,68 +79,47 @@
     <div class="relative text-center">
       <div class="search">
 
+        <!-- specify the search url  -->
         <form action="/" method="POST">
-          <input type="text" id="key_search" value="{{ request.form['key_search'] }}"
-           name="key_search" class="bg-black rounded -full w-64 focus:outline-none  focus:shadow-outline"
-           placeholder="search">
+          <input type="text" id="key_search" value="{{ request.form['key_search'] }}" name="key_search"
+            class="bg-black rounded -full w-64 focus:outline-none  focus:shadow-outline" placeholder="search">
         </form>
 
         {% if query_str %}
-          <div class="bg-red-100 rounded w-64 m-auto">
-            <ul>
-              {% for search_res in query_res.results %}
-                <li>
-                  <!-- Href  = movie_id to detail page  -->
-                  <a href="#" class="block hover:bg-gray-800"> 
-                    <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" 
-                    class="w-8"  alt="poster">
-                    <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
-                  </a>
-                </li>
-              {% endfor %}
-            </ul> 
-          </div>
-          {% else %}
-            <spann href="#" class="block hover:bg-gray-800"></spann>
+        <div class="bg-red-100 rounded w-64 m-auto">
+          <ul>
+            {% for search_res in query_res.results %}
+            <li>
+              <!-- Href  = movie_id to detail page  -->
+              <a href="#" class="block hover:bg-gray-800">
+                <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" class="w-8" alt="poster">
+                <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% else %}
+        <spann href="#" class="block hover:bg-gray-800"></spann>
         {% endif %}
       </div>
     </div>
 
+    <!-- get dynamique category from the api   -->
 
-
-    <!-- Categories  -->
     <div class="category py-16 gap-32">
-      <button class="bg-red-500 text-white  hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Action
-      </button>
-      <button class="bg-gray-800 text-white hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Drama
-      </button>
-      <button class="bg-gray-800 text-white hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Comedy
-      </button>
-      <button class="bg-red-500 hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Horror
-      </button>
-      <button class="bg-gray-800 text-white hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Mestry
-      </button>
-      <button class="bg-red-500 hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Mestry
-      </button>
-      <button class="bg-gray-800 text-white hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Mestry
-      </button>
-      <button class="bg-gray-800 text-white hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Mestry
-      </button>
-      <button class="bg-red-500 hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Mestry
-      </button>
-      <button class="bg-gray-800 text-white hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
-        Mestry
-      </button>
-      <i class="fas fa-chevron-right pl-3 text-black"></i>
+      {% for category in categories.genres %}
+      <a href="{{ url_for('stream.get_by_category', genre_id= category['id'], id_name=category['name']) }}">
+        <button type="button" id="button_{{genre_id }}" class="bg-red-500 text-white 
+          hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
+          {{ category['name'] }}
+        </button>
+      </a>
+      {% endfor %}
+
+      <!-- //TODO: MAke with js horisontal scroll -->
+      <i class="fa fa-arrow-right pl-3 text-black" aria-hidden="true"></i>
+
     </div>
 
     <!-- Cards rendering -->
@@ -148,36 +127,71 @@
       <div class="grid grid-cols-4 gap-16 mb-4">
 
         <!-- loop through popular movies  -->
-        {% for popular in popular_movies.results %}
+        {% if with_genres %}
+          {% for new_list in list_by_genre.results %}
           <div class="mt-4">
-            <i class="fas fa-star text-black"></i>
-            <i class="fas fa-star text-black"></i>
-            <i class="fas fa-star text-black"></i>
-            <!-- redirect to detail page  -->
-            <a href="{{ url_for('stream.movie_detail', movie_id=popular['id']) }}">
-              <!-- Poster path (images) -- from api -->
-              <img src="https://image.tmdb.org/t/p/original{{ popular['poster_path'] }}" alt="movie">
-            </a>
 
+            <!-- FIXME: Render accurate rating -->
+            <i class="fas fa-star text-black"></i>
+            <i class="fas fa-star text-black"></i>
+            <i class="fas fa-star text-black"></i>
+
+            <a href="{{ url_for('stream.movie_detail', movie_id=new_list['id']) }}">
+              <!-- Poster path (images) -- from api -->
+              <img src="https://image.tmdb.org/t/p/original{{ new_list['poster_path'] }}" alt="movie">
+            </a>
             <div class="mt-2">
               <h3 href="#" class="m_link text-lg mt-2 ">
                 <!--getting titles -->
-                {{popular['title']}}
+                {{ new_list['title'] }}
               </h3>
               <div class="flex items-center text-gray-700">
-                <span> {{popular['release_date']}} </span>
+                <span> {{new_list['release_date']}} </span>
                 <span> || </span>
                 <span>
-                  <!-- need to loop throug list of names[genres] not ids -->
+                  <!-- //FIXME: need to loop throug list of names[genres] not ids -->
 
                 </span>
               </div>
             </div>
           </div>
-        {% endfor %}
-      </div>
+          {% endfor %}
+        {% else %}
 
-      <!--  <!~~ Load More button  ~~> 
+          {% for popular in popular_movies.results %}
+            <div class="mt-4">
+              <i class="fas fa-star text-black"></i>
+              <i class="fas fa-star text-black"></i>
+              <i class="fas fa-star text-black"></i>
+
+              <!-- redirect to detail page  -->
+              <a href="{{ url_for('stream.movie_detail', movie_id=popular['id']) }}">
+                <!-- Poster path (images) -- from api -->
+                <img src="https://image.tmdb.org/t/p/original{{ popular['poster_path'] }}" alt="movie">
+              </a>
+
+              <div class="mt-2">
+                <h3 href="#" class="m_link text-lg mt-2 ">
+                  <!--getting titles -->
+                  {{popular['title']}}
+                </h3>
+                <div class="flex items-center text-gray-700">
+                  <span> {{popular['release_date']}} </span>
+                  <span> || </span>
+                  <span>
+                    <!-- //FIXME: need to loop throug list of names[genres] not ids -->
+
+                  </span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+       
+      </div>
+    </div>
+
+    <!--  <!~~ Load More button  ~~> 
         <div class="wrapper">
           <button class="bg-red-500 text-white mt-5 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full">
             Load More

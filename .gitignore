@@ -5,7 +5,12 @@
 # Blueprints directory 
 \Blueprints
 
+# js 
+main/static/js/spinner.js
+main/static/js/category.js
+
 # Few templates
+main/Templates/junk.html
 main/Templates/nav.html
 main/Templates/base.html
 main/Templates/testme.html
