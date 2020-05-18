@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  {% include "head.html" %}
-  <title> Home </title>
+
+  {% include "movies/head.html" %}
+
 </head>
 
 <body>
@@ -76,6 +76,8 @@
       <h2 class="uppercases">Other Movies - Search by Category or name</h2>
     </div>
 
+    <!-- //TODO:replace with ajax call -->
+
     <div class="relative text-center">
       <div class="search">
 
@@ -109,7 +111,7 @@
 
     <div class="category py-16 gap-32">
       {% for category in categories.genres %}
-      <a href="{{ url_for('stream.get_by_category', genre_id= category['id'], id_name=category['name']) }}">
+      <a href="{{ url_for('movies.get_by_category', genre_id= category['id'], id_name=category['name']) }}">
         <button type="button" id="button_{{genre_id }}" class="bg-red-500 text-white 
           hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full">
           {{ category['name'] }}
@@ -128,66 +130,82 @@
 
         <!-- loop through popular movies  -->
         {% if with_genres %}
-          {% for new_list in list_by_genre.results %}
-          <div class="mt-4">
+        {% for new_list in list_by_genre.results %}
+        <!--  will be replaced with ajax -->
 
-            <!-- FIXME: Render accurate rating -->
-            <i class="fas fa-star text-black"></i>
-            <i class="fas fa-star text-black"></i>
-            <i class="fas fa-star text-black"></i>
+        <div class="mt-4">
+          <i class="fas fa-star text-black"></i>
+          <i class="fas fa-star text-black"></i>
+          <i class="fas fa-star text-black"></i>
 
-            <a href="{{ url_for('stream.movie_detail', movie_id=new_list['id']) }}">
-              <!-- Poster path (images) -- from api -->
-              <img src="https://image.tmdb.org/t/p/original{{ new_list['poster_path'] }}" alt="movie">
-            </a>
-            <div class="mt-2">
-              <h3 href="#" class="m_link text-lg mt-2 ">
-                <!--getting titles -->
-                {{ new_list['title'] }}
-              </h3>
-              <div class="flex items-center text-gray-700">
-                <span> {{new_list['release_date']}} </span>
-                <span> || </span>
-                <span>
-                  <!-- //FIXME: need to loop throug list of names[genres] not ids -->
+          <!-- redirect to detail page  -->
+          <a href="{{ url_for('movies.movie_detail', movie_id=new_list ['id'] )}}">
+            <!-- Poster path (images) -- from api -->
+            <img src="https://image.tmdb.org/t/p/original{{new_list['poster_path'] }}" alt="movie">
+          </a>
 
-                </span>
-              </div>
+          <div class="mt-2">
+            <h3 href="#" class="m_link text-lg mt-2 ">
+              <!--getting titles -->
+              {{new_list['title']}}
+            </h3>
+            <div class="flex items-center text-gray-700">
+              <span> {{new_list['release_date']}} </span>
+              <span> || </span>
+              <span>
+                <!-- //FIXME: need to loop throug list of names[genres] not ids -->
+
+              </span>
             </div>
           </div>
-          {% endfor %}
+        </div>
+        {% endfor %}
+
+
         {% else %}
+        {% for popular in popular_movies.results %}
+        <div class="mt-4">
+          <i class="fas fa-star text-black"></i>
+          <i class="fas fa-star text-black"></i>
+          <i class="fas fa-star text-black"></i>
 
-          {% for popular in popular_movies.results %}
-            <div class="mt-4">
-              <i class="fas fa-star text-black"></i>
-              <i class="fas fa-star text-black"></i>
-              <i class="fas fa-star text-black"></i>
+          <!-- redirect to detail page  -->
+          <a href="{{ url_for('movies.movie_detail', movie_id=popular['id'] )}}">
+            <!-- Poster path (images) -- from api -->
+            <img src="https://image.tmdb.org/t/p/original{{popular['poster_path'] }}" alt="movie">
+          </a>
 
-              <!-- redirect to detail page  -->
-              <a href="{{ url_for('stream.movie_detail', movie_id=popular['id']) }}">
-                <!-- Poster path (images) -- from api -->
-                <img src="https://image.tmdb.org/t/p/original{{ popular['poster_path'] }}" alt="movie">
-              </a>
+          <div class="mt-2">
+            <h3 href="#" class="m_link text-lg mt-2 ">
+              <!--getting titles -->
+              {{popular['title']}}
+            </h3>
+            <div class="flex items-center text-gray-700">
+              <span> {{popular['release_date']}} </span>
+              <span> || </span>
+              <span>
+                <!-- //FIXME: need to loop throug list of names[genres] not ids -->
 
-              <div class="mt-2">
-                <h3 href="#" class="m_link text-lg mt-2 ">
-                  <!--getting titles -->
-                  {{popular['title']}}
-                </h3>
-                <div class="flex items-center text-gray-700">
-                  <span> {{popular['release_date']}} </span>
-                  <span> || </span>
-                  <span>
-                    <!-- //FIXME: need to loop throug list of names[genres] not ids -->
-
-                  </span>
-                </div>
-              </div>
+              </span>
             </div>
-          {% endfor %}
+
+            <h3 href="#" class="m_link text-lg mt-2 ">
+              <!--getting titles -->
+              {{popular['title']}}
+            </h3>
+            <div class="flex items-center text-gray-700">
+              <span> {{popular['release_date']}} </span>
+              <span> || </span>
+              <span>
+                <!-- //FIXME: need to loop throug list of names[genres] not ids -->
+
+              </span>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
         {% endif %}
-       
+
       </div>
     </div>
 
@@ -205,7 +223,7 @@
 
   <section class="footer">
     <div class="mt-5">
-      <img class="" src="{{ url_for('static', filename= 'images/logos.svg')}}" alt="">
+      <!-- <img class="" src="{{ url_for('movies.static', filename= 'images/logos.svg')}}" alt=""> -->
       <div id="emailme" class="">
         <h2 class=""> Contact</h2>
         <i class="fas fa-at absolute text-green-400 mx-16 mr-5 pt-1"></i>
@@ -226,6 +244,9 @@
   </section>
 
 
+  <!-- js/ajax script call  -->
+  <script type="text/javascript" src="{{ url_for('movies.static', filename = 'js/category.js') }}"></script>
+  <!-- <script type="text/javascript" src="{{ url_for('movies.static', filename = 'js/search_results.js') }}"></script> -->
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

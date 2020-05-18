@@ -2,16 +2,13 @@
 *.json*
 *.txt
 
-# Blueprints directory 
-\Blueprints
+# Tv shows dirc for now  / others
+TvShows/
+main/
 
 # js 
 main/static/js/spinner.js
 main/static/js/category.js
 
-# Few templates
-main/Templates/junk.html
-main/Templates/nav.html
-main/Templates/base.html
-main/Templates/testme.html
-main/Templates/trending_mv.html
+# templates 
+Movies/templates/movies/junk.html
