@@ -1,0 +1,11 @@
+from Project.Movies.app.views import Movies
+from flask import Flask, render_template
+
+
+# app initialazation
+app = Flask(__name__)
+
+
+# Register Blueprints
+
+app.register_blueprint(Movies)
