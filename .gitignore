@@ -6,9 +6,9 @@
 TvShows/
 main
 
-# js 
-main/static/js/spinner.js
-main/static/js/category.js
+# js /css
+Project/Movies/static/js/spinner.js
+Movies/static/js/category.js
 
 # templates 
 Project/Movies/templates/movies/junk.html
