@@ -1,14 +1,15 @@
 .vscode/
-*.json*
+*.json
 *.txt
 
 # Tv shows dirc for now  / others
 TvShows/
-main/
+main
 
 # js 
 main/static/js/spinner.js
 main/static/js/category.js
 
 # templates 
-Movies/templates/movies/junk.html
+Project/Movies/templates/movies/junk.html
+Project/Movies/templates/movies/trending_mv.html
