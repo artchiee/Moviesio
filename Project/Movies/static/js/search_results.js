@@ -1,75 +1,75 @@
 
 var typingtime;
-var doneTypingInterval = 5000  // timer in ms (5s)
-var query_serch
+var doneTypingInterval = 5000  // timer in ms (5000=5s)
+var $query_input = $("#key_search")
+var output = $('#output');
 
 $(document).ready(function () {
+
   // on keyup start the timer
 
-  $("#key_search").keyup(function () {
-    query_serch = $(this).val();
+  $query_input.on('keyup', function () {
 
+    query_input = $(this).val();
     clearTimeout(typingtime);
-    if ($("#key_search").val()) {
+
+    if (query_input) {
       typingtime = setTimeout(doneTyping, doneTypingInterval);
-      if (typingtime) {
-          console.log('data got from user' , query_serch);
-      } else {
-        typingtime.error
-        console.log('noting got')
-      }
+
     }
   });
 
-  // FIXME : only showing one response for now  
-
   function doneTyping() {
     $.ajax({
+      type: "POST",
       url: "/fetch",
-      type: "POST", 
-      data : {
-        query_serch : query_serch
+      data: {
+        query_search: $("#key_search").val() // query_search is the var tha ajax send to flask
+      },
+      dataType: 'json',
+      success: function (data) {
+
+        // Json.strigfy returns the actual content json respons 
+        var dt_response = data.query_search.results
+        var js_stringfy = JSON.parse(JSON.stringify(dt_response))
+
+        // TODO: delete later 
+        if (typeof (data.query_search === 'object')) {
+          console.log('type of this data is :object ', js_stringfy)
+        }
+        else {
+          console.log('this data is not an object ')
+
+        }
+
+        //FIXME : Fix image rednering + search limit 
+        var html_output =
+          '<ul>';
+        for (var i in js_stringfy) {
+          html_output +=
+            "<li>" +
+            "<a href='#' class='block hover:bg-gray-800'>" +
+            "<img class='w-8' alt='poster' src='https://image.tmdb.org/t/p/w92" + js_stringfy[i].poster_path + "'" + ">"
+            + "<span class='ml-4 pb-4'>" + js_stringfy[i].title +
+            "</span>" +
+            "</a>" + "</li>"
+        }
+        html_output += "</ul>";
+        output.html(html_output);
+
+        
+        console.log('posters path : ', "<img src='https://image.tmdb.org/t/p/w92" + js_stringfy[1].poster_path + '')
+
       },
 
-      success : (function(response) {
-        console.log("data got  :" ,response);
-      }),
-      error : function(error) {
-        console.log("error getting dt : ",error)
+      error: function (data, xhr) {
+        $("#output").text(JSON.stringify(data.error));
+        console.log('got data error', data.error, xhr.error);
       }
-    })
-    .done(function(data) {
-      $('#output').text((data.dump_data))
-    })
+    });
   }
 });
 
-
-// .done(function (data, response) {
-//   if (data.success) {
-//     console.log("data returned", data.success);
-//     $("#output").text(data.titles).show();
-//   }
-//   else {
-
-//     console.log('Errror in getting data', data.error);
-//   }
-// })
-          //   // itterate through the json response
-          //   $.each(data.results, function(title) {
-          //     console.log('titles got ',  title)
-          //   })
-
-          //   // $("#output").html(response);
-          //   // console.log('Data executed'),
-
-          //     xhr.status,
-          //     xhr.responseText
-          // },
-          // error: function (xhr, status) { 
-          //   xhr.status,
-          //   xhr.responseText
-          // }
 
 // *****************************************************
 

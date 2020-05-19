@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  {% include  "head.html" %}
+</head>
+
+<body>
+
+  <p class="text-center py-12"> Get movies by category </p>
+
+  <div class="category py-16 gap-32">
+
+    <p>tesssssssssssss</p>
+  </div>
+
+
+  <script>
+    $("button").click(function () {
+      // display clicked button 
+      var fired_btn = $(this).val()
+      console.log('clicked btn is :', fired_btn);
+    });
+  </script>
+
+
+
+
+
+  <!-- <div class="relative text-center py-10">
+    <div class="search">
+      <form action="/fetch" method="POST">
+        <i class="fa fa-search pl-20" aria-hidden="true"></i>
+        <input type="text"  id="key_search" value="{{ request.form['key_search'] }}" 
+          class="bg-white rounded-full w-64 focus:outline-none  focus:shadow-outline" placeholder="search">
+      </form>
+    </div>
+  </div>
+
+
+    <div id="output" class="bg-red-100 rounded w-64 m-auto">
+      <!~~ output is coming from js-ajax call ~~>
+    </div>
+
+
+  <script type="text/javascript" src="{{ url_for('static', filename = 'js/search_results.js') }}"></script>
+ -->
+</body>
+
+</html>
