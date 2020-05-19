@@ -8,10 +8,16 @@ $(document).ready(function () {
 
   $("#key_search").keyup(function () {
     query_serch = $(this).val();
+
     clearTimeout(typingtime);
     if ($("#key_search").val()) {
       typingtime = setTimeout(doneTyping, doneTypingInterval);
-
+      if (typingtime) {
+          console.log('data got from user' , query_serch);
+      } else {
+        typingtime.error
+        console.log('noting got')
+      }
     }
   });
 
@@ -20,26 +26,35 @@ $(document).ready(function () {
   function doneTyping() {
     $.ajax({
       url: "/fetch",
-      type: "POST",
-      data: {
-        query_serch :  $("#key_search").val()
+      type: "POST", 
+      data : {
+        query_serch : query_serch
       },
+
+      success : (function(response) {
+        console.log("data got  :" ,response);
+      }),
+      error : function(error) {
+        console.log("error getting dt : ",error)
+      }
     })
-
-    .done(function (data, response) {
-      if (data.success) {
-        console.log("data returned", data.success);
-        $("#output").text(data.titles).show();
-      }
-      else {
-
-        console.log('Errror in getting data', data.error);
-      }
+    .done(function(data) {
+      $('#output').text((data.dump_data))
     })
   }
 });
 
 
+// .done(function (data, response) {
+//   if (data.success) {
+//     console.log("data returned", data.success);
+//     $("#output").text(data.titles).show();
+//   }
+//   else {
+
+//     console.log('Errror in getting data', data.error);
+//   }
+// })
           //   // itterate through the json response
           //   $.each(data.results, function(title) {
           //     console.log('titles got ',  title)

@@ -134,17 +134,9 @@ def main():
 @stream.route('/fetch', methods=['POST', 'GET'])
 def search_by():
     if request.method == 'POST':
-        query_str = request.form.get('key_search', None) 
-
-        if len(query_str) < 0 or len(query_str) == 0:
-            return render_template(
-                'testme.html',
-                query_str = query_str
-                # query_res = search_dt
-            )
-
-        else:
-            print('data recieved was : ' , query_str)
+        query_str = request.form.get('key_search', None) #render None if key_search was not found  
+        if len(query_str) > 0 or query_str != '' :  
+            print('data recieved was : \n' , query_str)
 
             query_word = '&query='
             search_word = 'search/movie/'
@@ -152,50 +144,48 @@ def search_by():
             search_call = requests.get(search_url)
             print('status code response : ', search_call.status_code)
             search_dt =  search_call.json()
+            
+            dumpdt = json.dumps(search_dt, indent=4)
+            #print('data are \n ' , dumpdt)
 
             with open ('search_response.json', 'w') as search_res:
                 json.dump(search_dt, search_res, indent=4, sort_keys=True)
 
-
+    
             # test data to be deleted later 
             if len(search_dt['results']) > 1 :
 
-                print('Found movie results for %s ' % query_str, '\n' )
+                print('Found movie results for %s' % query_str )
                 
-                # # test data 
-                # dump_data = [{'name': 'bill', 'state': 'CA', 'id': '101'},
-                #     {'name': 'cindy', 'state': 'NY', }]
-
-                # get the results for user search 
-                user_search = search_dt['results']
-            
-                for get_dt in search_dt['results']:
-                    titles = get_dt['title']
-                    if titles:
-                        store_title = json.dumps(titles, indent=4)
-                        print(store_title)
-                        return jsonify({
-                            'titles' : titles
-                        }), 200
-
-                        # return json.dumps({
-                        #     'success' : 'Search successful',
-                        #     'titles' : titles}),200,{'ContentType':'application/json'}
-                        
-
-                    else:
-                        Exception()
+                # test data 
+                dump_data = [{'name': 'bill', 'state': 'CA', 'id': '101'},
+                    {'name': 'cindy', 'state': 'NY', }]
+                    
+                # send jsonify 
+                return json.dumps({
+                    'status': 'OK', 'dump_data' :dump_data
+                })
 
                     # success = True,
                     # query_str = query_str,
                     # query_res = search_dt
-                            
+                
+
+                # limit the data coming from the response
+
             else:
                 return jsonify({'error' : 'Missing data!', 
                 },
-                print('could not find search for -->  %s' % query_str )
+                print('could not find search for %s' % query_str )
+                )
+        #if search == empty 
+        else:
+            return render_template(
+                'testme.html',
+                query_str = query_str
+               # query_res = search_dt
             )
-        
+
     return render_template(
         'testme.html'
     )
