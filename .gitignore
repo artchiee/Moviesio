@@ -1,13 +1,15 @@
-
-.vscode
-*.json*
+.vscode/
+*.json
 *.txt
 
-# Blueprints directory 
-\Blueprints
+# Tv shows dirc for now  / others
+TvShows/
+main
 
-# Few templates
-main/Templates/nav.html
-main/Templates/base.html
-main/Templates/testme.html
-main/Templates/trending_mv.html
+# js /css
+Project/Movies/static/js/spinner.js
+Movies/static/js/category.js
+
+# templates 
+Project/Movies/templates/movies/junk.html
+Project/Movies/templates/movies/trending_mv.html
