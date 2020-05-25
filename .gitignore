@@ -1,6 +1,6 @@
 .vscode/
-*.json
 *.txt
+*.json
 
 # Tv shows dirc for now  / others
 TvShows/

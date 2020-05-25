@@ -133,18 +133,18 @@ def get_genres():
 
 
 # Fetch by categorie
-@Movies.route('/catg/<int:genre_id>/<string:id_name>')
-def get_by_category(genre_id, id_name, methods=['POST']):
+@Movies.route('/catg/<int:genre_id>/')
+def get_by_category(genre_id):
 
     # Visit tmdb api page to discover more of these options
     movie_discover = 'discover/movie'
     sort_by = 'popularity.desc'
     include_adult = 'true'
     include_video = 'true'
-    genre_clicked = genre_id  # (user clicks genre btn)
+    with_genres = genre_id  # (user clicks genre btn)
 
     discover_url = str(global_url+movie_discover+key_word+api_key+language+'&sort_by='+sort_by +
-                       '&include_adult='+include_adult+'&include_video='+include_video+'&genre_clicked='+str(genre_clicked))
+                    '&include_adult='+include_adult+'&include_video='+include_video+'&genre_id='+str(with_genres))
 
     discover_call = requests.get(discover_url)
     discover_to_jsn = discover_call.json()
@@ -153,30 +153,21 @@ def get_by_category(genre_id, id_name, methods=['POST']):
 
     # get clicked id name / save the movies to .json file
     for get_name in get_genres.categ_fetched['genres']:
-        if genre_clicked == get_name['id']:
+        if with_genres == get_name['id']:
             id_name = get_name['name']
 
-    print('you have clicked Genre id Nm %d and it\'s name is %s :' % (genre_clicked, id_name),
-          '\n --> .json file is saved')
+    print('you have clicked Genre id Nm %d and it\'s name is %s :' % (with_genres, id_name),
+        '\n --> .json file is saved')
 
     with open(id_name+'.json', 'w') as new_list:
-        dicv_res = discover_call.json()
-        json.dump(dicv_res, new_list, indent=4)
-
-    # return dict(discover_to_jsn=discover_to_jsn,genre_clicked=with_genres)
+        disc_results = discover_call.json()
+        json.dump(disc_results, new_list, indent=4)
 
     return jsonify({
-        'genre_clicked' : discover_to_jsn,
-        'with_genres' : genre_clicked 
-    })
-    
-    # return render_template('movies/popular_mv.html',
-    #                        with_genres=with_genres,
-    #                        list_by_genre=discover_to_jsn,
-    #                        popular_movies=main.pop_dt,
-    #                        trend_dt=main.trend_data,
-    #                        categories=get_genres.categ_fetched
-    #                        )
+        # 'final_genre' : discover_to_jsn,
+        # 'wi   th_genres' : with_genres ,
+        'status' : "OK"
+    })      
 
 
 @Movies.route('/fetch', methods=['POST', 'GET'])
