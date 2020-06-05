@@ -8,7 +8,7 @@ Movies = Blueprint('movies',
                    template_folder='../templates')
 
 # storing the api key somewhere
-api_key = os.environ.get('API_KEY')
+api_key = os.environ.get('TMDB_KEY')  # call it whatever you want
 
 key_word = '?api_key='
 
@@ -73,7 +73,7 @@ def main():
     main.trend_data = trend_jsn
 
     # carousel not working yet
-    data_slide = main.trend_data['results'][0:3]
+    main.data_slide = main.trend_data['results'][0:3]
 
     # popular Logic
     url_popular = 'movie/popular'
@@ -101,7 +101,7 @@ def main():
         'movies/popular_mv.html',
         popular_movies=main.pop_dt,
         trend_dt=main.trend_data,
-        data_slide=data_slide
+        data_slide=main.data_slide
     )
 
 
@@ -133,41 +133,56 @@ def get_genres():
 
 
 # Fetch by categorie
-@Movies.route('/catg/<int:genre_id>/')
-def get_by_category(genre_id):
+
+@Movies.route('/catg/<int:genre_id>/<string:genre_name>')
+def get_by_category(genre_id, genre_name):
 
     # Visit tmdb api page to discover more of these options
     movie_discover = 'discover/movie'
     sort_by = 'popularity.desc'
     include_adult = 'true'
     include_video = 'true'
-    with_genres = genre_id  # (user clicks genre btn)
+    genre_clicked = genre_id  # (user clicks genre btn)
+    print('flask genre clicked : ', genre_clicked)
 
-    discover_url = str(global_url+movie_discover+key_word+api_key+language+'&sort_by='+sort_by +
-                    '&include_adult='+include_adult+'&include_video='+include_video+'&genre_id='+str(with_genres))
+    discover_url = global_url + movie_discover + key_word + api_key + language+'&sort_by='+sort_by + \
+        '&include_adult='+include_adult+'&include_video=' + \
+        include_video+'&with_genres='+str(genre_clicked)
 
     discover_call = requests.get(discover_url)
     discover_to_jsn = discover_call.json()
 
+    # might give(200)response even if you missparsed url (strings)
     print("discover resp :", discover_call.status_code)
 
     # get clicked id name / save the movies to .json file
     for get_name in get_genres.categ_fetched['genres']:
-        if with_genres == get_name['id']:
+        if genre_clicked == get_name['id']:
             id_name = get_name['name']
+    genre_id_name = id_name
+    print('you have clicked Genre id Nm %d and it\'s name is %s :' % (genre_clicked, genre_id_name),
+          '\n --> .json file is saved')
 
-    print('you have clicked Genre id Nm %d and it\'s name is %s :' % (with_genres, id_name),
-        '\n --> .json file is saved')
+    with open(genre_id_name+'.json', 'w') as new_list:
+        json.dump(discover_to_jsn, new_list, indent=4)
 
-    with open(id_name+'.json', 'w') as new_list:
-        disc_results = discover_call.json()
-        json.dump(disc_results, new_list, indent=4)
+    if discover_to_jsn:
+        return render_template(
+            'movies/popular_mv.html',
+            genre_results=discover_to_jsn,
+            genre_clicked=genre_clicked,
+            popular_movies=main.pop_dt,
+            trend_dt=main.trend_data,
+            data_slide=main.data_slide
 
-    return jsonify({
-        # 'final_genre' : discover_to_jsn,
-        # 'wi   th_genres' : with_genres ,
-        'status' : "OK"
-    })      
+        )
+        # return jsonify({
+        #     'status : ': 'OK',
+        #     'genre_clicked': discover_to_jsn,
+        #     'with_genres': genre_clicked
+        # })
+    else:
+        return jsonify('error occured : ', discover_to_jsn.error)
 
 
 @Movies.route('/fetch', methods=['POST', 'GET'])
@@ -225,7 +240,6 @@ def search_by():
 
     return render_template(
         'movies/testme.html',
-
     )
 
 

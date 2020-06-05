@@ -1,266 +1,313 @@
 /*  starting by setting ;root variables to use later    */
 
 /* Google font  import  */
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap");
 
 :root {
-    --text : #110B0B;
-    --main : rgb(250, 248, 248);
-    --line : #EB5757;
+  --text: #110b0b;
+  --main: rgb(250, 248, 248);
+  --line: #eb5757;
 }
-body, html {
-    background-color: var(--main);
+body,
+html {
+  background-color: var(--main);
 }
 hr {
-    color: var(--line);
+  color: var(--line);
 }
 
 /* ------------------------------------------ 
-      Index page styling  */
+      Index page styling   / Front page  */
 nav {
-  
 }
 
 nav .navbar {
-    padding-top: 3rem;
-    
+  padding-top: 3rem;
 }
-h5,h2,h3 {
-    color: rgb(201, 201, 201);
+h5,
+h2,
+h3 {
+  color: rgb(201, 201, 201);
 }
 
 /* carousel styling */
 .container img {
-    margin-right: 4rem;
+  margin-right: 4rem;
 }
 .carousel-inner img {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 .carousel-item img {
-    background: no-repeat center center scroll;
-    height: 100%;
-    background-size: cover;
-    overflow: hidden;
+  background: no-repeat center center scroll;
+  height: 100%;
+  background-size: cover;
+  overflow: hidden;
 }
-.carousel-caption  {
-    color: white;
-    right: 100%;
-    max-width: 700px;
-    max-height: 600px;
-    text-align: center;
-    left: auto;
-    /*top: auto;*/
-    top: 63%;
-    transform: translateY(-50%);
-    bottom: initial;
+
+/* Two buttons */
+.active {
+  position: relative;
+}
+.active .btn-item {
+  display: inline-block;
+  position: absolute;
+  bottom: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+}
+
+.carousel-caption {
+  color: white;
+  right: 100%;
+  max-width: 700px;
+  max-height: 600px;
+  text-align: center;
+  left: auto;
+  /*top: auto;*/
+  top: 63%;
+  transform: translateY(-50%);
+  bottom: initial;
 }
 .carousel-caption h5,
-.d_caption h5
-{
-    font-size: 24px;
-    color: rgb(238, 229, 229);
+.d_caption h5 {
+  font-size: 24px;
+  color: rgb(238, 229, 229);
 }
 .carousel-caption,
 .d_caption,
-h2
-{
-    font-weight: bold;
-    font-size: 48px;
-    color: snow;
-    font-family: "Roboto";
+h2 {
+  font-weight: bold;
+  font-size: 48px;
+  color: snow;
+  font-family: "Roboto";
 }
 
 .carousel-caption,
-.d_caption
-h3 {
-    font-size: 24px;
-    color: lightcyan;
-    font-family:"Abel" ;
+.d_caption h3 {
+  font-size: 24px;
+  color: lightcyan;
+  font-family: "Abel";
 }
-#navbarSupportedContent{
-    color: lightcyan;
+#navbarSupportedContent {
+  color: lightcyan;
 }
-#navbarSupportedContent:hover{
-    color: lightseagreen;
+#navbarSupportedContent:hover {
+  color: lightseagreen;
 }
 #navbarSupportedContent .active {
-    border-bottom: 3px solid #EB5757;
+  border-bottom: 3px solid #eb5757;
 }
 .play-movie {
-    position: relative; 
-    color: snow;
-    float: right;
-    top: 0%;
-    left: 120%;
-    font-size :xx-large;
+  position: relative;
+  color: snow;
+  float: right;
+  top: 0%;
+  left: 120%;
+  font-size: xx-large;
 }
 .play-movie:hover {
-    color: brown;
-    border-radius: 5%;
+  color: brown;
+  border-radius: 5%;
 }
-.rating{
-    position: relative;
-    left: 120%;
-    color: white;
-    float: right;
-    font-size: x-large;
-    font-family: "Roboto";
-    font-weight: bold;
+.rating {
+  position: relative;
+  left: 120%;
+  color: white;
+  float: right;
+  font-size: x-large;
+  font-family: "Roboto";
+  font-weight: bold;
+}
+
+/* Genre category scroll  */
+.left {
+  float: left;
+  width: 30%;
+  height: 15px;
+}
+
+.internal {
+  width: 31.75%;
+  height: 100%;
+  display: inline-block;
+}
+
+.center {
+  float: left;
+  width: 38.9%;
+  height: 40px;
+
+  margin: 1px;
+  overflow: hidden;
+  /*will change this to hidden later to deny scolling to user*/
+  white-space: nowrap;
+}
+
+.right {
+  float: right;
+  width: 30%;
+  height: 15px;
+}
+#arrowright {
+  padding-left: 100px;
+}
+#arrowleft {
+  padding-left: 350px;
 }
 
 /* Movie card */
 #movie-card {
-    background-color: var(--main);
+  background-color: var(--main);
 }
 #movie-card h2 {
-    color: var(--text); 
-    font-size: 20px;
-    font-family: "Roboto";
-    font-weight: bold;
-    text-decoration: underline solid #EB5757;
+  color: var(--text);
+  font-size: 20px;
+  font-family: "Roboto";
+  font-weight: bold;
+  text-decoration: underline solid #eb5757;
 }
 #movie-card .m_link {
-    color : var(--text)
+  color: var(--text);
 }
 #movie-card input {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 .category {
-    text-align: center;
+  text-align: center;
 }
 
-.grid i { 
-    display: table-cell;
-    padding-bottom: 20%;
-    font-weight: normal;
-    font-size: small;
+.grid i {
+  display: table-cell;
+  padding-bottom: 20%;
+  font-weight: normal;
+  font-size: small;
 }
 .grid .text-lg {
-    font-weight: bold;
-    font-family: 'Roboto';
-    font-size: 14px;
+  font-weight: bold;
+  font-family: "Roboto";
+  font-size: 14px;
 }
 .wrapper {
-    text-align: center;
+  text-align: center;
 }
 
-
 #loadmore {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 /*  Search bar */
 .search {
-    width: 100%; 
-    margin-bottom: 10px;
+  width: 100%;
+  margin-bottom: 10px;
 }
 /* .search i {
     position: absolute; 
 } */
 .fa-search {
-    padding-top: 45px; 
-    color:var(--line);
-    min-width: 50px; 
-    text-align: center; 
-} 
+  padding-top: 45px;
+  color: var(--line);
+  min-width: 50px;
+  text-align: center;
+}
 .search input {
-    padding: 5px; 
-    text-align: center; 
+  padding: 5px;
+  text-align: center;
 }
 .footer {
-    display: grid;
-    grid-template-columns: repeat(3, 600px);
-    justify-content: end;
+  display: grid;
+  grid-template-columns: repeat(3, 600px);
+  justify-content: end;
 }
 .top {
-    text-align: center;
+  text-align: center;
 }
-
 
 /* -------------------------------------- 
     Detail page styling  */
 .d_container {
-    position: relative;
-    text-align: center;
-    white-space: nowrap;
-
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
 }
 .d_caption {
-    position: absolute;
-    top: 52%;
-    left: 15%;
+  position: absolute;
+  top: 52%;
+  left: 15%;
 }
 .d_caption button {
-    margin-top: 5%;
+  margin-top: 5%;
 }
 
 .d_container img {
-    margin-top: 10%;
-    margin: 0 auto;
-    width: 90%;
-    height: 85%;
+  margin-top: 10%;
+  margin: 0 auto;
+  width: 90%;
+  height: 85%;
 }
 .d_rating {
-    position: absolute;
-    left: 150%;
-    bottom: 80%;
-    font-size: x-large;
-    font-family: "Roboto";
-    font-weight: bold;
+  position: absolute;
+  left: 150%;
+  bottom: 80%;
+  font-size: x-large;
+  font-family: "Roboto";
+  font-weight: bold;
 }
 
 .d_rating i {
-    display: inline-block;
+  display: inline-block;
 }
 .d_paly-movie {
-    padding-right: 100%;
-    background-color: var(--line);
-    margin-left: 5px;
+  padding-right: 100%;
+  background-color: var(--line);
+  margin-left: 5px;
 }
 
-
 #detail .grid-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3);
-    row-gap: 1px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3);
+  row-gap: 1px;
 }
 
 .movie_detail hr {
-    width: 30px; 
+  width: 30px;
 }
 .m_detail,
-.p_story, 
+.p_story,
 .heros {
-    text-decoration: var(--line) underline solid;
-    padding-bottom: 3rem;
+  text-decoration: var(--line) underline solid;
+  padding-bottom: 3rem;
 }
 span .categ {
-    margin-top: 3em;
+  margin-top: 3em;
 }
 
 .trailer img {
-    position: relative;
-    margin-top: 3rem;
-    width: 90%;
-    height: 90;
-    display: inline-block;
+  position: relative;
+  margin-top: 3rem;
+  width: 90%;
+  height: 90;
+  display: inline-block;
 }
 
 .gallery {
-    display: grid;
-    grid-template-columns: repeat(4, 200px);
-    column-gap: 7px;
-    row-gap: 7px;
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  column-gap: 7px;
+  row-gap: 7px;
 }
-.gallery img{
-    transition: 3% ease;
-    cursor: pointer;
+.gallery img {
+  transition: 3% ease;
+  cursor: pointer;
 }
 
 .social li {
-    list-style: none;
+  list-style: none;
 }
 .social h3 {
-    text-decoration: var(--line) underline solid;
+  text-decoration: var(--line) underline solid;
 }
