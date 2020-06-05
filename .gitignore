@@ -7,8 +7,11 @@ TvShows/
 main
 
 # js /css
+Project/Movies/static/css/spinner_css.css
 Project/Movies/static/js/spinner.js
 Movies/static/js/category.js
+Movies/static/js/get_by_genre.js
+
 
 # templates 
 Project/Movies/templates/movies/junk.html

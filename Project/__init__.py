@@ -4,7 +4,8 @@ from flask import Flask, render_template
 
 # app initialazation
 app = Flask(__name__)
-# register static path for (Movies)
+
+# register static directory 
 app._static_folder = 'Movies/static'
 
 # Register Blueprints

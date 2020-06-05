@@ -16,21 +16,26 @@
 
     <div id="carousel_dynamique" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
-        {% for slides in data_slide  %}
-        <!-- data slide to needs to be dynamique  -->
+      <!-- FIXME: Later -->
+     <!--    {% for slides in data_slide  %}
+        <!~~ data slide to needs to be dynamique  ~~>
         <li data-target="#carousel_dynamique" data-slide-to="{{slides.index}}" class=""></li>
-        {% endfor %}
+        {% endfor %} -->
       </ol>
 
       <div class="carousel-inner">
-        {% for trends in trend_dt.results[0:3] %}]
+        {% for trends in trend_dt.results %}
         <div class="carousel-item active">
 
           <!-- getting posters imgs -->
           <img src="https://image.tmdb.org/t/p/original{{ trends['backdrop_path'] }}" alt="Trending Movies">
 
-          <!-- rating starts  -->
+          <!-- Dynamic switching view buttons  -->
+          <button class="btn btn-dark btn-item"> Movies </button>
+          <button class="btn btn-dark btn-item"> Tv Shows </button>
+          
 
+          <!-- rating starts  -->
           <div class="carousel-caption">
             <div class="rating">
               <h1> 8.5 </h1>
@@ -81,7 +86,7 @@
     <div class="relative text-center">
       <div class="search">
 
-        <!-- specify the search url  -->
+        <!-- TODO:specify the search url  -->
         <form action="/" method="POST">
           <input type="text" id="key_search" value="{{ request.form['key_search'] }}" name="key_search"
             class="bg-black rounded -full w-64 focus:outline-none  focus:shadow-outline" placeholder="search">
@@ -92,7 +97,7 @@
           <ul>
             {% for search_res in query_res.results %}
             <li>
-              <!-- Href  = movie_id to detail page  -->
+              
               <a href="#" class="block hover:bg-gray-800">
                 <img src="https://image.tmdb.org/t/p/w92/{{ search_res['poster_path'] }}" class="w-8" alt="poster">
                 <span class="ml-4 pb-4"> {{ search_res['title'] }} </span>
@@ -108,32 +113,62 @@
     </div>
 
     <!-- get dynamique category from the api   -->
-
-    <div class="category py-16 gap-32">
+    <div class="left mt-6">
+      <i id="arrowleft" class="fa fa-arrow-left" aria-hidden="true"></i>
+    </div>
+    <div class="center pb-16 gap-6 mt-6" id="content">
       {% for category in categories.genres %}
-        <a href="{{ url_for('movies.get_by_category', genre_id= category['id']  )}}">
-          <button type="button" id="genre_id" class="bg-red-500 text-white 
-            hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full" 
-            onclick="genre_results();">
+      <div class="internal">
+        <a href="{{ url_for('movies.get_by_category', genre_id=category.id, genre_name=category.name ) }}">
+          <button type="button" id="genre_{{ category.id }}" class="bg-red-500 text-white hover:bg-black text-gray-800 font-bold py-2 px-4 rounded-full genre_button
+            " value="{{ category.name }}">
             {{ category['name'] }}
           </button>
         </a>
+      </div>
       {% endfor %}
-
-      <!-- //TODO: MAke with js horisontal scroll -->
-      <i class="fa fa-arrow-right pl-3 text-black" aria-hidden="true"></i>
-
+    </div>
+    <div class="right mt-6">
+      <i id="arrowright" class="fa fa-arrow-right text-black" aria-hidden="true"></i>
     </div>
 
     <!-- Cards rendering -->
-    <div class="container pt-5 mx-auto px-2 my-3">
+    <div class="container mt-24 pt-24 mx-auto px-2 my-3">
       <div class="grid grid-cols-4 gap-16 mb-4">
 
-        {% if with_genres %}
-        <div id="genre_return" class="mt-4">
+        <!-- TODO: Done without ajax -->
+        {% if genre_clicked %}
+        {% for by_genre in genre_results.results %}
+        <div class="mt-4">
+          <i class="fas fa-star text-black"></i>
+          <i class="fas fa-star text-black"></i>
+          <i class="fas fa-star text-black"></i>
+
+          <!-- redirect to detail page  -->
+          <a href="{{ url_for('movies.movie_detail', movie_id=by_genre['id'] )}}">
+            <!-- Poster path (images) -- from api -->
+            <img src="https://image.tmdb.org/t/p/original{{by_genre['poster_path'] }}" alt="movie">
+          </a>
+
+          <div class="mt-2">
+            <h3 href="#" class="m_link text-lg mt-2 ">
+              <!--getting titles -->
+              {{by_genre['title']}}
+            </h3>
+            <div class="flex items-center text-gray-700">
+              <span> {{by_genre['release_date']}} </span>
+              <span> || </span>
+              <span>
+                <!-- //FIXME: need to loop throug list of names[genres] not ids -->
+
+              </span>
+            </div>
+          </div>
         </div>
+        {% endfor %}
 
         {% else %}
+
         {% for popular in popular_movies.results %}
         <div class="mt-4">
           <i class="fas fa-star text-black"></i>
@@ -178,7 +213,7 @@
 
   <!-- Footer  -->
 
- <!--  <section class="footer">
+  <!--  <section class="footer">
     <div class="mt-5">
       <!~~ <img class="" src="{{ url_for('static', filename= 'images/logos.svg')}}" alt=""> ~~>
       <div id="emailme" class="">
@@ -202,13 +237,16 @@
 
 
   <!-- js/ajax script call  -->
-  <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/category.js') }}"></script> --> -->
-  
-  <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/search_results.js') }}"></script> -->
 
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
+  <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/get_by_genre.js') }}"></script> 
+   -->
+  <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/search_results.js') }}"></script> -->
+  <script type="text/javascript" src="{{ url_for('static', filename = 'js/genre_scroll.js') }}"></script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" 
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" 
+  crossorigin="anonymous"></script>
+  
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
     crossorigin="anonymous"></script>
