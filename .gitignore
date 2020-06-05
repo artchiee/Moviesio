@@ -4,15 +4,16 @@
 
 # Tv shows dirc for now  / others
 TvShows/
-main
+
 
 # js /css
 Project/Movies/static/css/spinner_css.css
 Project/Movies/static/js/spinner.js
-Movies/static/js/category.js
-Movies/static/js/get_by_genre.js
+Project/Movies/static/js/category.js
+Project/Movies/static/js/get_by_genre.js
 
 
 # templates 
 Project/Movies/templates/movies/junk.html
 Project/Movies/templates/movies/trending_mv.html
+Project/Movies/templates/movies/testme.html
