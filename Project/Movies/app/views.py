@@ -56,6 +56,7 @@ def main():
     trending_path = str(global_url + word + media_type +
                         time_window + key_word + api_key)
     request_url = requests.get(trending_path)
+    print(request_url)  # (r=200)
     trend_jsn = request_url.json()
 
     if request_url:
@@ -72,7 +73,7 @@ def main():
     # create fun attribute
     main.trend_data = trend_jsn
 
-    # carousel not working yet
+    # FIXME:carousel not working yet
     main.data_slide = main.trend_data['results'][0:3]
 
     # popular Logic
@@ -98,14 +99,14 @@ def main():
         json.dump(to_json, save_dt, indent=4)
 
     return render_template(
-        'movies/popular_mv.html',
-        popular_movies=main.pop_dt,
-        trend_dt=main.trend_data,
-        data_slide=main.data_slide
+        'movies/testme.html',
+        # popular_movies=main.pop_dt,
+        # trend_dt=main.trend_data,
+        # data_slide=main.data_slide
     )
 
 
-@Movies.context_processor
+# @Movies.context_processor
 def get_genres():
 
     genre_base = 'genre/movie/list'
