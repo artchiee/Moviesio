@@ -1,9 +1,13 @@
+# all 
 .vscode/
 *.txt
 *.json
+*.pyc
 
 # Tv shows dirc for now  / others
 TvShows/
+__pycache__/
+#Project/Models/serialize.py
 
 
 # js /css
