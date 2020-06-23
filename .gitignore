@@ -11,13 +11,13 @@ __pycache__/
 
 
 # js /css
-Project/Movies/static/css/spinner_css.css
-Project/Movies/static/js/spinner.js
-Project/Movies/static/js/category.js
-Project/Movies/static/js/get_by_genre.js
+Project/Moviesio/static/css/spinner_css.css
+Project/Moviesio/static/js/spinner.js
+Project/Moviesio/static/js/category.js
+Project/Moviesio/static/js/get_by_genre.js
 
 
 # templates 
-Project/Movies/templates/movies/junk.html
-Project/Movies/templates/movies/trending_mv.html
-Project/Movies/templates/movies/testme.html
+Project/Moviesio/templates/movies/junk.html
+Project/Moviesio/templates/movies/trending_mv.html
+Project/Moviesio/templates/movies/testme.html
