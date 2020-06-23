@@ -18,110 +18,174 @@ hr {
 
 /* ------------------------------------------ 
       Index page styling   / Front page  */
-nav {
-}
-
-nav .navbar {
-  padding-top: 3rem;
-}
-h5,
-h2,
-h3 {
-  color: rgb(201, 201, 201);
-}
-
-/* carousel styling */
-.container img {
-  margin-right: 4rem;
-}
-.carousel-inner img {
-  height: 100%;
-  width: 100%;
-}
-.carousel-item img {
-  background: no-repeat center center scroll;
-  height: 100%;
-  background-size: cover;
-  overflow: hidden;
-}
-
-/* Two buttons */
-.active {
-  position: relative;
-}
-.active .btn-item {
-  display: inline-block;
+.overlay:after {
+  content: "";
   position: absolute;
-  bottom: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  background-color: #555;
-  color: white;
-  font-size: 16px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+/* navbar  */
+@media (min-width: 768px) {
+  .navbar-brand.abs {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+  }
+}
+nav {
+  height: 83px;
 }
 
-.carousel-caption {
-  color: white;
-  right: 100%;
-  max-width: 700px;
-  max-height: 600px;
-  text-align: center;
-  left: auto;
-  /*top: auto;*/
-  top: 63%;
-  transform: translateY(-50%);
-  bottom: initial;
-}
-.carousel-caption h5,
-.d_caption h5 {
+.navbar-brand.abs button {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
   font-size: 24px;
-  color: rgb(238, 229, 229);
+  line-height: 28px;
+
+  /* Gray 6 */
+
+  color: #f2f2f2;
 }
-.carousel-caption,
-.d_caption,
-h2 {
+.navbar-brand.abs #tv {
+  background-color: var(--line);
+}
+/* carousel page */
+
+/* poster image  */
+#poster {
+  filter: brightness(50%) blur(1px);
+  -webkit-filter: blur(1.5px);
+}
+
+/* container-fluid overrided */
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  /* background-color: green; */
+  margin-bottom: 20%;
+  height: 503px;
+}
+/* overrided the default settings */
+.carousel-caption {
+  right: 0;
+  left: 0;
+}
+
+/* caption styling  */
+#leftitems {
+  /* background-color: royalblue; */
+  width: 750px;
+  height: 480px;
+  float: left;
+  margin-left: 1%;
+}
+
+#rightitems {
+  /* background-color: palevioletred; */
+  width: 528px;
+  height: 480px;
+  float: right;
+  margin-right: 1%;
+}
+.contentleft {
+  float: left;
+}
+.apidate {
+  margin-top: 3%;
+}
+
+.apititle {
+  float: left;
+}
+.apidate mute {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0.1em;
+  color: #f8f7f7;
+}
+
+#wrapper {
+  float: left;
+}
+.apititle {
+  margin-top: 55px;
+  /* background: rebeccapurple; */
+}
+.apititle h2 {
+  margin: 0 auto;
+  font-family: Roboto;
+  font-style: normal;
   font-weight: bold;
   font-size: 48px;
-  color: snow;
-  font-family: "Roboto";
+  line-height: 56px;
+  letter-spacing: 0.1em;
+  color: #efebeb;
 }
 
-.carousel-caption,
-.d_caption h3 {
+.apidescription p {
+  font-family: Abel;
+  font-style: normal;
+  font-weight: normal;
   font-size: 24px;
-  color: lightcyan;
-  font-family: "Abel";
+  line-height: 31px;
+  /* dark/60 */
+  color: #ffffff;
 }
-#navbarSupportedContent {
-  color: lightcyan;
+.apitrailer {
+  margin: auto;
+  background: rgba(254, 254, 254, 0.1);
+  border-radius: 30px;
 }
-#navbarSupportedContent:hover {
-  color: lightseagreen;
+.apitrailer i {
+  padding-right: 5%;
 }
-#navbarSupportedContent .active {
-  border-bottom: 3px solid #eb5757;
+.apitrailer button {
+  bottom: 0px;
+  width: 313px;
+  height: 67px;
+  /* background: rgba(254, 254, 254, 0.2); */
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 42px;
+
+  color: #a01581;
 }
-.play-movie {
-  position: relative;
-  color: snow;
-  float: right;
-  top: 0%;
-  left: 120%;
-  font-size: xx-large;
+
+/* Rating */
+.contentright {
+  margin: auto;
 }
-.play-movie:hover {
-  color: brown;
-  border-radius: 5%;
+.contentright .rate {
+  /* background: saddlebrown; */
+  margin-bottom: 350%;
+  color: black;
 }
-.rating {
-  position: relative;
-  left: 120%;
-  color: white;
-  float: right;
-  font-size: x-large;
-  font-family: "Roboto";
+.contentright .rate p {
+  font-family: Roboto;
+  font-style: normal;
   font-weight: bold;
+  font-size: 48px;
+  line-height: 56px;
+  /* dark/60 */
+}
+
+.apiinfo {
+  margin-bottom: 40%;
+}
+.contentright .apiinfo i {
+  font-size: xx-large;
+  color: black;
 }
 
 /* Genre category scroll  */

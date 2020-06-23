@@ -1,0 +1,132 @@
+{% extends "movies/base_view.html" %}
+<!-- nav bar overtop carousel -->
+{% block trending %}
+<nav class="navbar navbar-expand-sm fixed-top navbar-light">
+  <a class="navbar-brand abs ml-16">
+    <button
+      type="button"
+      id="tv"
+      class="btn btn-outline-light"
+      name="switcher"
+      value="tv_clicked"
+      onclick="get_btn_clicked(this.id)"
+    >
+      TVShows
+    </button>
+    <button
+      type="button"
+      id="movie"
+      class="btn btn-shadow-outline mr-32"
+      name="switcher"
+      value="movie_clicked"
+      onclick="get_btn_clicked(this.id)"
+    >
+      Movies
+    </button>
+  </a>
+
+  <div class="navbar-collapse collapse" id="collapsingNavbar">
+    <ul class="navbar-nav">
+      <!-- Custom logo -->
+      <li class="nav-item active">
+        <a class="nav-link text-white" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="//codeply.com">Codeply</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#myAlert" data-toggle="collapse">Link</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a
+          class="nav-link text-white"
+          href=""
+          data-target="#myModal"
+          data-toggle="modal"
+          >Contact</a
+        >
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- Building carousel page -->
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li
+      data-target="#carouselExampleIndicators"
+      data-slide-to="0"
+      class="active"
+    ></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <!-- darkining img  -->
+      <div class="overlay">
+        <img
+          class="d-block w-100"
+          src="https://image.tmdb.org/t/p/original{{ get_dt }}"
+          alt="Trending Movies"
+        />
+      </div>
+
+      <!-- carousel captions  -->
+
+      <div class="container-fluid carousel-caption">
+        <!-- left content  -->
+        <div id="leftitems" class="row">
+          <div class="contentleft">
+            <div class="apidate">
+              <mute> date : 2018</mute>
+            </div>
+
+            <div id="wrapper" class="ab apititle mb-2">
+              <h2 class="mb-4">
+                Mission Impossible (2018) :Fall out Last one standing
+              </h2>
+              <div id="" class="apidescription">
+                <p>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Cupiditate, ad facere, quo sapiente voluptatum assumenda sed
+                  consectetur excepturi voluptatem quas commodi eos suscipit?
+                  Quibusdam error esse cupiditate , voluptatibus sapiente
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="apitrailer">
+            <button class="btn"><i class="fa fa-play"></i> Play Trailer</button>
+          </div>
+        </div>
+
+        <!-- right content  -->
+        <div id="rightitems" class="row">
+          <div class="contentright">
+            <div class="rate">
+              <p>8.5</p>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+            </div>
+            <!-- detail info -->
+            <div class="apiinfo">
+              <i class="fa fa-info-circle"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO:delete later  -->
+  <!-- <a id="move" class="carousel-control-prev" data-slide="prev"> </a>
+      <a id="move" class="carousel-control-next" data-slide="next"> </a> -->
+</div>
+<!-- call next scroll page -->
+{% include "movies/popular_view.html" %} {% endblock trending %}

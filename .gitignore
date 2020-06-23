@@ -5,7 +5,7 @@
 *.pyc
 
 # Tv shows dirc for now  / others
-TvShows/
+Tvshows/
 __pycache__/
 #Project/Models/serialize.py
 

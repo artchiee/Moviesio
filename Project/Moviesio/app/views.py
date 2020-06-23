@@ -2,10 +2,14 @@ from flask import render_template, Blueprint, jsonify, request, redirect, url_fo
 import os
 import requests
 import json
+from ...Models import (
+    Requests, serialize
+)
+from flask_util_js import FlaskUtilJs
 
-Movies = Blueprint('movies',
-                   __name__,
-                   template_folder='../templates')
+Moviesio = Blueprint('moviesio',
+                     __name__,
+                     template_folder='../templates')
 
 # storing the api key somewhere
 api_key = os.environ.get('TMDB_KEY')  # call it whatever you want
@@ -15,11 +19,10 @@ key_word = '?api_key='
 # global tmdb (movie database) url
 global_url = 'https://api.themoviedb.org/3/'
 
-
 # language to use
 language = '&language=en-US'
 
-# Will be  collecting every key value (specified) once this function is called .
+# Will be  collecting every key value (specified) once this function is called
 
 
 def extract_values(obj, key):
@@ -43,70 +46,110 @@ def extract_values(obj, key):
     return results
 
 
+# Trending view --> extend other views
+@Moviesio.route('/', methods=['POST', 'GET'])
+def get_trending():
+
+    word = 'trending/'
+    time_window = 'week'  # can be changed
+    # Defaul is movie (view)
+    media_type = 'movie/'
+
+    # switche to (tv|movie) view
+    if request.method == 'POST':
+        # TODO : remove '' from choice
+
+        choice = request.form['selected']
+        # if return omitted will raise an error
+        trending_choice = Requests.Trending_Call(
+            global_url, word, choice, time_window,
+            key_word, api_key
+        )
+        print(trending_choice)
+
+        switch_call = Requests.Request(trending_choice)
+        switch_res = switch_call.response()
+        print(switch_res)
+
+        return jsonify(choice)
+
+    # Default view
+    else:
+        # print('data got  : ', media_type)
+        trending_path = Requests.Trending_Call(
+            global_url, word, media_type,
+            time_window, key_word, api_key
+        )
+
+        #print('trending_path : ', trending_path)
+        trend_request = Requests.Request(trending_path)
+        trend_respons = trend_request.response()
+        # print(trend_respons)
+
+        trend_jsn = trend_request.request_to_json()
+        # print(trend_jsn)
+
+        # saving to json request to a file
+        with open('Trending_file.json', 'w') as w:
+            json.dump(trend_jsn, w, indent=4,
+                      cls=serialize.RequestEncoder)
+
+    # # create fun attribute
+        get_trending.trend_data = trend_jsn
+
+        # FIXME get 3 trending data
+        get_trending.get_dt = trend_jsn['results'][5]['backdrop_path']
+
+        # # FIXME:carousel not working yet
+        get_trending.data_slide = get_trending.trend_data['results'][4]
+        # return dict(
+        #     trend_dt=get_trending.trend_data,
+        #     data_slide=get_trending.data_slide
+        # )
+
+        return render_template("movies/trending_view.html",
+                               # trend_dt=get_trending.trend_data,
+                               get_dt=get_trending.get_dt,
+                               data_slide=get_trending.data_slide
+                               )
+
+
 # render the most popular movies max(20) in card section
 
-@Movies.route('/', methods=['POST', 'GET'])  # Main route
-def main():
 
-    # TRending logic
-    word = 'trending/'
-    media_type = 'movie/'  # can be changed
-    time_window = 'week'  # can be changed
-
-    trending_path = str(global_url + word + media_type +
-                        time_window + key_word + api_key)
-    request_url = requests.get(trending_path)
-    print(request_url)  # (r=200)
-    trend_jsn = request_url.json()
-
-    if request_url:
-        r = request_url.status_code
-        trending_file = 'Trending_movies.json'  # save to * local file
-        print('trending url response \t  : ', r)
-
-        with open(trending_file, 'w') as w:
-            json.dump(trend_jsn, w, indent=4)
-
-    else:
-        Exception()
-
-    # create fun attribute
-    main.trend_data = trend_jsn
-
-    # FIXME:carousel not working yet
-    main.data_slide = main.trend_data['results'][0:3]
+@Moviesio.context_processor
+def get_popular():
 
     # popular Logic
-    url_popular = 'movie/popular'
+    # TODO : MAke dynamic
+    choice = 'movie/'
+    url_popular = 'popular'
 
-    url = str(global_url + url_popular + key_word + api_key + language)
+    # url = str(global_url + url_popular + key_word + api_key + language)
+    popular_path = Requests.Popular_Call(
+        global_url, choice, url_popular, key_word, api_key
+    )
+    popular_list = Requests.Request(popular_path)
 
-    popular_list = requests.get(url)
-    resp = popular_list.status_code
-    to_json = popular_list.json()
+    # optional
+    pop_response = popular_list.response()
+    pop_to_json = popular_list.request_to_json()
 
-    # Check reqponese is valid or not (optional)
-    if resp:
-        print('Response popular was \t : ', resp)
-    else:
-        Exception()
-
-    # converte url data to json / create fun attribut
-    main.pop_dt = to_json
+    # create fun attribut
+    get_popular.pop_dt = pop_to_json
 
     # save to a local file
-    with open('Popular_movies.json', 'w') as save_dt:
-        json.dump(to_json, save_dt, indent=4)
+    with open('Popular_file.json', 'w') as save_dt:
+        json.dump(pop_to_json, save_dt, indent=4, cls=serialize.RequestEncoder)
 
-    return render_template(
-        'movies/testme.html',
-        # popular_movies=main.pop_dt,
-        # trend_dt=main.trend_data,
-        # data_slide=main.data_slide
+    return dict(
+        popular_movies=get_popular.pop_dt,
+        # trend_dt=get_trending.trend_data,
+        # data_slide=get_trending.data_slide
     )
 
 
-# @Movies.context_processor
+@Moviesio.context_processor
 def get_genres():
 
     genre_base = 'genre/movie/list'
@@ -135,7 +178,7 @@ def get_genres():
 
 # Fetch by categorie
 
-@Movies.route('/catg/<int:genre_id>/<string:genre_name>')
+@Moviesio.route('/catg/<int:genre_id>/<string:genre_name>')
 def get_by_category(genre_id, genre_name):
 
     # Visit tmdb api page to discover more of these options
@@ -169,12 +212,12 @@ def get_by_category(genre_id, genre_name):
 
     if discover_to_jsn:
         return render_template(
-            'movies/popular_mv.html',
+            'movies/popular_view.html',
             genre_results=discover_to_jsn,
             genre_clicked=genre_clicked,
-            popular_movies=main.pop_dt,
-            trend_dt=main.trend_data,
-            data_slide=main.data_slide
+            popular_movies=get_popular.pop_dt,
+            trend_dt=get_trending.trend_data,
+            data_slide=get_trending.data_slide
 
         )
         # return jsonify({
@@ -186,7 +229,7 @@ def get_by_category(genre_id, genre_name):
         return jsonify('error occured : ', discover_to_jsn.error)
 
 
-@Movies.route('/fetch', methods=['POST', 'GET'])
+@Moviesio.route('/fetch', methods=['POST', 'GET'])
 def search_by():
     if request.method == 'POST':
         # return none if key not found
@@ -244,7 +287,7 @@ def search_by():
     )
 
 
-@Movies.route('/Popular_Movies/Detail/<string:movie_id>')
+@Moviesio.route('/Popular_Movies/Detail/<string:movie_id>')
 def movie_detail(movie_id):
     append_to = '&append_to_response='
 
