@@ -21,3 +21,4 @@ Project/Moviesio/static/js/get_by_genre.js
 Project/Moviesio/templates/movies/junk.html
 Project/Moviesio/templates/movies/trending_mv.html
 Project/Moviesio/templates/movies/testme.html
+Project/Moviesio/templates/movies/nav.html

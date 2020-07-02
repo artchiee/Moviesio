@@ -6,22 +6,27 @@
 
   <body>
     <!-- extending Trending view -->
-
-    {% block trending %} {% endblock trending %}
+    <section id="home">
+      {% block trending %} {% endblock trending %}
+    </section>
 
     <!--extend popular_view  -->
     <section id="movie-card">
       {% block popular %} {% endblock popular %}
     </section>
 
-    <!-- js/ajax script call  -->
+    <!-- js/ajax scripts call  -->
 
     <script
       type="text/javascript"
       src="{{ url_for('static', filename = 'js/switch_view.js') }}"
     ></script>
 
-    <!-- <script type="text/javascript" src="{{ url_for('static', filename = 'js/search_results.js') }}"></script> -->
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename = 'js/search_results.js') }}"
+    ></script>
+
     <script
       type="text/javascript"
       src="{{ url_for('static', filename = 'js/genre_scroll.js') }}"

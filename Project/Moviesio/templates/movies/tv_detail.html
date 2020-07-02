@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tv shows view</title>
+
+<!-- bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <!-- Tailwind css  -->
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+
+  <!-- css -->
+  <link rel="stylesheet" 
+  href="{{ url_for('static', filename = 'css/tv_styling.css') }}" />
+</head>
+
+<body>
+    <div id="navcontent" class="container-fluid">
+        <div class="topcontent">
+            <i class="fa fa-home pt-3"></i>
+
+            <div class="indexes">
+                <ul class="flex-container">
+                    <li class="flex-item">Seasons</li>
+                    <li class="flex-item">Similar tv shows</li>
+                    <li class="flex-item">Trailer and Teasers</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custome page  -->
+
+    <div class="relative container-fluid mt-8">
+        <!-- TODO : darkining/ blure img  -->
+        <div class="overlay">
+            <img class="d-block w-100" 
+            src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="" />
+        </div>
+
+        <!-- page captions  -->
+        <div id="customedata" class=" absolute carousel-caption mx-3">
+            <div class="container-fluid tvdata my-8">
+                <div class="divL mx-16">
+                    <img 
+                    src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="" />
+                </div>
+
+                <div class="divR">
+                    <div class="tvdes pl-4">
+                        <h2 class="py-3">BLindspot</h2>
+                        <h2 class="">2015</h2>
+
+                        <p class="py-4">
+                            Seasons : 5
+                            <span class="px-4"> || </span>
+                            <span>Action , Action , Action </span>
+                        <p class="pb-5"><i class="fa fa-star pr-3"></i>8.5</p>
+                        </p>
+
+                        <div class="switches">
+                            <a class="navbar-brand abs seasons">
+                                <button class="btn">
+                                    Seasons
+                                    <i class="fa fa-arrow-circle-down"></i>
+                                </button>
+                            </a>
+                            <a class="navbar-brand abs watch">
+                                <button class="btn">
+                                    Seasons 4 Trailer
+                                </button>
+                            </a>
+                        </div>
+                        <!-- two buttons aligned -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended tv section -->
+            <div id="recommended" class="relative container mx-24 pt-auto mt-20">
+                <div class="py-4">
+                    <h2>Recommended base on this show</h2>
+                </div><br>
+
+                <div id="recommendedlist" class="container-fluid">
+                    <div>
+                        <img src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="">
+                    </div>
+                    <div>
+                        <img src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="">
+                    </div>
+                    <div>
+                        <img src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="">
+                    </div>
+                    <div>
+                        <img src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="">
+                    </div>
+                    <div>
+                        <img src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="">
+                    </div>
+                    <div>
+                        <img src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="">
+                    </div>
+                    <div>
+                        <img src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="">
+                    </div>
+                    <div>
+                        <img src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container bg-blue-100 my-16 sections_card">
+        <div class="sections_nav py-4">
+            <h2> Seasons </h2>
+            <p> Get Seasons Number </p>
+            <div class="scrollto">
+                <i class="fa fa-arrow-circle-left"></i>
+                <i class="fa fa-arrow-circle-right"></i>
+            </div>
+        </div>
+
+        <!-- seasons card  -->
+        <div class="container-fluid my-4 bg-red-500">
+            <div class="row">
+                <div class="column">
+                    <div id="posterseasons" class="card">
+                        <!-- render season image -->
+                        <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="">
+                        <div class="seasoninfo mt-8">
+                            <h2 class=""> Seasons Number </h2>
+                            <h3> Episods Number </h3>
+                            <span class=""><i class="fa fa-star pr-3"></i>8.5</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div id="posterseasons" class="card">
+                        <!-- render season image -->
+                        <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="">
+                        <div class="seasoninfo mt-8">
+                            <h2 class=""> Seasons Number </h2>
+                            <h3> Episods Number </h3>
+                            <span class=""><i class="fa fa-star pr-3"></i>8.5</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="card">
+                        <h3>Card 3</h3>
+                        <p>Some text</p>
+                        <p>Some text</p>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="card">
+                        <h3>Card 4</h3>
+                        <p>Some text</p>
+                        <p>Some text</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Similar tv shows secrion  -->
+        <div class="sections_nav py-8">
+            <h2> Similar Tv Shows </h2>
+            <p> get Count Here </p>
+            <div class="scrollto">
+                <i class="fa fa-arrow-circle-left"></i>
+                <i class="fa fa-arrow-circle-right"></i>
+            </div>
+        </div>
+
+        <!--  Similar tv card  -->
+        <div class="container-fluid my-4 bg-red-500">
+            <div class="row">
+                <div class="column">
+                    <div id="similartv" class="card">
+                        <!-- render season image -->
+                        <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="">
+                        <div class="centered text-white">
+                            <h2> Title Name </h2>
+                            <h3> Get Seasons </h3>
+                            <p> Get Rating </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="card">
+                        <h3>Card 2</h3>
+                        <p>Some text</p>
+                        <p>Some text</p>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="card">
+                        <h3>Card 3</h3>
+                        <p>Some text</p>
+                        <p>Some text</p>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="card">
+                        <h3>Card 4</h3>
+                        <p>Some text</p>
+                        <p>Some text</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trailers  / Teasears  -->
+        <div class="sections_nav py-8">
+            <h2> Trailers and Teasers </h2>
+            <p> get Count Here </p>
+            <div class="scrollto">
+                <i class="fa fa-arrow-circle-left"></i>
+                <i class="fa fa-arrow-circle-right"></i>
+            </div>
+        </div>
+
+        <div class="container-fluid my-4 bg-red-500">
+            <div class="row">
+                <div class="column">
+                    <div id="teas" class="card">
+                        <!-- render season image -->
+                        <div class="relative">
+                            <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="">
+                            <div class="absolute bottom-left text-white teas_time">
+                                4.20<i class="fa fa-video-camera pl-3">
+                                </i>
+                            </div>
+                        </div>
+
+                        <div class="teaserinfo flex justify-between">
+                            <div class="">
+                                <h2> Tv Serie name<br>
+                                    get episode number
+                                </h2>
+                            </div>
+                            <i class="fa fa-play-circle mx-6 my-3"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div id="teas" class="card">
+                        <!-- render season image -->
+                        <div class="relative">
+                            <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="">
+                            <div class="absolute bottom-left text-white teas_time">
+                                4.20<i class="fa fa-video-camera pl-3">
+                                </i>
+                            </div>
+                        </div>
+
+                        <div class="teaserinfo flex justify-between">
+                            <h2> Selected tv series
+                                information </h2>
+                            <i class="fa fa-play-circle"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="card">
+                        <h3>Card 3</h3>
+                        <p>Some text</p>
+                        <p>Some text</p>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="card">
+                        <h3>Card 4</h3>
+                        <p>Some text</p>
+                        <p>Some text</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+</body>
+
+</html>

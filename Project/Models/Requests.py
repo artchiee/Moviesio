@@ -129,7 +129,7 @@ class Request:
         except JSONDecodeError as error:
             return 'Json decoder failed !!! {}'.format(error)
 
-    # TODO: (optional)Delete later
+    # (optional)Delete later
     def response(self):
         respons_code = requests.get(self.url_to_call)
         if respons_code:
