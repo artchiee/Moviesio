@@ -1,0 +1,275 @@
+html,
+body {
+  overflow: auto;
+}
+/* Nav content  */
+
+/* Fixed Styles */
+:root {
+  --title-color: #f2f2f2;
+  --font-family: "Roboto";
+  --font-style: "normal";
+  --font-weight: bold;
+  --nav-font-size: 24px;
+  --nav-line-height: 28px;
+  --nav-color: #000000;
+  --tv-font-size: 36px;
+  --tv-line-height: 42px;
+}
+
+#navcontent {
+  height: 140px;
+  text-align: center;
+}
+
+.topcontent {
+  /* background: red; */
+}
+.topcontent i {
+  font-size: xx-large;
+  padding-right: 3%;
+}
+.flex-container {
+  list-style: none;
+  /* background: tomato; */
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  justify-content: space-around;
+  margin-top: 4%;
+}
+
+.flex-item {
+  padding: 5px;
+  margin: 0px;
+  text-align: center;
+  flex: 1 1 auto;
+  font-weight: var(--font-weight);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-style: var(--font-style);
+  line-height: var(--line-height);
+  color: var(--color);
+}
+
+/* custom page  */
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: auto;
+  margin-left: auto;
+}
+.overlay {
+  /* Full height */
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 50%;
+  width: 100%;
+}
+.overlay img {
+  filter: brightness(20%) blur(10px);
+  -webkit-filter: blur(4.5px);
+}
+
+#customedata {
+  /* background: green; */
+  height: 700px;
+}
+.carousel-caption {
+  right: 0;
+  left: 0;
+}
+
+.tvdata {
+  /* background-color: blue; */
+  height: 340px;
+}
+
+.divL,
+.divR {
+  float: left;
+  box-sizing: border-box;
+  width: 50%;
+  padding: 10px;
+}
+.divL {
+  /* background: cyan; */
+  height: 100%;
+  width: 207px;
+}
+.divR {
+  /* background: purple; */
+  height: 100%;
+}
+.divR div {
+  float: left;
+}
+
+.divL img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+div.tvdes {
+  height: 100%;
+
+  text-align: left;
+  align-items: left;
+  vertical-align: top;
+}
+.tvdes h2 {
+  font-family: var(--font-family);
+  font-size: var(--tv-font-size);
+  line-height: var(--tv-line-height);
+}
+.tvdes p,
+span {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-style: var(--font-style);
+  font-weight: var(--font-weight);
+  line-height: var(--line-height);
+}
+
+.switches {
+  margin-bottom: 10%;
+}
+.switches .seasons button {
+  background: rgba(196, 196, 196, 0.05);
+  border-radius: 15px;
+}
+div.switches .watch button {
+  width: 240px;
+  height: 56px;
+  background: rgba(119, 28, 28, 0.94);
+  border-radius: 20px;
+}
+
+div.switches button {
+  font-weight: var(--font-weight);
+  color: var(--title-color);
+  font-family: var(--font-family);
+  font-size: var(--nav-font-size);
+  line-height: var(--nav-line-height);
+  text-align: center;
+}
+.fa-star {
+  color: yellow;
+}
+
+/* recommended section */
+#recommended {
+  overflow: hidden;
+  float: left;
+  width: 100%;
+  height: 175px;
+  /* background: gold; */
+  overflow-y: hidden;
+}
+
+#recommended div h2 {
+  float: left;
+  font-family: var(--font-family);
+  font-size: var(--nav-font-size);
+  line-height: var(--nav-line-height);
+}
+
+#recommended .container div {
+  border: 1px solid red;
+  float: left;
+  width: 151px;
+  height: 75px;
+  float: left;
+}
+
+/* IMPORTED recommended */
+#recommendedlist {
+  display: flex;
+  flex-direction: row;
+  padding: 5px; /* this */
+}
+
+#recommendedlist > div {
+  flex: 1 1 auto;
+  text-align: center;
+  margin: 7px; /* and that, will result in a 10px gap */
+}
+/* Cards section */
+/* dynamic tv Seasons */
+div.sections_card .sections_nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {
+  margin: 0 -5px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the counter cards */
+#posterseasons,
+#similartv {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  height: 503px;
+  width: 100%;
+}
+
+#posterseasons img {
+  height: 351.47px;
+  width: 100%;
+}
+
+/* space div children content */
+div.seasoninfo > * {
+  margin: 20px 0;
+}
+
+/* Similar tv section */
+#similartv img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+div.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+div.centered > * {
+  margin: 40px 0;
+}
+/* imported */
+
+/* Teasers / Trailers section */
+#teas {
+  height: 285px;
+}
+div.teas_time {
+  bottom: 8px;
+  left: 16px;
+}

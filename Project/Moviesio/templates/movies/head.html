@@ -9,11 +9,18 @@
 <!-- Loading all files that changes often (.css/.js) 
     to avoid hard refresh-->
 
-<!-- Css file import -->
+<!-- Css file import -- for movie -->
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename = 'css/style.css')}}"
+  href="{{ url_for('static', filename = 'css/movie_styling.css')}}"
 />
+
+<!-- Css file import -- for tv 
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = 'css/tv_styling.css')}}"
+/>
+-->
 
 <!-- spinner css 
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/spinner_css.css')}}">

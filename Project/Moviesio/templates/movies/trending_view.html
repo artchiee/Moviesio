@@ -6,7 +6,7 @@
     <button
       type="button"
       id="tv"
-      class="btn btn-outline-light"
+      class="btn btn-outline-light sw"
       name="switcher"
       value="tv_clicked"
       onclick="get_btn_clicked(this.id)"
@@ -16,7 +16,7 @@
     <button
       type="button"
       id="movie"
-      class="btn btn-shadow-outline mr-32"
+      class="btn btn-shadow-outline mr-32 sw"
       name="switcher"
       value="movie_clicked"
       onclick="get_btn_clicked(this.id)"
@@ -51,6 +51,7 @@
     </ul>
   </div>
 </nav>
+
 <!-- Building carousel page -->
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
@@ -65,7 +66,7 @@
   <div class="carousel-inner">
     <div class="carousel-item active">
       <!-- darkining img  -->
-      <div class="overlay">
+      <div id="switch_backdrop" class="overlay">
         <img
           class="d-block w-100"
           src="https://image.tmdb.org/t/p/original{{ get_dt }}"
@@ -127,6 +128,7 @@
   <!-- TODO:delete later  -->
   <!-- <a id="move" class="carousel-control-prev" data-slide="prev"> </a>
       <a id="move" class="carousel-control-next" data-slide="next"> </a> -->
+
+  <!-- call next scroll page -->
 </div>
-<!-- call next scroll page -->
 {% include "movies/popular_view.html" %} {% endblock trending %}

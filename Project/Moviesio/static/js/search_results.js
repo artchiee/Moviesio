@@ -1,7 +1,7 @@
 var typingtime;
 var doneTypingInterval = 5000; // timer in ms (5000=5s)
 var $query_input = $("#key_search");
-var output = $("#output");
+var output = $("#search_output");
 
 $(document).ready(function () {
   // on keyup start the timer
@@ -10,6 +10,7 @@ $(document).ready(function () {
     query_input = $(this).val();
     clearTimeout(typingtime);
 
+    // waiting executed 
     if (query_input) {
       typingtime = setTimeout(doneTyping, doneTypingInterval);
     }
@@ -23,7 +24,8 @@ $(document).ready(function () {
         query_search: $("#key_search").val(), // query_search is the var tha ajax send to flask
       },
       dataType: "json",
-      success: function (data) {
+      success: function (data, status) {
+        console.log("sucess", status.success);
         // Json.strigfy returns the actual content json respons
         var dt_response = data.query_search.results;
         var js_stringfy = JSON.parse(JSON.stringify(dt_response));
@@ -35,7 +37,7 @@ $(document).ready(function () {
           console.log("this data is not an object ");
         }
 
-        //FIXME : Fix image rednering + search limit
+        //FIXME:  search limit
         var html_output = "<ul>";
         for (var i in js_stringfy) {
           html_output +=
