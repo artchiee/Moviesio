@@ -1,24 +1,25 @@
-# # all 
-# .vscode/
-# *.txt
-# *.json
-# *.pyc
-
-# # Tv shows dirc for now  / others
-# Tvshows/
-# __pycache__/
-# #Project/Models/serialize.py
+# all 
+.vscode/
+*.txt
+*.json
+*.pyc
 
 
-# # js /css
-# Project/Moviesio/static/css/spinner_css.css
-# Project/Moviesio/static/js/spinner.js
-# Project/Moviesio/static/js/category.js
-# Project/Moviesio/static/js/get_by_genre.js
+# Tv shows dirc for now  / others
+Tvshows/
+__pycache__/
+#Project/Models/serialize.py
 
 
-# # templates 
-# Project/Moviesio/templates/movies/junk.html
-# Project/Moviesio/templates/movies/trending_mv.html
-# Project/Moviesio/templates/movies/testme.html
-# Project/Moviesio/templates/movies/nav.html
+# js /css
+Project/Moviesio/static/css/spinner_css.css
+Project/Moviesio/static/js/spinner.js
+Project/Moviesio/static/js/category.js
+Project/Moviesio/static/js/get_by_genre.js
+
+
+# templates 
+Project/Moviesio/templates/movies/junk.html
+Project/Moviesio/templates/movies/trending_mv.html
+Project/Moviesio/templates/movies/testme.html
+Project/Moviesio/templates/movies/nav.html
