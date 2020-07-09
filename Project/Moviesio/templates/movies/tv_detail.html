@@ -2,22 +2,25 @@
 <html lang="en">
 
 <head>
-     <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tv shows view</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tv shows view</title>
 
-<!-- bootstrap -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-  
-  <!-- Fonts -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <!-- Tailwind css  -->
-  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
-  <!-- css -->
-  <link rel="stylesheet" 
-  href="{{ url_for('static', filename = 'css/tv_styling.css') }}" />
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- Tailwind css  -->
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+
+    <!-- css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/tv_styling.css') }}" />
+
+
+
+
 </head>
 
 <body>
@@ -40,16 +43,14 @@
     <div class="relative container-fluid mt-8">
         <!-- TODO : darkining/ blure img  -->
         <div class="overlay">
-            <img class="d-block w-100" 
-            src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="" />
+            <img class="d-block w-100" src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="" />
         </div>
 
         <!-- page captions  -->
         <div id="customedata" class=" absolute carousel-caption mx-3">
             <div class="container-fluid tvdata my-8">
                 <div class="divL mx-16">
-                    <img 
-                    src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="" />
+                    <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="" />
                 </div>
 
                 <div class="divR">
@@ -67,13 +68,22 @@
                         <div class="switches">
                             <a class="navbar-brand abs seasons">
                                 <button class="btn">
-                                    Seasons
-                                    <i class="fa fa-arrow-circle-down"></i>
+                                    Season
+                                    <!-- getting dropdown for seasons -->
+                                    <select onchange="Changevalue()" id="changeValue">
+                                        {% for tvdt in tvdetail.seasons %}
+                                        <i class="fa fa-arrow-circle-down">
+                                            <option class="bg-black pl-4" value="{{ tvdt['name']  }}">
+                                                {{ tvdt['season_number']}}
+                                            </option>
+                                        </i>
+                                        {% endfor %}
+                                    </select>
                                 </button>
                             </a>
                             <a class="navbar-brand abs watch">
-                                <button class="btn">
-                                    Seasons 4 Trailer
+                                <button id="tv_trailer" class="btn">
+                                    <!-- change value based on select option  -->
                                 </button>
                             </a>
                         </div>
@@ -304,7 +314,17 @@
 
     </div>
 
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/tv_view.js') }}"></script>
 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
 
 </body>
 

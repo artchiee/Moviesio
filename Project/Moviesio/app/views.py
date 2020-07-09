@@ -131,7 +131,7 @@ def get_trending():
             json.dump(pop_jsn, save_dt, indent=4, cls=serialize.RequestEncoder)
 
 
-# FIXME get 3 trending data
+#FIXME get 3 trending data
         get_trending.get_dt = trend_jsn['results'][5]['backdrop_path']
 
         return render_template("movies/trending_view.html",
@@ -167,7 +167,7 @@ def get_trending():
 #     # )
 
 
-@Moviesio.context_processor
+# @Moviesio.context_processor
 def get_genres():
 
     genre_base = 'genre/movie/list'
@@ -337,6 +337,23 @@ def movie_detail(movie_id):
 
 @Moviesio.route("/tv/")
 def tv_detail():
+
+    # getting tv id to detail
+    tv_id = str(70523)
+    tv_dt = (global_url + 'tv/' + tv_id +
+             key_word + api_key)
+
+    req = Requests.Request(tv_dt)
+    #get_res = req.response()
+
+    turn_to_jsn = req.request_to_json()
+
+    # save data to json
+    with open(tv_id + '.json', 'w') as w:
+        json.dump(turn_to_jsn, w, indent=4,
+                  cls=serialize.RequestEncoder)
+
     return render_template(
-        'movies/tv_detail.html'
+        'movies/tv_detail.html',
+        tvdetail=turn_to_jsn
     )
