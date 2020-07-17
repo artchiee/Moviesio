@@ -4,8 +4,6 @@ import requests
 import json
 from ...Models import (Requests, serialize)
 
-# TODO:delete
-from flask_util_js import FlaskUtilJs
 
 Moviesio = Blueprint('moviesio',
                      __name__,
@@ -335,25 +333,61 @@ def movie_detail(movie_id):
 # TODO:delete later/ tv detail test
 
 
-@Moviesio.route("/tv/")
+@Moviesio.route("/tv/", methods =['POST','GET'])
 def tv_detail():
+    global tv_id
 
-    # getting tv id to detail
-    tv_id = str(70523)
-    tv_dt = (global_url + 'tv/' + tv_id +
-             key_word + api_key)
+    if request.method == 'GET':
+    
+         #TODO:should be dynamic
+        tv_id = str(70523)  
+        tv_dt = (global_url + 'tv/' + tv_id +
+                key_word + api_key)
 
-    req = Requests.Request(tv_dt)
-    #get_res = req.response()
+        req = Requests.Request(tv_dt)
+        #get_res = req.response()
 
-    turn_to_jsn = req.request_to_json()
+        # Access on post request
+        global turn_to_jsn
+        turn_to_jsn = req.request_to_json()
 
-    # save data to json
-    with open(tv_id + '.json', 'w') as w:
-        json.dump(turn_to_jsn, w, indent=4,
-                  cls=serialize.RequestEncoder)
 
-    return render_template(
-        'movies/tv_detail.html',
-        tvdetail=turn_to_jsn
-    )
+        # save data to json
+        with open(tv_id + '.json', 'w') as w:
+            json.dump(turn_to_jsn, w, indent=4,
+                    cls=serialize.RequestEncoder)
+       
+    #    # TODO: (delete later )test json seasons detail
+    #     with open('70523_info.json', 'r') as rd:
+    #         r = json.load(rd)
+        return render_template(
+                'movies/tv_detail.html',
+                tvdetail=turn_to_jsn
+                )
+
+
+    # Getting option for tv seasons form ajax post
+    # getting seasons detail by id
+    else:
+        get_ses_id = request.form.get('season_selected', None)
+        print('id season : ', get_ses_id)
+        season_dt = (global_url + 'tv/' + tv_id + '/season/' +
+        str(get_ses_id) + key_word + api_key)
+        season_req = Requests.Request(season_dt)
+        seasn_to_jsn = season_req.request_to_json()
+
+        # Dynamicly season will change if user select other options 
+        with open(tv_id + '_info.json', 'w') as w:
+            json.dump(seasn_to_jsn, w, indent=4,
+                    cls=serialize.RequestEncoder)
+    return jsonify({
+     'status': 'OK',
+     'season_info': turn_to_jsn,
+     'tv_info' : seasn_to_jsn
+     #'tvdata': seasn_jsn
+    })
+    # return jsonify({
+    #     'status':'OK'
+    # })
+    
+
