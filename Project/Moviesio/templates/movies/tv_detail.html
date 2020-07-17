@@ -42,27 +42,56 @@
 
     <div class="relative container-fluid mt-8">
         <!-- TODO : darkining/ blure img  -->
+      
         <div class="overlay">
-            <img class="d-block w-100" src="{{ url_for ('static', filename = 'images/tv.jpg') }}" alt="" />
+            <img class="d-block w-100" 
+             src="https://image.tmdb.org/t/p/original{{ tvdetail.backdrop_path }}"
+             alt="" />
         </div>
 
         <!-- page captions  -->
         <div id="customedata" class=" absolute carousel-caption mx-3">
-            <div class="container-fluid tvdata my-8">
-                <div class="divL mx-16">
-                    <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="" />
+            <div id="Switch_tv" class="container-fluid tvdata my-8">
+
+                <!-- switch poster_path once id is called -->
+                <div id="poster_switch" class="divL mx-16">
+                
+                <!-- check if poster == null -->     
+                 <!--TODO: Migrate check to js    -->
+                {% for check in tvdetail.seasons %}  
+                {% if check['poster_path'] is none %}             
+                    <img 
+                    src="{{ url_for ('static',
+                     filename = 'images/card_img.jpg') }}" 
+                     alt="">     
+                {% endif %}
+                {% endfor %}
                 </div>
+              
 
                 <div class="divR">
                     <div class="tvdes pl-4">
-                        <h2 class="py-3">BLindspot</h2>
-                        <h2 class="">2015</h2>
+                        <h2 id="tvname" class="py-3">{{ tvdetail['name'] }}</h2>
+                        <h2 id="out_date" class="">2015</h2>
 
                         <p class="py-4">
-                            Seasons : 5
+                            <mute id="episodes">Episods : get_count</mute>
                             <span class="px-4"> || </span>
-                            <span>Action , Action , Action </span>
-                        <p class="pb-5"><i class="fa fa-star pr-3"></i>8.5</p>
+                            <span id="genres">
+                                {% for eachg in tvdetail['genres'] %}
+                                {% if eachg %}
+                                -
+                                {{ eachg.name }}
+                                {% endif %}
+                                {% endfor %}
+                            </span>
+                        <p class="pb-5">
+                        <i class="fa fa-star pr-3"></i>
+                        {{tvdetail['vote_average']}}
+                        </p>
+                        <mute id="overview" class="py-3"> overview :
+                        {{ tvdetail['overview'] }}
+                        </mute>
                         </p>
 
                         <div class="switches">
@@ -70,13 +99,11 @@
                                 <button class="btn">
                                     Season
                                     <!-- getting dropdown for seasons -->
-                                    <select onchange="Changevalue()" id="changeValue">
-                                        {% for tvdt in tvdetail.seasons %}
-                                        <i class="fa fa-arrow-circle-down">
-                                            <option class="bg-black pl-4" value="{{ tvdt['name']  }}">
+                                    <select class="changeValue">
+                                        {% for tvdt in tvdetail.seasons %}   
+                                            <option id="{{ tvdt['season_number'] }}" class="ses_option bg-black pl-4" value="{{ tvdt['name']  }}">
                                                 {{ tvdt['season_number']}}
                                             </option>
-                                        </i>
                                         {% endfor %}
                                     </select>
                                 </button>
@@ -133,7 +160,7 @@
     <div class="container bg-blue-100 my-16 sections_card">
         <div class="sections_nav py-4">
             <h2> Seasons </h2>
-            <p> Get Seasons Number </p>
+            <p> Get Episods Number </p>
             <div class="scrollto">
                 <i class="fa fa-arrow-circle-left"></i>
                 <i class="fa fa-arrow-circle-right"></i>
@@ -314,10 +341,9 @@
 
     </div>
 
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/tv_view.js') }}"></script>
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/tv_switch_view.js') }}"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.0.min.js"
         integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
