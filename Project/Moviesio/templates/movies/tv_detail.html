@@ -42,11 +42,9 @@
 
     <div class="relative container-fluid mt-8">
         <!-- TODO : darkining/ blure img  -->
-      
+
         <div class="overlay">
-            <img class="d-block w-100" 
-             src="https://image.tmdb.org/t/p/original{{ tvdetail.backdrop_path }}"
-             alt="" />
+            <img class="d-block w-100" src="https://image.tmdb.org/t/p/original{{ tvdetail.backdrop_path }}" alt="" />
         </div>
 
         <!-- page captions  -->
@@ -55,19 +53,17 @@
 
                 <!-- switch poster_path once id is called -->
                 <div id="poster_switch" class="divL mx-16">
-                
-                <!-- check if poster == null -->     
-                 <!--TODO: Migrate check to js    -->
-                {% for check in tvdetail.seasons %}  
-                {% if check['poster_path'] is none %}             
-                    <img 
-                    src="{{ url_for ('static',
-                     filename = 'images/card_img.jpg') }}" 
-                     alt="">     
-                {% endif %}
-                {% endfor %}
+
+                    <!-- check if poster == null -->
+                    <!--TODO: Migrate check to js    -->
+                    {% for check in tvdetail.seasons %}
+                    {% if check['poster_path'] is none %}
+                    <img src="{{ url_for ('static',
+                     filename = 'images/card_img.jpg') }}" alt="">
+                    {% endif %}
+                    {% endfor %}
                 </div>
-              
+
 
                 <div class="divR">
                     <div class="tvdes pl-4">
@@ -86,11 +82,11 @@
                                 {% endfor %}
                             </span>
                         <p class="pb-5">
-                        <i class="fa fa-star pr-3"></i>
-                        {{tvdetail['vote_average']}}
+                            <i class="fa fa-star pr-3"></i>
+                            {{tvdetail['vote_average']}}
                         </p>
                         <mute id="overview" class="py-3"> overview :
-                        {{ tvdetail['overview'] }}
+                            {{ tvdetail['overview'] }}
                         </mute>
                         </p>
 
@@ -100,10 +96,11 @@
                                     Season
                                     <!-- getting dropdown for seasons -->
                                     <select class="changeValue">
-                                        {% for tvdt in tvdetail.seasons %}   
-                                            <option id="{{ tvdt['season_number'] }}" class="ses_option bg-black pl-4" value="{{ tvdt['name']  }}">
-                                                {{ tvdt['season_number']}}
-                                            </option>
+                                        {% for tvdt in tvdetail.seasons %}
+                                        <option id="{{ tvdt['season_number'] }}" class="ses_option pl-4"
+                                            value="{{ tvdt['name']  }}">
+                                            {{ tvdt['season_number']}}
+                                        </option>
                                         {% endfor %}
                                     </select>
                                 </button>
@@ -119,7 +116,8 @@
                 </div>
             </div>
 
-            <!-- Recommended tv section -->
+            <!-- TODO: Delete -- Recommended tv section -->
+<!-- 
             <div id="recommended" class="relative container mx-24 pt-auto mt-20">
                 <div class="py-4">
                     <h2>Recommended base on this show</h2>
@@ -153,204 +151,76 @@
 
                 </div>
 
-            </div>
+            </div> -->
+
         </div>
     </div>
 
-    <div class="container bg-blue-100 my-16 sections_card">
+    <div class="container my-16 sections_card">
         <div class="sections_nav py-4">
-            <h2> Seasons </h2>
-            <p> Get Episods Number </p>
+            <h2> Season  </h2>
+            <p> ALL Episods </p>
             <div class="scrollto">
-                <i class="fa fa-arrow-circle-left"></i>
-                <i class="fa fa-arrow-circle-right"></i>
+                
             </div>
         </div>
 
-        <!-- seasons card  -->
-        <div class="container-fluid my-4 bg-red-500">
-            <div class="row">
-                <div class="column">
-                    <div id="posterseasons" class="card">
-                        <!-- render season image -->
-                        <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="">
-                        <div class="seasoninfo mt-8">
-                            <h2 class=""> Seasons Number </h2>
-                            <h3> Episods Number </h3>
-                            <span class=""><i class="fa fa-star pr-3"></i>8.5</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="column">
-                    <div id="posterseasons" class="card">
-                        <!-- render season image -->
-                        <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="">
-                        <div class="seasoninfo mt-8">
-                            <h2 class=""> Seasons Number </h2>
-                            <h3> Episods Number </h3>
-                            <span class=""><i class="fa fa-star pr-3"></i>8.5</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="column">
-                    <div class="card">
-                        <h3>Card 3</h3>
-                        <p>Some text</p>
-                        <p>Some text</p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <div class="card">
-                        <h3>Card 4</h3>
-                        <p>Some text</p>
-                        <p>Some text</p>
-                    </div>
-                </div>
-
+        <!-- episodes card -->
+        <div id="epis_cards" class="container-fluid gap-6 my-4  ">
+            <div id="getepis" class="row flex-nowrap">
+                <!-- on post render corresponding all episodes -->
             </div>
+
         </div>
 
-        <!-- Similar tv shows secrion  -->
-        <div class="sections_nav py-8">
-            <h2> Similar Tv Shows </h2>
-            <p> get Count Here </p>
+        <!-- TODO: Similar tv shows secrion  -->
+        <div class="sections_nav py-4">
+            <h2> Similar Shows for tv_name </h2>
+            <p> </p>
             <div class="scrollto">
-                <i class="fa fa-arrow-circle-left"></i>
-                <i class="fa fa-arrow-circle-right"></i>
+               
             </div>
         </div>
+        <div id="sim_cards" class="container-fluid gap-6 my-4 ">
 
-        <!--  Similar tv card  -->
-        <div class="container-fluid my-4 bg-red-500">
-            <div class="row">
-                <div class="column">
-                    <div id="similartv" class="card">
-                        <!-- render season image -->
-                        <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="">
-                        <div class="centered text-white">
-                            <h2> Title Name </h2>
-                            <h3> Get Seasons </h3>
-                            <p> Get Rating </p>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="column">
-                    <div class="card">
-                        <h3>Card 2</h3>
-                        <p>Some text</p>
-                        <p>Some text</p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <div class="card">
-                        <h3>Card 3</h3>
-                        <p>Some text</p>
-                        <p>Some text</p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <div class="card">
-                        <h3>Card 4</h3>
-                        <p>Some text</p>
-                        <p>Some text</p>
-                    </div>
-                </div>
+            <div id="getsimilar" class="row flex-nowrap">
             </div>
+
         </div>
+
 
         <!-- Trailers  / Teasears  -->
         <div class="sections_nav py-8">
             <h2> Trailers and Teasers </h2>
             <p> get Count Here </p>
             <div class="scrollto">
-                <i class="fa fa-arrow-circle-left"></i>
-                <i class="fa fa-arrow-circle-right"></i>
+               
             </div>
         </div>
 
-        <div class="container-fluid my-4 bg-red-500">
-            <div class="row">
-                <div class="column">
-                    <div id="teas" class="card">
-                        <!-- render season image -->
-                        <div class="relative">
-                            <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="">
-                            <div class="absolute bottom-left text-white teas_time">
-                                4.20<i class="fa fa-video-camera pl-3">
-                                </i>
-                            </div>
-                        </div>
+        <div id="trailers" class="container-fluid gap-6 my-4 ">
+            <div id="getTeas" class="row flex-nowrap">
 
-                        <div class="teaserinfo flex justify-between">
-                            <div class="">
-                                <h2> Tv Serie name<br>
-                                    get episode number
-                                </h2>
-                            </div>
-                            <i class="fa fa-play-circle mx-6 my-3"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <div id="teas" class="card">
-                        <!-- render season image -->
-                        <div class="relative">
-                            <img src="{{ url_for ('static', filename = 'images/img_movie.jpg') }}" alt="">
-                            <div class="absolute bottom-left text-white teas_time">
-                                4.20<i class="fa fa-video-camera pl-3">
-                                </i>
-                            </div>
-                        </div>
-
-                        <div class="teaserinfo flex justify-between">
-                            <h2> Selected tv series
-                                information </h2>
-                            <i class="fa fa-play-circle"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <div class="card">
-                        <h3>Card 3</h3>
-                        <p>Some text</p>
-                        <p>Some text</p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <div class="card">
-                        <h3>Card 4</h3>
-                        <p>Some text</p>
-                        <p>Some text</p>
-                    </div>
-                </div>
             </div>
         </div>
+
+
 
 
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/tv_switch_view.js') }}"></script>
-
     <script src="https://code.jquery.com/jquery-3.5.0.min.js"
         integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/scrolling.js') }}"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/tv_switch_episodes.js') }}"></script>
+
 
 </body>
 

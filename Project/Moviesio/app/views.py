@@ -165,7 +165,7 @@ def get_trending():
 #     # )
 
 
-# @Moviesio.context_processor
+#@Moviesio.context_processor
 def get_genres():
 
     genre_base = 'genre/movie/list'
@@ -346,8 +346,7 @@ def tv_detail():
 
         req = Requests.Request(tv_dt)
         #get_res = req.response()
-
-        # Access on post request
+    
         global turn_to_jsn
         turn_to_jsn = req.request_to_json()
 
@@ -358,11 +357,12 @@ def tv_detail():
                     cls=serialize.RequestEncoder)
        
     #    # TODO: (delete later )test json seasons detail
-    #     with open('70523_info.json', 'r') as rd:
-    #         r = json.load(rd)
+        # with open('70523_info.json', 'r') as rd:
+        #     r = json.load(rd)
+
         return render_template(
                 'movies/tv_detail.html',
-                tvdetail=turn_to_jsn
+                tvdetail=turn_to_jsn,
                 )
 
 
@@ -376,18 +376,43 @@ def tv_detail():
         season_req = Requests.Request(season_dt)
         seasn_to_jsn = season_req.request_to_json()
 
-        # Dynamicly season will change if user select other options 
+        #using append_to_reponse to make multiple requests in one 
+        compact_url = (global_url + 'tv/' + tv_id + key_word + api_key +
+        '&append_to_response=similar' + ',' + 'videos')
+        compact_call = Requests.Request(compact_url)
+        comp_json = compact_call.request_to_json()
+
+        # Dynamicly season will change if user selects other options(dropdown) 
         with open(tv_id + '_info.json', 'w') as w:
             json.dump(seasn_to_jsn, w, indent=4,
                     cls=serialize.RequestEncoder)
-    return jsonify({
-     'status': 'OK',
-     'season_info': turn_to_jsn,
-     'tv_info' : seasn_to_jsn
-     #'tvdata': seasn_jsn
-    })
-    # return jsonify({
-    #     'status':'OK'
-    # })
-    
+        
+        with open(tv_id + 'nestedData.json', 'w') as w:
+            json.dump(comp_json, w, indent=4,
+                    cls=serialize.RequestEncoder)
 
+        return jsonify({
+        'status': 'OK',
+        'season_info': turn_to_jsn,
+        'tv_epis_info': seasn_to_jsn,
+        'compact_dt' : comp_json
+
+        })
+
+
+# @Moviesio.route("/test/")
+# def test():
+#     # tv_id = str(70523)  
+#     # #get similar shows for a given tv
+#     # similar_url =(global_url + 'tv/' + tv_id + '/similar' +key_word + api_key)
+#     # sim_call = Requests.Request(similar_url)
+#     # print(sim_call.response())
+#     # sim_json = sim_call.request_to_json()
+
+#     with open('70523nestedData.json', 'r') as r:
+#         x = json.load(r)
+
+#     return render_template(
+#         'movies/testme.html',
+#         data = x
+#         )

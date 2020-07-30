@@ -15,7 +15,8 @@
       {% block popular %} {% endblock popular %}
     </section>
 
-    <!-- js/ajax scripts call  -->
+    <!--Load your js scripts first to prevent 
+    errors  -->
 
     <script
       type="text/javascript"
@@ -29,7 +30,7 @@
 
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename = 'js/genre_scroll.js') }}"
+      src="{{ url_for('static', filename = 'js/scrolling.js') }}"
     ></script>
 
     <script
