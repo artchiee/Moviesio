@@ -21,9 +21,10 @@
   </div>
 </div>
 
-<!-- get dynamique category from the api   -->
+<!-- getting dynamique category from the api   -->
+<!--TODO:  Darken  the edge to indicact mouse scroll  -->
 <div class="left mt-6">
-  <i id="arrowleft" class="fa fa-arrow-left" aria-hidden="true"></i>
+
 </div>
 <div class="center pb-16 gap-6 mt-6" id="content">
   {% for category in categories.genres %}
@@ -38,34 +39,32 @@
   {% endfor %}
 </div>
 <div class="right mt-6">
-  <i id="arrowright" class="fa fa-arrow-right text-black" aria-hidden="true"></i>
 </div>
 
 <!-- Cards rendering -->
 <div class="container mt-24 pt-24 mx-auto px-2 my-3">
-  <div class="grid grid-cols-4 gap-16 mb-4">
+  <div id="cards_switching" class="grid grid-cols-4 gap-16 mb-4">
 
-    {% if genre_clicked %}
-    {% for by_genre in genre_results.results %}
-
+    <!-- Type : Get on page load  -->
+      {% for popular in populars.results %}
     <div class="mt-4">
-      <i class="fas fa-star text-black"></i>
+      <i class="fas fa-star text-black"></i>  
       <i class="fas fa-star text-black"></i>
       <i class="fas fa-star text-black"></i>
 
       <!-- redirect to detail page  -->
-      <a href="{{ url_for('moviesio.movie_detail', movie_id=by_genre['id'] )}}">
+      <a href="{{ url_for('moviesio.movie_detail', movie_id=popular['id'] )}}">
         <!-- Poster path (images) -- from api -->
-        <img src="https://image.tmdb.org/t/p/original{{by_genre['poster_path'] }}" alt="movie">
+        <img src="https://image.tmdb.org/t/p/original{{popular['poster_path'] }}" alt="movie">
       </a>
 
       <div class="mt-2">
         <h3 href="#" class="m_link text-lg mt-2 ">
           <!--getting titles -->
-          {{by_genre['title']}}
+          {{popular['title']}}
         </h3>
         <div class="flex items-center text-gray-700">
-          <span> {{by_genre['release_date']}} </span>
+          <span> {{popular['release_date']}} </span>
           <span> || </span>
           <span>
             <!-- //FIXME: need to loop throug list of names[genres] not ids -->
@@ -73,41 +72,11 @@
           </span>
         </div>
       </div>
+
+      
     </div>
     {% endfor %}
-
-    {% else %}
-
-    <div class="mt-4">
-      {% for popular in popular_movies.results %}
-        <i class="fas fa-star text-black"></i>
-        <i class="fas fa-star text-black"></i>
-        <i class="fas fa-star text-black"></i>
-
-        <!-- redirect to detail page  -->
-        <a href="{{ url_for('moviesio.movie_detail', movie_id=popular['id'] )}}">
-          <!-- Poster path (images) -- from api -->
-          <img src="https://image.tmdb.org/t/p/original{{popular['poster_path'] }}" alt="movie">
-        </a>
-
-        <div class="mt-2">
-          <h3 href="#" class="m_link text-lg mt-2 ">
-            <!--getting titles -->
-            {{popular['title']}}
-          </h3>
-          <div class="flex items-center text-gray-700">
-            <span> {{popular['release_date']}} </span>
-            <span> || </span>
-            <span>
-              <!-- //FIXME: need to loop throug list of names[genres] not ids -->
-
-            </span>
-          </div>
-        </div>
-
-      {% endfor %}
-       </div>
-    {% endif %}
+    
   </div>
 
 </div>

@@ -15,28 +15,10 @@
       {% block popular %} {% endblock popular %}
     </section>
 
-    <!--Load your js scripts first to prevent 
+    <!--Load your extarnal js scripts first to prevent 
     errors  -->
-
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename = 'js/switch_view.js') }}"
-    ></script>
-
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename = 'js/search_results.js') }}"
-    ></script>
-
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename = 'js/scrolling.js') }}"
-    ></script>
-
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename = 'js/tv_view.js') }}"
-    ></script>
+    <!--  jquery/ajax cdn -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script
       src="https://code.jquery.com/jquery-3.5.0.min.js"
@@ -55,5 +37,25 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename = 'js/home_switch_view.js') }}"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename = 'js/search_results.js') }}"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename = 'js/scrolling.js') }}"
+    ></script>
+
+    <!-- 
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename = 'js/tv_switch_episodes.js') }}"
+    ></script> -->
   </body>
 </html>
