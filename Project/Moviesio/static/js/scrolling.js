@@ -14,11 +14,15 @@ jQuery(function ($) {
   };
 });
 
-//exec ; pass the div element and amount to scroll
 $(document).ready(function () {
-  $("#epis_cards").hScroll(60); // You can pass (optionally) scrolling amount
+  $("#content").hScroll(60);
 });
 
-$(document).ready(function () {
-  $("#sim_cards").hScroll(60); // You can pass (optionally) scrolling amount
-});
+// //exec ; pass the div element and amount to scroll
+// $(document).ready(function () {
+//   $("#epis_cards").hScroll(60); // You can pass (optionally) scrolling amount
+// });
+
+// $(document).ready(function () {
+//   $("#sim_cards").hScroll(60); // You can pass (optionally) scrolling amount
+// });

@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, jsonify, request, redirect, url_for
+from flask import render_template_string ,render_template, Blueprint, jsonify, request, redirect, url_for
 import os
 import requests
 import json
@@ -45,7 +45,6 @@ def extract_values(obj, key):
     results = extract(obj, arr, key)
     return results
 
-
 # Trending view --> extend other views
 @Moviesio.route('/', methods=['POST', 'GET'])
 def get_trending():
@@ -54,6 +53,7 @@ def get_trending():
 
     # switching to either (tv|movie) view
     if request.method == 'POST':
+    
         # variable received from ajax call
         choice_clicked = request.form.get('choice_clicked', None)
 
@@ -98,7 +98,10 @@ def get_trending():
 
     # Default view
     else:
-        get_req = request.method == 'post'
+        post_mtd = request.method == 'POST'
+        get_mtd = request.method == 'GET'
+
+        #get_req = request.method == 'post'
         # Defaul is movie (view)
         media_type = 'movie/'
         # print('data got  : ', media_type)
@@ -118,9 +121,7 @@ def get_trending():
 
         trend_jsn = trend_request.request_to_json()
         pop_jsn = pop_request.request_to_json()
-
-        # print(trend_jsn)
-
+        
         with open('Trending_original.json', 'w') as w:
             json.dump(trend_jsn, w, indent=4,
                       cls=serialize.RequestEncoder)
@@ -129,15 +130,23 @@ def get_trending():
             json.dump(pop_jsn, save_dt, indent=4, cls=serialize.RequestEncoder)
 
 
-#FIXME get 3 trending data
+        #FIXME get 3 trending data
         get_trending.get_dt = trend_jsn['results'][5]['backdrop_path']
 
         return render_template("movies/trending_view.html",
-                               get_dt=get_trending.get_dt,
-                               get_req=get_req,
-                               popular_movies=pop_jsn,
-                               )
+            trends=get_trending.get_dt,
+            populars=pop_jsn,
+            get=get_mtd,
+            post = post_mtd
+        )
 
+  
+        # return jsonify({
+        #     'trends': get_trending.get_dt,
+        #     'populars':pop_jsn,
+        # })
+
+      
 
 # render the most popular movies max(20) in card section
 
@@ -165,7 +174,7 @@ def get_trending():
 #     # )
 
 
-#@Moviesio.context_processor
+@Moviesio.context_processor
 def get_genres():
 
     genre_base = 'genre/movie/list'
@@ -400,7 +409,7 @@ def tv_detail():
         })
 
 
-# @Moviesio.route("/test/")
+# @Moviesio.route("/test/", methods=['POST','GET'])
 # def test():
 #     # tv_id = str(70523)  
 #     # #get similar shows for a given tv
@@ -409,10 +418,10 @@ def tv_detail():
 #     # print(sim_call.response())
 #     # sim_json = sim_call.request_to_json()
 
-#     with open('70523nestedData.json', 'r') as r:
-#         x = json.load(r)
-
+#     # with open('70523nestedData.json', 'r') as r:
+#     #     x = json.load(r)
+  
 #     return render_template(
 #         'movies/testme.html',
-#         data = x
+#         post = post_mtd,get= get_mtd
 #         )
