@@ -2,26 +2,8 @@ import requests
 import os
 import json
 
-# # storing the api key somewhere
-# api_key = os.environ.get('TMDB_KEY')  # call it whatever you want
-
-# key_word = '?api_key='
-
-# # global tmdb (movie database) url
-# Global_url = 'https://api.themoviedb.org/3/'
-
-# tred = 'trending/'
-# media_tp = 'movie/'  # can be changed
-# time_win = 'week'  # can be changed
-
-# # language to use
-# language = '&language=en-US'
-# pop = 'tv/'
-# pop2 = 'popular'
 
 # Trending Request
-
-
 class Trending_Call:
     def __init__(self, global_url, trending, media_type, time_window, word, key):
         self.global_url = global_url,
