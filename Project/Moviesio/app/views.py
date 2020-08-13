@@ -61,7 +61,6 @@ def get_trending():
             media_type = choice_clicked + '/'
             print(media_type)
 
-            # Handling two view (trending/popular) calls in one
             trending_choice = Requests.Trending_Call(
                 global_url, url_trend, media_type, time_window, key_word, api_key
             )
@@ -80,6 +79,7 @@ def get_trending():
             # get_popular.context = pop_saved
 
             # save trend json clicked
+            #TODO: if movie view selected(open json originals) 
             with open(choice_clicked+'_Trending.json', 'w') as w:
                 json.dump(trend_saved, w, indent=4,
                           cls=serialize.RequestEncoder)
@@ -87,6 +87,7 @@ def get_trending():
             # json popular clicked
             with open(choice_clicked + '_Popular.json', 'w') as w:
                 json.dump(pop_saved, w, indent=4, cls=serialize.RequestEncoder)
+
 
             # if return omitted will raise an error
             return jsonify({
@@ -98,11 +99,8 @@ def get_trending():
 
     # Default view
     else:
-        post_mtd = request.method == 'POST'
-        get_mtd = request.method == 'GET'
-
-        #get_req = request.method == 'post'
-        # Defaul is movie (view)
+    
+        #Defaul is movie (view)
         media_type = 'movie/'
         # print('data got  : ', media_type)
         trending_path = Requests.Trending_Call(
@@ -121,7 +119,10 @@ def get_trending():
 
         trend_jsn = trend_request.request_to_json()
         pop_jsn = pop_request.request_to_json()
-        
+
+        # function Attribute
+        get_trending.access_trends = trend_jsn
+               
         with open('Trending_original.json', 'w') as w:
             json.dump(trend_jsn, w, indent=4,
                       cls=serialize.RequestEncoder)
@@ -130,23 +131,16 @@ def get_trending():
             json.dump(pop_jsn, save_dt, indent=4, cls=serialize.RequestEncoder)
 
 
-        #FIXME get 3 trending data
-        get_trending.get_dt = trend_jsn['results'][5]['backdrop_path']
+        # #FIXME get 3 trending data
+        # get_trending.get_dt = trend_jsn['results'][5]['backdrop_path']
 
         return render_template("movies/trending_view.html",
-            trends=get_trending.get_dt,
+            trends=trend_jsn,
             populars=pop_jsn,
-            get=get_mtd,
-            post = post_mtd
+            
         )
 
-  
-        # return jsonify({
-        #     'trends': get_trending.get_dt,
-        #     'populars':pop_jsn,
-        # })
 
-      
 
 # render the most popular movies max(20) in card section
 
@@ -197,7 +191,7 @@ def get_genres():
     get_genres.categ_fetched = genre_fetched
 
     return dict(
-        categories=get_genres.categ_fetched
+        categories=genre_fetched
     )
 
 
@@ -224,24 +218,23 @@ def get_by_category(genre_id, genre_name):
     # might give(200)response even if you missparsed url (strings)
     print("discover resp :", discover_call.status_code)
 
-    # get clicked id name / save the movies to .json file
     for get_name in get_genres.categ_fetched['genres']:
         if genre_clicked == get_name['id']:
             id_name = get_name['name']
-    genre_id_name = id_name
-    print('you have clicked Genre id Nm %d and it\'s name is %s :' % (genre_clicked, genre_id_name),
-          '\n --> .json file is saved')
 
+    genre_id_name = id_name
     with open(genre_id_name+'.json', 'w') as new_list:
         json.dump(discover_to_jsn, new_list, indent=4)
+        
+    print('you have clicked Genre id Nm %d and it\'s name is %s :' % (genre_clicked, genre_id_name),
+          '\n --> .json file is saved')
 
     if discover_to_jsn:
         return render_template(
             'movies/trending_view.html',
             genre_results=discover_to_jsn,
             genre_clicked=genre_clicked,
-            # popular_movies=get_popular.pop_dt,
-            trend_dt=get_trending.get_dt,
+            trends=get_trending.access_trends,
 
         )
         # return jsonify({
@@ -339,89 +332,86 @@ def movie_detail(movie_id):
         mv_detail=movie_js
     )
 
-# TODO:delete later/ tv detail test
+# TODO:delete later --> append to above to use one fun
 
 
-@Moviesio.route("/tv/", methods =['POST','GET'])
+@Moviesio.route("/tv/")
 def tv_detail():
-    global tv_id
 
-    if request.method == 'GET':
+    return jsonify({'status': 'OK'})
     
-         #TODO:should be dynamic
-        tv_id = str(70523)  
-        tv_dt = (global_url + 'tv/' + tv_id +
-                key_word + api_key)
+    # tv_dt = (global_url + 'tv/' + tv_id +
+    #         key_word + api_key)
 
-        req = Requests.Request(tv_dt)
-        #get_res = req.response()
+    # req = Requests.Request(tv_dt)
+    # #get_res = req.response()
+
+    # global turn_to_jsn
+    # turn_to_jsn = req.request_to_json()
+
+
+    # # save data to json
+    # with open(tv_id + '.json', 'w') as w:
+    #     json.dump(turn_to_jsn, w, indent=4,
+    #             cls=serialize.RequestEncoder)
     
-        global turn_to_jsn
-        turn_to_jsn = req.request_to_json()
+#    # TODO: (delete later )test json seasons detail
+    # with open('70523_info.json', 'r') as rd:
+    #     r = json.load(rd)
 
 
-        # save data to json
-        with open(tv_id + '.json', 'w') as w:
-            json.dump(turn_to_jsn, w, indent=4,
-                    cls=serialize.RequestEncoder)
-       
-    #    # TODO: (delete later )test json seasons detail
-        # with open('70523_info.json', 'r') as rd:
-        #     r = json.load(rd)
+    # # Getting option for tv seasons form ajax post
+    # # getting seasons detail by id
+    # else:
+    #     get_ses_id = request.form.get('season_selected', None)
+    #     print('id season : ', get_ses_id)
+    #     season_dt = (global_url + 'tv/' + tv_id + '/season/' +
+    #     str(get_ses_id) + key_word + api_key)
+    #     season_req = Requests.Request(season_dt)
+    #     seasn_to_jsn = season_req.request_to_json()
 
-        return render_template(
-                'movies/tv_detail.html',
-                tvdetail=turn_to_jsn,
-                )
+    #     #using append_to_reponse to make multiple requests in one 
+    #     compact_url = (global_url + 'tv/' + tv_id + key_word + api_key +
+    #     '&append_to_response=similar' + ',' + 'videos')
+    #     compact_call = Requests.Request(compact_url)
+    #     comp_json = compact_call.request_to_json()
 
-
-    # Getting option for tv seasons form ajax post
-    # getting seasons detail by id
-    else:
-        get_ses_id = request.form.get('season_selected', None)
-        print('id season : ', get_ses_id)
-        season_dt = (global_url + 'tv/' + tv_id + '/season/' +
-        str(get_ses_id) + key_word + api_key)
-        season_req = Requests.Request(season_dt)
-        seasn_to_jsn = season_req.request_to_json()
-
-        #using append_to_reponse to make multiple requests in one 
-        compact_url = (global_url + 'tv/' + tv_id + key_word + api_key +
-        '&append_to_response=similar' + ',' + 'videos')
-        compact_call = Requests.Request(compact_url)
-        comp_json = compact_call.request_to_json()
-
-        # Dynamicly season will change if user selects other options(dropdown) 
-        with open(tv_id + '_info.json', 'w') as w:
-            json.dump(seasn_to_jsn, w, indent=4,
-                    cls=serialize.RequestEncoder)
+    #     # Dynamicly season will change if user selects other options(dropdown) 
+    #     with open(tv_id + '_info.json', 'w') as w:
+    #         json.dump(seasn_to_jsn, w, indent=4,
+    #                 cls=serialize.RequestEncoder)
         
-        with open(tv_id + 'nestedData.json', 'w') as w:
-            json.dump(comp_json, w, indent=4,
-                    cls=serialize.RequestEncoder)
+    #     with open(tv_id + 'nestedData.json', 'w') as w:
+    #         json.dump(comp_json, w, indent=4,
+    #                 cls=serialize.RequestEncoder)
+
+    #     return jsonify({
+    #     'status': 'OK',
+    #     'season_info': turn_to_jsn,
+    #     'tv_epis_info': seasn_to_jsn,
+    #     'compact_dt' : comp_json
+
+    #     })
+
+
+@Moviesio.route("/test/", methods=['POST', 'GET'])
+def test():
+
+    if request.method == 'POST':
+        id_selected = request.form.get('id_selected', None)
+        compact_url = (global_url + 'tv/' + str(id_selected) + key_word + api_key +
+        '&append_to_response=similar' + ',' + 'videos')
+        sim_call = Requests.Request(compact_url)
+        sim_json = sim_call.request_to_json()
+        print(sim_call.response())
 
         return jsonify({
-        'status': 'OK',
-        'season_info': turn_to_jsn,
-        'tv_epis_info': seasn_to_jsn,
-        'compact_dt' : comp_json
-
-        })
-
-
-# @Moviesio.route("/test/", methods=['POST','GET'])
-# def test():
-#     # tv_id = str(70523)  
-#     # #get similar shows for a given tv
-#     # similar_url =(global_url + 'tv/' + tv_id + '/similar' +key_word + api_key)
-#     # sim_call = Requests.Request(similar_url)
-#     # print(sim_call.response())
-#     # sim_json = sim_call.request_to_json()
-
-#     # with open('70523nestedData.json', 'r') as r:
-#     #     x = json.load(r)
-  
-#     return render_template(
-#         'movies/testme.html',
-#         post = post_mtd,get= get_mtd
-#         )
+            'tvdetail': sim_json})
+        
+   # trends = x['results'][5]['backdrop_path']
+    with open('tv_Popular.json', 'r') as r:
+        x = json.load(r)
+    return render_template(
+        'movies/testme.html',
+        pops= x
+        )

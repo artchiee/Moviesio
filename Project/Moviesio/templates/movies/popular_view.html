@@ -2,7 +2,7 @@
 
 {% block popular %}
 <div class="text-center pt-3">
-  <h2 class="uppercases">Other Movies - Search by Category or name</h2>
+  <h2 class="uppercases">Other Movies - sort by category or search by name</h2>
 </div>
 
 <div class="relative text-center">
@@ -44,11 +44,42 @@
 <!-- Cards rendering -->
 <div class="container mt-24 pt-24 mx-auto px-2 my-3">
   <div id="cards_switching" class="grid grid-cols-4 gap-16 mb-4">
+    <!--  Switch to TV | Movie on post  -->
+    <!-- This whole div will be overrided and replaced -->
+    {% if genre_clicked %}
+    {% for by_genre in genre_results.results %}
 
-    <!-- Type : Get on page load  -->
-      {% for popular in populars.results %}
     <div class="mt-4">
-      <i class="fas fa-star text-black"></i>  
+      <i class="fas fa-star text-black"></i>
+      <i class="fas fa-star text-black"></i>
+      <i class="fas fa-star text-black"></i>
+
+      <!~~ redirect to detail page ~~>
+        <a href="{{ url_for('moviesio.movie_detail', movie_id=by_genre['id'] )}}">
+          <img src="https://image.tmdb.org/t/p/original{{by_genre['poster_path'] }}" alt="movie">
+        </a>
+
+        <div class="mt-2">
+          <h3 href="#" class="m_link text-lg mt-2 ">
+            <!~~getting titles ~~>
+              {{by_genre['title']}}
+          </h3>
+          <div class="flex items-center text-gray-700">
+            <span> {{by_genre['release_date']}} </span>
+            <span> || </span>
+            <span>
+              <!~~ //FIXME: need to loop throug list of names[genres] not ids ~~>
+
+            </span>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% else %}
+    {% for popular in populars.results %}
+    <div class="mt-4">
+      <i class="fas fa-star text-black"></i>
       <i class="fas fa-star text-black"></i>
       <i class="fas fa-star text-black"></i>
 
@@ -68,15 +99,19 @@
           <span> || </span>
           <span>
             <!-- //FIXME: need to loop throug list of names[genres] not ids -->
-
+            {% for pop_gnr in categories['genres'] %}
+            {% if  pop_gnr['id'] in popular['genre_ids'] %}
+            {{  pop_gnr['name'] }}
+            {% endif %}
+            {% endfor %}
           </span>
         </div>
       </div>
 
-      
+
     </div>
     {% endfor %}
-    
+    {% endif %}
   </div>
 
 </div>

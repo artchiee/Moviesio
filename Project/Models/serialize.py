@@ -6,21 +6,6 @@ from .Requests import Request, Trending_Call
 from json import(
     JSONEncoder
 )
-# storing the api key somewhere
-api_key = os.environ.get('TMDB_KEY')  # call it whatever you want
-
-key_word = '?api_key='
-
-# global tmdb (movie database) url
-Global_url = 'https://api.themoviedb.org/3/'
-
-tred = 'trending/'
-media_tp = 'movie/'  # can be changed
-time_win = 'week'  # can be changed
-
-# language to use
-language = '&language=en-US'
-
 
 class RequestEncoder(JSONEncoder):
     # Raise this def once we created instance for it

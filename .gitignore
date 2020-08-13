@@ -17,6 +17,7 @@ Project/Moviesio/static/js/spinner.js
 Project/Moviesio/static/js/category.js
 Project/Moviesio/static/js/get_by_genre.js
 
+Project/Moviesio/static/js/testing.js
 
 # templates 
 Project/Moviesio/templates/movies/junk.html

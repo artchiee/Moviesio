@@ -31,45 +31,61 @@ function get_btn_clicked(clicked_id) {
       //   "'>";
 
       // Empty the div first and override old content
-      //switching popular card view
       var div_override = $("#cards_switching").children().empty();
       if (div_override) {
-        console.log("true empty");
-
-        var pop_output = "";
-        for (var i in pop_parsed) {
-          pop_output +=
-            "<div class='mt-4'>" +
-            "<img src='https://image.tmdb.org/t/p/original" +
-            pop_parsed[i].poster_path +
-            "'>" +
-            "</div>";
-        }
+        console.log("true : div empty");
       } else {
         console.log("not empty");
+        alert("Timeout; Please try again");
       }
 
-      // //trend_view.html(trend_output);
+      //switching popular card view
+      var obj_name = "";
+      var obj_air_date = "";
+
+      var pop_output = "";
+      for (var i in pop_parsed) {
+        //change js objs between(tv|movie) view
+        if (selected == "tv") {
+          obj_name = pop_parsed[i].name;
+          obj_air_date = pop_parsed[i].first_air_date;
+        } else {
+          obj_name = pop_parsed[i].title;
+          obj_air_date = pop_parsed[i].release_date;
+        }
+
+        pop_output +=
+          "<div class='mt-4'>" +
+          "<i class='fas fa-star text-black'></i>" +
+          "<i class='fas fa-star text-black'></i>" +
+          "<i class='fas fa-star text-black'></i>" +
+          // TODO:link to detail page
+          "<a class='redirect_to_detail'" +
+          "'>" +
+          "<img id='posters class='_posters' src='https://image.tmdb.org/t/p/original" +
+          pop_parsed[i].poster_path +
+          "'>" +
+          "</a>" +
+          "<div class='mt-2'>" +
+          "<h3 class='m_link text-lg mt-2'>" +
+          obj_name +
+          "</h3>" +
+          "<div class='flex items-center text-gray-700'>" +
+          "<span>" +
+          obj_air_date +
+          "</span>" +
+          "<span> || </span>" +
+          "</div>" +
+          "</div>" +
+          "</div>";
+      }
+
+      //trend_view.html(trend_output);
       pop_cards.html(pop_output);
-
-      // delete later : check if data return is working
-      // console.log(
-      //   "trend res : ",
-      //   "<img src='https://image.tmdb.org/t/p/w92" +
-      //     trend_parsed[0].backdrop_path +
-      //     "'",
-
-      //   console.log(
-      //     "pop res  : ",
-      //     "<img src='https://image.tmdb.org/t/p/w92" +
-      //       pop_parsed[1].poster_path +
-      //       "'"
-      //   )
     },
 
-    // throw error if something goes wrong
     error: function (data, status) {
-      console.log(data.errorn, status);
+      console.log(data.error, status);
     },
   });
   return Switch_to;

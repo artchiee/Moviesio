@@ -56,6 +56,19 @@ nav {
 }
 /* carousel page */
 
+.indicator {
+  cursor: pointer;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active,
+.indicator:hover {
+  background-color: #717171;
+}
+
 /* poster image  */
 #poster {
   filter: brightness(50%) blur(1px);

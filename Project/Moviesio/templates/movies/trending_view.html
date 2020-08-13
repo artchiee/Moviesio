@@ -55,21 +55,21 @@
 <!-- Building carousel page -->
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
-    <li
-      data-target="#carouselExampleIndicators"
-      data-slide-to="0"
-      class="active"
-    ></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    <li class="indicator" onclick="currentSlide(1)"></li>
+    <li class="indicator" onclick="currentSlide(2)"></li>
+    <li class="indicator" onclick="currentSlide(3)"></li>
   </ol>
   <div class="carousel-inner">
     <div class="carousel-item active">
+      {% for slide in trends.results[0:3] %}
+      <!-- js will loop through the top 3 trending data
+          slides -->
       <!-- darkining img  -->
       <div id="switch_backdrop" class="overlay">
         <img
+          id="slides"
           class="d-block w-100"
-          src="https://image.tmdb.org/t/p/original{{ trends }}"
+          src="https://image.tmdb.org/t/p/original{{ slide['backdrop_path'] }}"
           alt="Trending Movies"
         />
       </div>
@@ -81,24 +81,22 @@
         <div id="leftitems" class="row">
           <div class="contentleft">
             <div class="apidate">
-              <mute> date : 2018</mute>
+              <mute> date : {{ slide ['release_date'] }}</mute>
             </div>
 
             <div id="wrapper" class="ab apititle mb-2">
               <h2 class="mb-4">
-                Mission Impossible (2018) :Fall out Last one standing
+                {{ slide['title'] }}
               </h2>
               <div id="" class="apidescription">
                 <p>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Cupiditate, ad facere, quo sapiente voluptatum assumenda sed
-                  consectetur excepturi voluptatem quas commodi eos suscipit?
-                  Quibusdam error esse cupiditate , voluptatibus sapiente
+                  {{ slide['overview'] }}
                 </p>
               </div>
             </div>
           </div>
 
+          <!-- Play vid on  top of carousel -->
           <div class="apitrailer">
             <button class="btn"><i class="fa fa-play"></i> Play Trailer</button>
           </div>
@@ -108,20 +106,23 @@
         <div id="rightitems" class="row">
           <div class="contentright">
             <div class="rate">
-              <p>8.5</p>
+              <p>{{ slide['vote_average'] }}</p>
+              <!-- TODO: need to display corresponding stars -->
               <i class="fa fa-star"></i>
               <i class="fa fa-star"></i>
               <i class="fa fa-star"></i>
               <i class="fa fa-star"></i>
               <i class="fa fa-star"></i>
             </div>
-            <!-- detail info -->
+
+            <!-- detail page info -->
             <div class="apiinfo">
               <i class="fa fa-info-circle"></i>
             </div>
           </div>
         </div>
       </div>
+      {% endfor %}
     </div>
   </div>
 
