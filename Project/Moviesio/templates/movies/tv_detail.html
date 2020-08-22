@@ -44,7 +44,7 @@
         <!-- TODO : darkining/ blure img  -->
 
         <div class="overlay">
-            <img class="d-block w-100" src="https://image.tmdb.org/t/p/original{{ tvdetail.backdrop_path }}" alt="" />
+            <img class="d-block w-100" src="https://image.tmdb.org/t/p/original{{ tvonload.backdrop_path }}" alt="" />
         </div>
 
         <!-- page captions  -->
@@ -56,25 +56,21 @@
 
                     <!-- check if poster == null -->
                     <!--TODO: Migrate check to js    -->
-                    {% for check in tvdetail.seasons %}
-                    {% if check['poster_path'] is none %}
-                    <img src="{{ url_for ('static',
-                     filename = 'images/card_img.jpg') }}" alt="">
-                    {% endif %}
-                    {% endfor %}
+                    <img src="https://image.tmdb.org/t/p/original{{ tvonload['poster_path'] }}"
+                     alt="">
                 </div>
 
 
                 <div class="divR">
                     <div class="tvdes pl-4">
-                        <h2 id="tvname" class="py-3">{{ tvdetail['name'] }}</h2>
+                        <h2 id="tvname" class="py-3">{{ tvonload['name'] }}</h2>
                         <h2 id="out_date" class="">2015</h2>
 
                         <p class="py-4">
-                            <mute id="episodes">Episods : get_count</mute>
+                            <mute id="episodes">Episods : {{ tvonload['number_of_episodes'] }}</mute>
                             <span class="px-4"> || </span>
                             <span id="genres">
-                                {% for eachg in tvdetail['genres'] %}
+                                {% for eachg in tvonload['genres'] %}
                                 {% if eachg %}
                                 -
                                 {{ eachg.name }}
@@ -83,10 +79,10 @@
                             </span>
                         <p class="pb-5">
                             <i class="fa fa-star pr-3"></i>
-                            {{tvdetail['vote_average']}}
+                            {{tvonload['vote_average']}}
                         </p>
                         <mute id="overview" class="py-3"> overview :
-                            {{ tvdetail['overview'] }}
+                            {{ tvonload['overview'] }}
                         </mute>
                         </p>
 
@@ -96,18 +92,19 @@
                                     Season
                                     <!-- getting seasons -->
                                     <select class="changeValue">
-                                        {% for tvdt in tvdetail.seasons %}
-                                        <option id="{{ tvdt['season_number'] }}" class="ses_option pl-4"
+                                        {% for tvdt in tvonload.seasons %}
+                                        <option id="{{ tvdt['season_number']}}" class="ses_option pl-4"
                                             value="{{ tvdt['name']  }}">
-                                            {{ tvdt['season_number']}}
+                                            {{ tvdt['season_number'] }}
                                         </option>
                                         {% endfor %}
                                     </select>
                                 </button>
                             </a>
                             <a class="navbar-brand abs watch">
-                                <button id="tv_trailer" class="btn">
+                                <button id="tv_trailer" class="btn ">
                                     <!-- change value based on select option  -->
+
                                 </button>
                             </a>
                         </div>
@@ -117,7 +114,7 @@
             </div>
 
             <!-- TODO: Delete -- Recommended tv section -->
-<!-- 
+            <!-- 
             <div id="recommended" class="relative container mx-24 pt-auto mt-20">
                 <div class="py-4">
                     <h2>Recommended base on this show</h2>
@@ -156,34 +153,59 @@
         </div>
     </div>
 
+    <!-- TODO: Override(empty div on post) -->
     <div class="container my-16 sections_card">
         <div class="sections_nav py-4">
-            <h2> Season  </h2>
+            <h2> Season : </h2>
             <p> ALL Episods </p>
             <div class="scrollto">
-                
+
             </div>
         </div>
 
         <!-- episodes card -->
         <div id="epis_cards" class="container-fluid gap-6 my-4  ">
-            <div id="getepis" class="row flex-nowrap">
-                <!-- on post render corresponding all episodes -->
+            <div id="getepis" class="row flex-nowrap ">
+                <!-- on post render episodes for the season selected -->
+                {% for epis in tvplus.episodes  %}
+                <div class="col-3">
+                    <div id="posterepis" class="card card-block">
+                        <img src="https://image.tmdb.org/t/p/original{{ epis['still_path'] }}" alt="">
+                        <div class="seasoninfo mt8">
+                            <h2> Episode{{ epis['episode_number']}} </h2>
+                            <span><i class="fa fa-star pr-3"></i>9</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
 
         </div>
 
-        <!-- TODO: Similar tv shows secrion  -->
+
         <div class="sections_nav py-4">
             <h2> Similar Shows for tv_name </h2>
             <p> </p>
             <div class="scrollto">
-               
+
             </div>
         </div>
         <div id="sim_cards" class="container-fluid gap-6 my-4 ">
-
             <div id="getsimilar" class="row flex-nowrap">
+                {% for similar in tvonload.similar.results %}
+                <div class="col-3">
+                    <div id="postersim" class="card card-block">
+                        <div id="similartv">
+                            <img src="https://image.tmdb.org/t/p/original{{ similar['poster_path'] }}" alt="">
+                            <div class="centered text-white">
+                                <h2> Title Name tttt </h2>
+                                <h3> Get Seasons </h3>
+                                <p> Get Rating </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
 
         </div>
@@ -194,13 +216,31 @@
             <h2> Trailers and Teasers </h2>
             <p> get Count Here </p>
             <div class="scrollto">
-               
+
             </div>
         </div>
 
         <div id="trailers" class="container-fluid gap-6 my-4 ">
             <div id="getTeas" class="row flex-nowrap">
+                {% for teas in tvonload.videos.results %}
+                <div class="col-4">
+                    <div class="card card-block">
+                        <div class="relative">
 
+                            <iframe width="100%" height="100%"
+                             src="https://www.youtube.com/embed/{{ teas['key'] }}">
+                            </iframe>
+                        </div>
+                        <div class="teaserinfo flex justify-between">
+                            <div>
+                                <h2> {{ teas['name'] }}<br>
+                                </h2>
+                            </div>
+                            <span> {{ teas['type'] }} </span> 
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
 
