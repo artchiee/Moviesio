@@ -54,7 +54,6 @@
       <i class="fas fa-star text-black"></i>
       <i class="fas fa-star text-black"></i>
 
-      <!~~ redirect to detail page ~~>
         <a href="{{ url_for('moviesio.movie_detail', movie_id=by_genre['id'] )}}">
           <img src="https://image.tmdb.org/t/p/original{{by_genre['poster_path'] }}" alt="movie">
         </a>
@@ -83,10 +82,13 @@
       <i class="fas fa-star text-black"></i>
       <i class="fas fa-star text-black"></i>
 
-      <!-- redirect to detail page  -->
-      <a href="{{ url_for('moviesio.movie_detail', movie_id=popular['id'] )}}">
-        <!-- Poster path (images) -- from api -->
-        <img src="https://image.tmdb.org/t/p/original{{popular['poster_path'] }}" alt="movie">
+      <!-- ajax will handle which detail page to display  
+      since we have two two choice (tv|movie) with diffrent template
+        -->
+      <a>
+        <img src="https://image.tmdb.org/t/p/original{{popular['poster_path'] }}" 
+        id="{{ popular['id'] }}"
+        onclick="getID(this.id)">
       </a>
 
       <div class="mt-2">

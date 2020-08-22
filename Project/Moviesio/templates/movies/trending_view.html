@@ -60,7 +60,8 @@
     <li class="indicator" onclick="currentSlide(3)"></li>
   </ol>
   <div class="carousel-inner">
-    <div class="carousel-item active">
+    <div id="override" class="carousel-item active">
+      <!-- once view changed, objects will be altered -->
       {% for slide in trends.results[0:3] %}
       <!-- js will loop through the top 3 trending data
           slides -->
@@ -80,16 +81,16 @@
         <!-- left content  -->
         <div id="leftitems" class="row">
           <div class="contentleft">
-            <div class="apidate">
+            <div id="date_out" class="apidate">
               <mute> date : {{ slide ['release_date'] }}</mute>
             </div>
 
             <div id="wrapper" class="ab apititle mb-2">
-              <h2 class="mb-4">
+              <h2 id="_title" class="mb-4">
                 {{ slide['title'] }}
               </h2>
-              <div id="" class="apidescription">
-                <p>
+              <div class="apidescription">
+                <p id="overview">
                   {{ slide['overview'] }}
                 </p>
               </div>
@@ -105,7 +106,7 @@
         <!-- right content  -->
         <div id="rightitems" class="row">
           <div class="contentright">
-            <div class="rate">
+            <div id="rate" class="rate">
               <p>{{ slide['vote_average'] }}</p>
               <!-- TODO: need to display corresponding stars -->
               <i class="fa fa-star"></i>

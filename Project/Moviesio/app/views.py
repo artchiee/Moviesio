@@ -305,8 +305,9 @@ def search_by():
 # TODO : Switch between tv / movie detail page
 
 
-@Moviesio.route('/Popular_Movies/Detail/<string:movie_id>')
-def movie_detail(movie_id):
+@Moviesio.route('/Popular/movie_detail/')
+def movie_detail():
+    get_id = route_to_detail.access_id
     append_to = '&append_to_response='
 
     # Append to url other details
@@ -315,7 +316,7 @@ def movie_detail(movie_id):
     videos = 'videos'
     # later append other items in detail to url
 
-    movie_url = str(global_url + 'movie/' + movie_id + key_word + api_key +
+    movie_url = str(global_url + 'movie/' + get_id + key_word + api_key +
                     language + append_to + credit + ',' + images + ',' + videos)
     url_req = requests.get(movie_url)
     movie_js = url_req.json()
@@ -335,83 +336,78 @@ def movie_detail(movie_id):
 # TODO:delete later --> append to above to use one fun
 
 
-@Moviesio.route("/tv/")
+@Moviesio.route("/Popular/tv_detail/", methods=['POST','GET'])
 def tv_detail():
+    get_id = route_to_detail.access_id
+    default_episode = 1
+    append_to_url= '&append_to_response=similar' + ',' + 'videos' + ',' + 'images'
 
-    return jsonify({'status': 'OK'})
+
+    tv_onload = (global_url + 'tv/' + get_id +key_word + api_key + append_to_url)
     
-    # tv_dt = (global_url + 'tv/' + tv_id +
-    #         key_word + api_key)
-
-    # req = Requests.Request(tv_dt)
-    # #get_res = req.response()
-
-    # global turn_to_jsn
-    # turn_to_jsn = req.request_to_json()
-
-
-    # # save data to json
-    # with open(tv_id + '.json', 'w') as w:
-    #     json.dump(turn_to_jsn, w, indent=4,
-    #             cls=serialize.RequestEncoder)
+    tv_addition = (global_url + 'tv/' + get_id + '/season/' + str(default_episode) +
+          key_word + api_key)
     
-#    # TODO: (delete later )test json seasons detail
-    # with open('70523_info.json', 'r') as rd:
-    #     r = json.load(rd)
+    if request.method == 'GET':
+        first_req = Requests.Request(tv_onload)
+        second_req = Requests.Request(tv_addition)
+        tv_load = first_req.request_to_json()
+        tv_plus = second_req.request_to_json()
 
-
-    # # Getting option for tv seasons form ajax post
-    # # getting seasons detail by id
-    # else:
-    #     get_ses_id = request.form.get('season_selected', None)
-    #     print('id season : ', get_ses_id)
-    #     season_dt = (global_url + 'tv/' + tv_id + '/season/' +
-    #     str(get_ses_id) + key_word + api_key)
-    #     season_req = Requests.Request(season_dt)
-    #     seasn_to_jsn = season_req.request_to_json()
-
-    #     #using append_to_reponse to make multiple requests in one 
-    #     compact_url = (global_url + 'tv/' + tv_id + key_word + api_key +
-    #     '&append_to_response=similar' + ',' + 'videos')
-    #     compact_call = Requests.Request(compact_url)
-    #     comp_json = compact_call.request_to_json()
-
-    #     # Dynamicly season will change if user selects other options(dropdown) 
-    #     with open(tv_id + '_info.json', 'w') as w:
-    #         json.dump(seasn_to_jsn, w, indent=4,
-    #                 cls=serialize.RequestEncoder)
+        # #save data to json
+        # with open(id_test + '.json', 'w') as w:
+        #     json.dump(tv_load, w, indent=4,
+        #             cls=serialize.RequestEncoder)
         
-    #     with open(tv_id + 'nestedData.json', 'w') as w:
-    #         json.dump(comp_json, w, indent=4,
-    #                 cls=serialize.RequestEncoder)
+        return render_template(
+            'movies/tv_detail.html',
+            tvonload=tv_load,
+            tvplus = tv_plus,
+            default_epis = default_episode
+        )
 
-    #     return jsonify({
-    #     'status': 'OK',
-    #     'season_info': turn_to_jsn,
-    #     'tv_epis_info': seasn_to_jsn,
-    #     'compact_dt' : comp_json
+    else:   
+        get_ses_id = request.form.get('season_selected', None)
+        print('id season : ', get_ses_id)
+        tv_call = (global_url + 'tv/' + get_id + '/season/' + str(get_ses_id) +
+          key_word + api_key)
+        season_req = Requests.Request(tv_call)
+        post_ses_resp = season_req.request_to_json()
 
-    #     })
-
-
-@Moviesio.route("/test/", methods=['POST', 'GET'])
-def test():
-
-    if request.method == 'POST':
-        id_selected = request.form.get('id_selected', None)
-        compact_url = (global_url + 'tv/' + str(id_selected) + key_word + api_key +
-        '&append_to_response=similar' + ',' + 'videos')
-        sim_call = Requests.Request(compact_url)
-        sim_json = sim_call.request_to_json()
-        print(sim_call.response())
+        # Dynamicly season will change if user selects other option from (dropdown) 
+        with open(str(get_ses_id)+ 'nestedData.json', 'w') as w:
+            json.dump(post_ses_resp, w, indent=4,
+                    cls=serialize.RequestEncoder)
 
         return jsonify({
-            'tvdetail': sim_json})
+        'resp' : post_ses_resp,
+       
+        })
+
+    
+@Moviesio.route("/check_detail/",methods=['POST', 'GET'])
+def route_to_detail():    
+    if request.method == 'POST':
+        id_selected = request.form.get('id_selected', None)
+        typ = request.form.get('type_requested', None)
         
-   # trends = x['results'][5]['backdrop_path']
-    with open('tv_Popular.json', 'r') as r:
-        x = json.load(r)
-    return render_template(
-        'movies/testme.html',
-        pops= x
-        )
+        # func attribute
+        route_to_detail.access_id = id_selected
+        route_to_detail.access_type = typ
+        print('type : ', typ, "id", id_selected)
+
+        return jsonify({'ok':'200'})
+
+
+
+
+# @Moviesio.route('/test/')
+# def test():
+
+#     with open('tv_Popular.json', 'r') as r:
+#         tv = json.load(r)
+
+#     return render_template(
+#         'movies/testme.html',
+#         populars=tv
+#         )
