@@ -1,6 +1,6 @@
 html,
 body {
-  overflow: auto;
+  overflow: visible;
 }
 /* Nav content  */
 
@@ -71,7 +71,7 @@ body {
   height: 50%;
   width: 100%;
 }
-.overlay img {
+.overlay > * {
   filter: brightness(20%) blur(10px);
   -webkit-filter: blur(4.5px);
 }
@@ -214,6 +214,10 @@ div#epis_cards,
   white-space: nowrap;
 }
 
+div.seasoninfo > * {
+  white-space: pre-line;
+}
+
 /* Float four columns side by side */
 /*.column {
   float: left;
@@ -240,12 +244,12 @@ div#epis_cards,
   padding: 16px;
   text-align: center;
   background-color: #f1f1f1;
-  height: 503px;
+  height: 100%;
   width: 100%;
 }
 
 #posterepis img {
-  height: 351.47px;
+  height: 100%;
   width: 100%;
 }
 
@@ -272,10 +276,11 @@ div.centered > * {
 /* imported */
 
 /* Teasers / Trailers section */
-#teas {
-  height: 285px;
+#getTeas {
+  width: auto;
+  height: auto;
 }
-div.teas_time {
-  bottom: 8px;
-  left: 16px;
+div#teas_trail {
+  width: 100%;
+  height: 100%;
 }
