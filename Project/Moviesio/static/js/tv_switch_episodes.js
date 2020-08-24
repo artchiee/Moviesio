@@ -58,12 +58,16 @@ $(".changeValue").change(function () {
             "'" +
             ">" +
             "<div class='seasoninfo mt-8'>" +
-            "<h2 class=''> Seasons Number </h2>" +
+            "<p class='overviews'>" +
+            fetch_epis[i].overview +
+            "</p>" +
             "<h3>" +
             "Episode:" +
             fetch_epis[i].episode_number +
             "</h3>" +
-            "<span><i class='fa fa-star pr-3'></i>9</span>" +
+            "<span><i class='fa fa-star pr-3'></i>" +
+            fetch_epis[i].vote_average +
+            "</span>" +
             "</div>" +
             "</div>" +
             "</div>";

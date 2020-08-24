@@ -172,21 +172,15 @@ def get_trending():
 def get_genres():
 
     genre_base = 'genre/movie/list'
-    genres_url = str(global_url + genre_base + key_word + api_key)
-    genre_req = requests.get(genres_url)
+    genres_url = (global_url + genre_base + key_word + api_key)
+    genre_req = Requests.Request(genres_url)
 
-    if genre_req:
-        print('genres response was :  ',  genre_req.status_code)
-        genre_fetched = genre_req.json()
+    genre_fetched = genre_req.request_to_json()
         # dump_gnr = json.dumps(genre_to_json, indent=4)
 
-        # save to jsn file
-        with open('genres.json', 'w') as gnrs:
-            json.dump(genre_fetched, gnrs, indent=4, sort_keys=True)
-
-    else:
-        Exception()
-
+    # # save to jsn file
+    # with open('genres.json', 'w') as gnrs:
+    #     json.dump(genre_fetched, gnrs, indent=4, sort_keys=True)
     # create Function attribute to access outside of this fun
     get_genres.categ_fetched = genre_fetched
 
@@ -212,19 +206,19 @@ def get_by_category(genre_id, genre_name):
         '&include_adult='+include_adult+'&include_video=' + \
         include_video+'&with_genres='+str(genre_clicked)
 
-    discover_call = requests.get(discover_url)
-    discover_to_jsn = discover_call.json()
+    discover_call = Requests.Request(discover_url)
+    discover_to_jsn = discover_call.request_to_json()
 
     # might give(200)response even if you missparsed url (strings)
-    print("discover resp :", discover_call.status_code)
+    #test status code
 
     for get_name in get_genres.categ_fetched['genres']:
         if genre_clicked == get_name['id']:
             id_name = get_name['name']
 
     genre_id_name = id_name
-    with open(genre_id_name+'.json', 'w') as new_list:
-        json.dump(discover_to_jsn, new_list, indent=4)
+    # with open(genre_id_name+'.json', 'w') as new_list:
+    #     json.dump(discover_to_jsn, new_list, indent=4)
         
     print('you have clicked Genre id Nm %d and it\'s name is %s :' % (genre_clicked, genre_id_name),
           '\n --> .json file is saved')
@@ -259,9 +253,8 @@ def search_by():
             search_word = 'search/movie/'
             search_url = str(global_url + search_word + key_word +
                              api_key + language + query_word + query_str)
-            search_call = requests.get(search_url)
-            print('status code response : ', search_call.status_code)
-            search_dt = search_call.json()
+            search_call = Requests.Request(search_url)
+            search_dt = search_call.request_to_json()
 
             if len(search_dt['results']) > 1:
 
@@ -271,7 +264,7 @@ def search_by():
                 with open(query_str + '.json', 'w') as search_res:
                     json.dump(search_dt, search_res, indent=4, sort_keys=True)
 
-                #delete :  optional
+                #delete :  (optional)
                 for get_dt in search_dt['results']:
                     titles = get_dt['title']
                     if titles:
@@ -302,9 +295,6 @@ def search_by():
         'movies/testme.html',
     )
 
-# TODO : Switch between tv / movie detail page
-
-
 @Moviesio.route('/Popular/movie_detail/')
 def movie_detail():
     get_id = route_to_detail.access_id
@@ -333,9 +323,6 @@ def movie_detail():
         mv_detail=movie_js
     )
 
-# TODO:delete later --> append to above to use one fun
-
-
 @Moviesio.route("/Popular/tv_detail/", methods=['POST','GET'])
 def tv_detail():
     get_id = route_to_detail.access_id
@@ -347,11 +334,12 @@ def tv_detail():
     
     tv_addition = (global_url + 'tv/' + get_id + '/season/' + str(default_episode) +
           key_word + api_key)
-    
+
     if request.method == 'GET':
         first_req = Requests.Request(tv_onload)
         second_req = Requests.Request(tv_addition)
         tv_load = first_req.request_to_json()
+
         tv_plus = second_req.request_to_json()
 
         # #save data to json
@@ -401,13 +389,13 @@ def route_to_detail():
 
 
 
-# @Moviesio.route('/test/')
-# def test():
+@Moviesio.route('/test/')
+def test():
 
-#     with open('tv_Popular.json', 'r') as r:
-#         tv = json.load(r)
+    with open('data.json', 'r') as wri:
+        var  = json.load(wri)
 
-#     return render_template(
-#         'movies/testme.html',
-#         populars=tv
-#         )
+    return render_template(
+        'movies/testme.html',
+        tvonload=var
+        )

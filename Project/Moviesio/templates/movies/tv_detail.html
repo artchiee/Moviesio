@@ -56,8 +56,7 @@
 
                     <!-- check if poster == null -->
                     <!--TODO: Migrate check to js    -->
-                    <img src="https://image.tmdb.org/t/p/original{{ tvonload['poster_path'] }}"
-                     alt="">
+                    <img src="https://image.tmdb.org/t/p/original{{ tvonload['poster_path'] }}" alt="">
                 </div>
 
 
@@ -172,8 +171,9 @@
                     <div id="posterepis" class="card card-block">
                         <img src="https://image.tmdb.org/t/p/original{{ epis['still_path'] }}" alt="">
                         <div class="seasoninfo mt8">
-                            <h2> Episode{{ epis['episode_number']}} </h2>
-                            <span><i class="fa fa-star pr-3"></i>9</span>
+                            <p class="overviews">{{ epis['overview']}}</p>
+                            <h3> Episode{{ epis['episode_number']}} </h3>
+                            <span><i class="fa fa-star pr-3 my-12"></i>{{ epis['vote_average']}}</span>
                         </div>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
 
 
         <div class="sections_nav py-4">
-            <h2> Similar Shows for tv_name </h2>
+            <h2> Similar Shows based on your selection </h2>
             <p> </p>
             <div class="scrollto">
 
@@ -214,7 +214,7 @@
         <!-- Trailers  / Teasears  -->
         <div class="sections_nav py-8">
             <h2> Trailers and Teasers </h2>
-            <p> get Count Here </p>
+            <p> </p>
             <div class="scrollto">
 
             </div>
@@ -224,20 +224,18 @@
             <div id="getTeas" class="row flex-nowrap">
                 {% for teas in tvonload.videos.results %}
                 <div class="col-4">
-                    <div class="card card-block">
+                    <div id="teas_trail" class="card card-block">
                         <div class="relative">
-
-                            <iframe width="100%" height="100%"
-                             src="https://www.youtube.com/embed/{{ teas['key'] }}">
+                            <iframe width="100%" height="150%" src="https://www.youtube.com/embed/{{ teas['key'] }}">
                             </iframe>
                         </div>
-                        <div class="teaserinfo flex justify-between">
+                        <!-- <div class="teaserinfo flex justify-between">
                             <div>
                                 <h2> {{ teas['name'] }}<br>
                                 </h2>
                             </div>
                             <span> {{ teas['type'] }} </span> 
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 {% endfor %}
