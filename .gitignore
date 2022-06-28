@@ -11,6 +11,8 @@ __pycache__/
 #Project/Models/serialize.py
 
 
+
+
 # js /css
 Project/Moviesio/static/css/spinner_css.css
 Project/Moviesio/static/js/spinner.js
