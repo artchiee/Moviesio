@@ -1,7 +1,9 @@
 # all 
 .vscode/
+
 *.txt
 !requirements.txt
+
 
 *.json
 *.pyc
