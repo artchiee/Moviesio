@@ -31,12 +31,12 @@ jobs:
         env:
           FLASK_ENV: testing
         run: |
-          cd /Project/Moviesio
+          cd ${{ github.workspace }}/Project/Moviesio
           pytest -q
 
       - name: Check Python syntax
         run: |
-          python -m compileall Project
+          python -m compileall ${{ github.workspace }}/Project
 
   frontend:
     runs-on: ubuntu-latest
@@ -51,6 +51,6 @@ jobs:
 
       - name: Validate frontend files
         run: |
-          test -d /Project/Moviesio/templates/
-          test -d /Project/Moviesio/app/views.py
-          test -d /Project/Moviesio/static/
+          test -d ${{ github.workspace }}/Project/Moviesio/templates/
+          test -f ${{ github.workspace }}/Project/app/views.py
+          test -d ${{ github.workspace }}/Project/Moviesio/static
