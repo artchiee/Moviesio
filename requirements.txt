@@ -21,7 +21,7 @@ platformdirs==4.10.0
 py-serializable==2.1.0
 Pygments==2.20.0
 pyparsing==3.3.2
-python-discovery==1.4.0
+python-discovery==1.4.2
 requests==2.34.2
 rich==15.0.0
 setuptools==82.0.1
