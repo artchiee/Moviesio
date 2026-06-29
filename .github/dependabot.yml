@@ -13,4 +13,4 @@ updates:
     open-pull-requests-limit: 10
     labels:
       - "dependencies"
-      - "security"
+      #- "security"
