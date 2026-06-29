@@ -31,7 +31,7 @@ jobs:
         env:
           FLASK_ENV: testing
         run: |
-          cd Project/Moviesio
+          cd /Project/Moviesio
           pytest -q
 
       - name: Check Python syntax
@@ -51,6 +51,6 @@ jobs:
 
       - name: Validate frontend files
         run: |
-          test -d Project/Moviesio/templates/
-          test -d Project/app/views.py
-          test -d Project/Moviesio/static
+          test -d /Project/Moviesio/templates/
+          test -d /Project/Moviesio/app/views.py
+          test -d /Project/Moviesio/static/
