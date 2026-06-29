@@ -6,6 +6,7 @@
 
 
 *.json
+!Pipfile.lock
 *.pyc
 /env
 .env
